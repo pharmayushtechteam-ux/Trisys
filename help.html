@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trisys Express Help Centre — Searchable FAQs, International Customs & Shipping Documents Guide, and 24/7 Phone, Email & WhatsApp Customer Support.">
+  <meta name="theme-color" content="#EA1D25">
+  <title>Help Centre — FAQs, Customs &amp; Support | TRISYS EXPRESS</title>
+  <link rel="icon" type="image/png" href="/assets/trisys_logo_transparent.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css?v=7">
+</head>
+<body class="subpage-body" data-page="help">
+
+  <!-- Full-Width Top Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+
+      <a href="/" class="brand-logo" title="TRISYS EXPRESS">
+        <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS - Delivered Safely, Delivered On Time." class="logo-img">
+      </a>
+
+      <nav class="nav-menu" id="navMenu" aria-label="Primary">
+        <a href="/" class="nav-item" data-nav="home">Home</a>
+
+        <div class="nav-dropdown" data-nav="ship">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-ship">
+            Ship
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-ship">
+            <a href="/quote" class="dropdown-link" data-tab="quote">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h5"/></svg></span>
+              <span class="dd-text"><strong>Get Instant Quote</strong><small>Door-to-door rates in seconds</small></span>
+            </a>
+            <a href="/schedule-pickup" class="dropdown-link" data-tab="pickup">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Schedule Pickup</strong><small>Doorstep collection, same day</small></span>
+            </a>
+            <a href="/track" class="dropdown-link" data-tab="track">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Track Shipment</strong><small>Live status with your AWB number</small></span>
+            </a>
+            <a href="/rates" class="dropdown-link" data-tab="rates">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></span>
+              <span class="dd-text"><strong>Find Rates</strong><small>Compare Economy, Express &amp; NFO</small></span>
+            </a>
+          </div>
+        </div>
+
+        <a href="/track" class="nav-item" data-tab="track" data-nav="track">Track</a>
+        <a href="/rates" class="nav-item" data-tab="rates" data-nav="rates">Rates</a>
+
+        <!-- Services dropdown -->
+        <div class="nav-dropdown" data-nav="services">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-services">
+            Services
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-services">
+            <a href="/quote?type=document" class="dropdown-link" data-service="document">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
+              <span class="dd-text"><strong>Document Courier</strong><small>Certificates, contracts, passports</small></span>
+            </a>
+            <a href="/quote?type=parcel" class="dropdown-link" data-service="parcel">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Parcel Shipping</strong><small>Personal &amp; business parcels</small></span>
+            </a>
+            <a href="/quote?type=medicine" class="dropdown-link" data-service="medicine">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <span class="dd-text"><strong>Medicine Courier</strong><small>Compliant prescription shipping</small></span>
+            </a>
+            <a href="/quote?type=ecommerce" class="dropdown-link" data-service="ecommerce">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+              <span class="dd-text"><strong>E-commerce Logistics</strong><small>Cross-border store fulfilment</small></span>
+            </a>
+            <a href="/quote?type=bulk" class="dropdown-link" data-service="bulk">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Bulk &amp; Commercial</strong><small>B2B cargo and pallets</small></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown" data-nav="countries">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-countries">
+            Countries
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-countries" id="dd-countries">
+            <p class="dd-heading">Popular destinations</p>
+            <div class="dd-country-grid" id="navCountries"></div>
+            <a href="#countries" class="dd-footer-link" data-modal="countriesModal">
+              View all 200+ countries
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <a href="#business" class="nav-item" data-modal="businessModal" data-nav="business">Business Solutions</a>
+
+        <!-- Help dropdown -->
+        <div class="nav-dropdown" data-nav="help">
+          <button type="button" class="nav-item has-dropdown active" aria-expanded="false" aria-controls="dd-help" aria-current="page">
+            Help
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-right" id="dd-help">
+            <a href="/help/faqs" class="dropdown-link" data-help-page="faqs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+              <span class="dd-text"><strong>FAQs</strong><small>Answers to common questions</small></span>
+            </a>
+            <a href="/help/customs-documents" class="dropdown-link" data-help-page="customs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="dd-text"><strong>Customs &amp; Documents</strong><small>What you need to ship abroad</small></span>
+            </a>
+            <a href="/help/contact-support" class="dropdown-link" data-help-page="contact">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+              <span class="dd-text"><strong>Contact Support</strong><small>24/7 phone, email &amp; WhatsApp</small></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn search-btn" aria-label="Search" onclick="toggleSearch()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="nav-svg" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" stroke-width="1.8"/>
+            <path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline" onclick="openAuthModal('login')">Login</button>
+        <button class="btn btn-primary" onclick="navigateBusinessSolution('register')">Sign Up</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="subpage-main" id="helpMainContent">
+    <div class="container">
+
+      <!-- Breadcrumb & Share Bar -->
+      <div class="subpage-topbar">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/help/faqs" onclick="event.preventDefault(); switchHelpSection('faqs', true)">Help Centre</a>
+          <span>/</span>
+          <span aria-current="page" id="helpBreadcrumbCurrent">FAQs</span>
+        </nav>
+
+        <div class="share-toolbar">
+          <span class="share-label">Shareable Link:</span>
+          <input type="text" id="shareUrlInput" class="share-url-input" readonly aria-label="Shareable page URL">
+          <button type="button" class="btn-share-action" onclick="shareCurrentPageLink('Trisys Express Help Centre')">Copy Link</button>
+          <button type="button" class="btn-share-action whatsapp" onclick="shareViaWhatsApp()">WhatsApp</button>
+          <button type="button" class="btn-share-action" onclick="shareViaEmail()">Email</button>
+        </div>
+      </div>
+
+      <!-- Help Centre Header & Section Switcher -->
+      <div class="subpage-card" style="margin-bottom: 24px; padding: 18px 22px;">
+        <div class="biz-subnav-header">
+          <div>
+            <span class="section-badge" id="helpHeroBadge">Customer Help &amp; Compliance Centre</span>
+            <h1 id="helpHeroTitle" style="font-size: 1.55rem; margin-top: 4px;">Frequently Asked Questions (FAQs)</h1>
+            <p class="subpage-sub" id="helpHeroSubtitle">Find verified answers on international shipping, tracking, customs paperwork, restricted items, and business logistics.</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a href="/" class="btn btn-outline">← Back to Main Website</a>
+            <a href="/quote" class="btn btn-primary">Get a Shipping Quote</a>
+          </div>
+        </div>
+
+        <nav class="biz-subnav-tabs" id="helpSubnavTabs" aria-label="Help Centre Sections">
+          <a href="/help/faqs" class="biz-tab-pill active" data-help-section="faqs" onclick="event.preventDefault(); switchHelpSection('faqs', true)">FAQs — Common Questions</a>
+          <a href="/help/customs-documents" class="biz-tab-pill" data-help-section="customs" onclick="event.preventDefault(); switchHelpSection('customs', true)">Customs &amp; Documents</a>
+          <a href="/help/contact-support" class="biz-tab-pill" data-help-section="contact" onclick="event.preventDefault(); switchHelpSection('contact', true)">Contact Support (24/7)</a>
+        </nav>
+      </div>
+
+      <!-- ===================================================================
+           SECTION 1: FAQs (/help/faqs)
+           =================================================================== -->
+      <section id="helpSection-faqs" class="help-page-section">
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <div class="faq-toolbar">
+            <div class="faq-search-box">
+              <input type="search" id="faqSearchInput" class="standard-input" placeholder="Search questions by keyword (e.g. medicine, tracking, volumetric weight, customs, pickup, cancel)..." oninput="filterFaqItems()" aria-label="Search FAQs">
+            </div>
+            <div class="faq-bulk-actions">
+              <span id="faqMatchCount" class="faq-match-count">Showing 12 of 12 questions</span>
+              <button type="button" class="btn btn-outline" style="padding:7px 12px; font-size:12.5px;" onclick="toggleAllFaqs(true)">Expand All</button>
+              <button type="button" class="btn btn-outline" style="padding:7px 12px; font-size:12.5px;" onclick="toggleAllFaqs(false)">Collapse All</button>
+            </div>
+          </div>
+
+          <div class="faq-category-bar" id="faqCategoryBar" role="tablist" aria-label="Filter FAQs by topic">
+            <button type="button" class="faq-cat-btn active" data-faq-cat="all" onclick="selectFaqCategory('all', this)">All Topics</button>
+            <button type="button" class="faq-cat-btn" data-faq-cat="booking" onclick="selectFaqCategory('booking', this)">Creating a Shipment &amp; Pickup</button>
+            <button type="button" class="faq-cat-btn" data-faq-cat="transit" onclick="selectFaqCategory('transit', this)">International &amp; Delivery Estimates</button>
+            <button type="button" class="faq-cat-btn" data-faq-cat="pricing" onclick="selectFaqCategory('pricing', this)">Charges &amp; Quotations</button>
+            <button type="button" class="faq-cat-btn" data-faq-cat="tracking" onclick="selectFaqCategory('tracking', this)">Tracking, Delays &amp; Claims</button>
+            <button type="button" class="faq-cat-btn" data-faq-cat="customs" onclick="selectFaqCategory('customs', this)">Customs, Documents &amp; Prohibited Items</button>
+            <button type="button" class="faq-cat-btn" data-faq-cat="business" onclick="selectFaqCategory('business', this)">Business &amp; Bulk Shipping</button>
+          </div>
+
+          <div id="faqAccordionList" style="margin-top: 18px;">
+            <details class="faq-item" data-faq-cat="booking" open>
+              <summary>How do I create a shipment and schedule a doorstep pickup?</summary>
+              <p>
+                Select your origin country, destination country, service/package category (<strong>Document</strong>, <strong>Parcel</strong>, <strong>Medicine</strong>, <strong>E-commerce</strong>, or <strong>Bulk &amp; Commercial</strong>), and shipment weight in the quote widget on the <a href="/" style="color:var(--primary-red); font-weight:600;">Home page</a> or <a href="/quote" style="color:var(--primary-red); font-weight:600;">Get a Quote</a> page. Then click <strong>Schedule Pickup</strong> (<a href="/schedule-pickup" style="color:var(--primary-red); font-weight:600;">/schedule-pickup</a>) to enter your sender name, contact phone, full pickup street address, preferred date, and pickup time slot.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="transit">
+              <summary>Which countries do you ship to, and do you handle both domestic pickup and international delivery?</summary>
+              <p>
+                Trisys Express collects shipments from major cities and industrial hubs across India and delivers door-to-door to over <strong>200+ destination countries worldwide</strong>, including the United States, United Kingdom, Canada, United Arab Emirates, Australia, Germany, Singapore, France, Saudi Arabia, Netherlands, Italy, and Japan. You can browse supported destination zones in the Countries menu or on the <a href="/rates" style="color:var(--primary-red); font-weight:600;">Find Rates</a> page.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="transit">
+              <summary>What are the typical international delivery time estimates?</summary>
+              <p>
+                Indicative transit times from major Indian export gateways are: <strong>Next Flight Out (NFO)</strong> in 2–3 business days, <strong>Express Air</strong> in 3–4 business days (3–5 business days for cross-border e-commerce D2C), and <strong>Economy Air</strong> in 6–8 business days. Actual delivery times depend on flight availability, origin pickup location, destination postcode, and destination customs inspection.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="tracking">
+              <summary>How do I track my shipment with an AWB number?</summary>
+              <p>
+                Open the <a href="/track" style="color:var(--primary-red); font-weight:600;">Track Shipment</a> page (or press <code>/</code> to open Quick Search) and enter your Airway Bill (AWB) or shipment reference number. Please note that live carrier scan events require an active carrier tracking API connection in the backend; if your AWB requires manual trace assistance, you can submit a tracking enquiry on the <a href="/help/contact-support" onclick="event.preventDefault(); switchHelpSection('contact', true)" style="color:var(--primary-red); font-weight:600;">Contact Support</a> page.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="pricing">
+              <summary>How are shipping charges and volumetric (chargeable) weight calculated?</summary>
+              <p>
+                International air courier charges are based on the greater of the <strong>Actual Gross Weight</strong> or the <strong>Volumetric Weight</strong>. For express courier and e-commerce parcels, volumetric weight is calculated as <code>(Length × Width × Height in cm) ÷ 5000</code> per parcel. For B2B bulk air cargo, volumetric weight is calculated as <code>(Length × Width × Height in cm × Pallet Qty) ÷ 6000</code> alongside total cubic volume (<code>CBM</code>). Binding carrier tariffs and fuel surcharges require backend rate-engine integration or a verified quote review.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="booking">
+              <summary>What pickup and delivery address details are required?</summary>
+              <p>
+                Both origin pickup and destination delivery addresses must include a complete street/building address, city, state/province, postal/ZIP/PIN code, and a reachable local telephone number for the sender and recipient. Carrier networks cannot deliver international courier shipments to P.O. Boxes without a physical street address and recipient contact number.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="customs">
+              <summary>What documents are required for international customs clearance?</summary>
+              <p>
+                All non-document international shipments require: (1) a government-issued photo ID / KYC document of the sender (Aadhaar, PAN, or Passport for individuals; IEC and GSTIN for businesses), (2) a signed Proforma or Commercial Invoice with itemized descriptions, 6-to-8 digit HS codes, and declared values, and (3) a Packing List for multi-box or commercial shipments. Visit our <a href="/help/customs-documents" onclick="event.preventDefault(); switchHelpSection('customs', true)" style="color:var(--primary-red); font-weight:600;">Customs &amp; Documents</a> page to download official templates.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="customs">
+              <summary>Can I ship prescription medicines abroad? What paperwork is needed?</summary>
+              <p>
+                Yes. Personal-use prescription medicines (up to a 90-day supply) can be shipped through our <a href="/medicine-courier" style="color:var(--primary-red); font-weight:600;">Medicine Courier</a> service when accompanied by: (1) a valid doctor's prescription matching the patient/recipient's name, (2) an itemized retail chemist/pharmacy tax invoice showing batch numbers and expiry dates, and (3) sender and recipient photo ID copies. Narcotic, psychotropic, or unapproved controlled substances are strictly prohibited.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="customs">
+              <summary>What items are restricted or strictly prohibited from international shipping?</summary>
+              <p>
+                <strong>Strictly Prohibited:</strong> Narcotics and illegal drugs, currency notes, bullion, precious stones/jewellery, firearms/ammunition, fireworks/explosives, flammable liquids/aerosols, loose lithium-metal batteries, counterfeit goods, and live animals/perishables. <strong>Restricted (Requires Compliance Review):</strong> Prescription medicines, liquids/cosmetics, electronics with contained lithium-ion batteries (UN3481), and industrial machinery parts.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="customs">
+              <summary>Who pays destination customs duties and import taxes (DDU vs. DDP)?</summary>
+              <p>
+                Under standard <strong>DDU / DAP (Delivered Duty Unpaid)</strong> shipments, the destination country's customs authority assesses import duty/VAT/GST based on local de-minimis thresholds and collects it from the recipient prior to delivery. Business and e-commerce shippers can also request <strong>DDP (Delivered Duty Paid)</strong> or <strong>IOSS</strong> clearance on supported trade corridors so duties are settled upfront.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="tracking">
+              <summary>What should I do if a shipment is delayed in customs, cancelled, or requires a damage/loss claim?</summary>
+              <p>
+                If a shipment is held in customs, our team will notify the sender or consignee of any missing KYC, commercial invoice clarification, or duty payment required by customs. Cancellations can be requested before a shipment is physically handed over to the international linehaul carrier. For transit damage or loss claims, submit a formal report with your AWB reference, photos, and commercial invoice via the <a href="/help/contact-support" onclick="event.preventDefault(); switchHelpSection('contact', true)" style="color:var(--primary-red); font-weight:600;">Contact Support</a> form.
+              </p>
+            </details>
+
+            <details class="faq-item" data-faq-cat="business">
+              <summary>How do I open a Business Account or apply for Volume Discounts, E-commerce Integrations, and Monthly GST Billing?</summary>
+              <p>
+                Click <strong>Business Solutions</strong> in the top navigation bar or visit <a href="/business/register" style="color:var(--primary-red); font-weight:600;">Open Business Account</a> to submit your company details, GSTIN/IEC, and monthly volume profile. You can also submit dedicated requests for <a href="/business/volume-discounts" style="color:var(--primary-red); font-weight:600;">Volume Discounts</a>, <a href="/business/ecommerce-integrations" style="color:var(--primary-red); font-weight:600;">Shopify &amp; WooCommerce Integrations</a>, a <a href="/business/account-manager" style="color:var(--primary-red); font-weight:600;">Dedicated Account Manager</a>, or <a href="/business/credit-billing" style="color:var(--primary-red); font-weight:600;">Credit &amp; Monthly Billing</a>. All business applications start in <code>Pending</code> status and are activated after administrator verification.
+              </p>
+            </details>
+          </div>
+
+          <div id="faqEmptyState" class="search-empty" hidden>
+            <p style="margin-bottom: 10px;">No FAQs match your current search filter.</p>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+              <button type="button" class="btn btn-outline" onclick="resetFaqFilters()">Reset Search &amp; Filters</button>
+              <button type="button" class="btn btn-primary" onclick="switchHelpSection('contact', true)">Ask Contact Support</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 2: CUSTOMS & DOCUMENTS (/help/customs-documents)
+           =================================================================== -->
+      <section id="helpSection-customs" class="help-page-section" hidden>
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <span class="section-badge">International Export &amp; Import Compliance</span>
+          <h2>Customs &amp; Shipping Documentation Guide</h2>
+          <p class="subpage-sub">
+            Every international shipment crossing borders must clear both Indian export customs and the destination country's import customs authority. Accurate documentation prevents holds, re-weighs, and return-to-origin charges.
+          </p>
+
+          <div class="service-capabilities-grid" style="margin-top: 18px;">
+            <div class="capability-box">
+              <strong>1. Commercial &amp; Proforma Invoices</strong>
+              <p>Required for all non-document parcels, e-commerce orders, and cargo. Must list full sender &amp; recipient details, itemized goods description (avoid vague terms like "gift" or "samples"), 6-to-8 digit HS codes, country of origin, unit value, currency, and reason for export.</p>
+            </div>
+            <div class="capability-box">
+              <strong>2. Detailed Packing Lists</strong>
+              <p>Mandatory for multi-box consignments and B2B palletized freight. Maps each item and quantity to its specific carton or pallet number along with individual package dimensions (<code>L × W × H cm</code>), net weight, and gross weight.</p>
+            </div>
+            <div class="capability-box">
+              <strong>3. Customs Declarations (CSB-IV / CSB-V / BOE)</strong>
+              <p>Personal gifts and commercial samples ship under Courier Shipping Bill <strong>CSB-IV</strong>. Cross-border e-commerce exports ship under <strong>CSB-V</strong>. High-value B2B commercial cargo ships under formal Shipping Bill / Bill of Entry with <strong>LUT / Bond</strong> and AD Code registration.</p>
+            </div>
+            <div class="capability-box">
+              <strong>4. Sender KYC &amp; Recipient Identification</strong>
+              <p>Indian export regulations require government photo KYC for the sender (Aadhaar, Passport, or PAN for individuals; IEC Certificate, GSTIN, and Company PAN for businesses) plus accurate recipient contact details and tax/EORI ID where required by destination customs.</p>
+            </div>
+          </div>
+
+          <!-- Downloadable Official Templates Bar -->
+          <div class="customs-download-strip" style="margin-top: 20px;">
+            <div>
+              <strong style="font-size: 14.5px; color: var(--slate-900); display: block;">Download Official Customs &amp; Export Templates</strong>
+              <span style="font-size: 13px; color: var(--slate-600);">Download ready-to-fill invoice, packing list, and export KYC checklists directly from our server:</span>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="/api/docs/commercial-invoice-template.csv" download="Trisys_Express_Commercial_Invoice_Template.csv" class="btn btn-outline" id="dlCommercialInvoiceBtn">
+                ↓ Commercial Invoice Template (.CSV)
+              </a>
+              <a href="/api/docs/packing-list-template.csv" download="Trisys_Express_Packing_List_Template.csv" class="btn btn-outline" id="dlPackingListBtn">
+                ↓ Packing List Template (.CSV)
+              </a>
+              <a href="/api/docs/export-kyc-customs-checklist.txt" download="Trisys_Express_Export_KYC_and_Customs_Checklist.txt" class="btn btn-outline" id="dlKycChecklistBtn">
+                ↓ Export KYC &amp; Customs Checklist (.TXT)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Country-Specific Requirements & Prohibited Goods Grid -->
+        <div class="pickup-page-grid" style="margin-bottom: 24px;">
+          <div class="subpage-card">
+            <h3>Country-Specific Documentation &amp; Import Rules</h3>
+            <p class="subpage-sub">Select your destination corridor below to view general documentation practices. Final import clearance requirements always depend on the destination customs authority, HS classification, and declared value:</p>
+
+            <div class="form-field" style="margin-top: 14px;">
+              <label class="field-label" for="customsCountrySelect">Select Destination Corridor</label>
+              <select id="customsCountrySelect" class="standard-input" onchange="renderCustomsCountryGuide()">
+                <option value="United Kingdom">United Kingdom (UK)</option>
+                <option value="United States">United States (USA)</option>
+                <option value="United Arab Emirates">United Arab Emirates (UAE / GCC)</option>
+                <option value="Germany">Germany &amp; European Union (EU-27)</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia &amp; New Zealand</option>
+                <option value="Singapore">Singapore &amp; Southeast Asia</option>
+                <option value="Other">All Other 200+ International Destinations</option>
+              </select>
+            </div>
+
+            <div id="customsCountryDetails" class="pickup-order-summary" style="margin-top: 14px;"></div>
+
+            <h3 style="margin-top: 22px;">Restricted &amp; Prohibited Goods Policy</h3>
+            <div class="form-row-2" style="margin-top: 10px;">
+              <div class="capability-box" style="border-color:#FECACA; background:#FFF5F5;">
+                <strong style="color:#991B1B;">Strictly Prohibited (Cannot Ship)</strong>
+                <p style="color:#7F1D1D;">Narcotics &amp; psychotropic drugs, currency/coins/bullion, loose lithium-metal batteries, explosives/fireworks, flammable liquids/gases/aerosols, weapons, counterfeit goods, and live animals.</p>
+              </div>
+              <div class="capability-box" style="border-color:#FDE68A; background:#FFFBEB;">
+                <strong style="color:#92400E;">Restricted (Requires Prior Documentation)</strong>
+                <p style="color:#78350F;">Prescription medicines (requires doctor's prescription &amp; pharmacy bill), electronics with contained lithium-ion batteries (UN3481), non-hazardous liquids/cosmetics (MSDS required for commercial cargo).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customs Document Pre-Check Submission Form -->
+          <div class="subpage-card">
+            <h3>Submit Customs Documents for Pre-Dispatch Verification</h3>
+            <p class="subpage-sub">Have an upcoming shipment or active AWB? Submit your commercial invoice, KYC, or prescription metadata for compliance pre-check:</p>
+
+            <form id="customsDocUploadForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitCustomsDocumentForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="docSenderName">Sender / Exporter Full Name *</label>
+                  <input type="text" id="docSenderName" class="standard-input" placeholder="Individual or Company Name" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="docEmail">Sender Email Address *</label>
+                  <input type="email" id="docEmail" class="standard-input" placeholder="you@company.com" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="docPhone">Contact Phone / WhatsApp *</label>
+                  <input type="tel" id="docPhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="docDestCountry">Destination Country *</label>
+                  <input type="text" id="docDestCountry" class="standard-input" value="United Kingdom" placeholder="e.g. United Kingdom" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="docShipmentCategory">Shipment Category *</label>
+                  <select id="docShipmentCategory" class="standard-input" required>
+                    <option value="Personal Parcel / Gift (CSB-IV)">Personal Parcel / Gift (CSB-IV)</option>
+                    <option value="Medicine Courier (Prescription + Bill)">Medicine Courier (Prescription + Bill)</option>
+                    <option value="Cross-Border E-commerce (CSB-V)">Cross-Border E-commerce (CSB-V)</option>
+                    <option value="B2B Bulk & Commercial Cargo">B2B Bulk &amp; Commercial Cargo</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="docTypeSelect">Document Type *</label>
+                  <select id="docTypeSelect" class="standard-input" required>
+                    <option value="Commercial / Proforma Invoice">Commercial / Proforma Invoice</option>
+                    <option value="Sender KYC (Aadhaar / PAN / Passport / IEC)">Sender KYC (Aadhaar / PAN / Passport / IEC)</option>
+                    <option value="Doctor's Prescription & Pharmacy Bill">Doctor's Prescription &amp; Pharmacy Bill</option>
+                    <option value="Packing List">Packing List</option>
+                    <option value="LUT / AD Code / Export Declaration">LUT / AD Code / Export Declaration</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="docFileInput">Select Document File (PDF, JPG, PNG, CSV) *</label>
+                  <input type="file" id="docFileInput" class="standard-input" accept=".pdf,.jpg,.jpeg,.png,.csv,.txt,.doc,.docx" style="padding-top:7px;" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="docShipmentRef">AWB or Quote Reference (Optional)</label>
+                  <input type="text" id="docShipmentRef" class="standard-input" placeholder="e.g. TRISYS-ECOM-XXXXXX">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="docNotes">HS Code / Commodity Notes (Optional)</label>
+                <input type="text" id="docNotes" class="standard-input" placeholder="e.g. 60-day prescription blood pressure tablets; invoice value INR 4,200">
+              </div>
+
+              <p id="docFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="docSubmitBtn">
+                  <span>Submit Document for Pre-Check</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="/quote" class="btn btn-outline">Proceed to Shipment Quote →</a>
+              </div>
+            </form>
+
+            <div id="docConfirmationBox" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 3: CONTACT SUPPORT (/help/contact-support)
+           =================================================================== -->
+      <section id="helpSection-contact" class="help-page-section" hidden>
+        <!-- Direct Verified Support Channels -->
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <span class="section-badge">Direct Customer &amp; Exporter Support</span>
+          <h2>Contact Support — Phone, Email &amp; WhatsApp</h2>
+          <p class="subpage-sub">
+            Reach our support desk directly using our verified phone, email, or WhatsApp channels below, or submit a structured support enquiry for tracking, booking, customs, or business shipping assistance.
+          </p>
+
+          <div class="contact-grid" style="margin-top: 18px;">
+            <a class="contact-item" id="supportPhoneCard" href="tel:+911800000000">
+              <strong>Phone Support (Toll-Free India)</strong>
+              <span style="font-size:15px; font-weight:700; color:var(--primary-red); margin-top:2px;">1800-000-0000</span>
+              <span>Click to call our shipment &amp; pickup desk (`tel:+911800000000`)</span>
+            </a>
+            <a class="contact-item" id="supportEmailCard" href="mailto:support@trisysexpress.com?subject=Trisys%20Express%20Support%20Enquiry">
+              <strong>Email Support Desk</strong>
+              <span style="font-size:15px; font-weight:700; color:var(--primary-red); margin-top:2px;">support@trisysexpress.com</span>
+              <span>Click to send an email for quotes, customs docs &amp; billing</span>
+            </a>
+            <a class="contact-item" id="supportWhatsAppCard" href="https://wa.me/911800000000?text=Hello%20Trisys%20Express%20Support%2C%20I%20need%20assistance%20with%20an%20international%20shipment." target="_blank" rel="noopener">
+              <strong>WhatsApp Support</strong>
+              <span style="font-size:15px; font-weight:700; color:var(--primary-red); margin-top:2px;">Chat on WhatsApp (+91 1800-000-0000)</span>
+              <span>Opens WhatsApp with a prefilled shipment assistance message</span>
+            </a>
+          </div>
+
+          <!-- Dedicated Assistance Categories -->
+          <div class="service-capabilities-grid" style="margin-top: 18px;">
+            <div class="capability-box">
+              <strong>Shipment Tracking Assistance</strong>
+              <p>Need help locating an in-transit AWB or resolving a destination delivery exception? Use our <a href="/track" style="color:var(--primary-red); font-weight:600;">Track Shipment</a> tool or select <em>Shipment Tracking Assistance</em> below.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Booking &amp; Quotation Assistance</strong>
+              <p>Questions about volumetric weight, doorstep pickup slots, or special packaging? Start at <a href="/quote" style="color:var(--primary-red); font-weight:600;">Get a Quote</a> / <a href="/schedule-pickup" style="color:var(--primary-red); font-weight:600;">Schedule Pickup</a> or log an enquiry below.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Customs &amp; Documentation Assistance</strong>
+              <p>Need guidance on HS codes, CSB-V invoices, or medicine prescriptions? Review <a href="/help/customs-documents" onclick="event.preventDefault(); switchHelpSection('customs', true)" style="color:var(--primary-red); font-weight:600;">Customs &amp; Documents</a> or message our compliance desk.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Business &amp; Bulk-Shipping Enquiries</strong>
+              <p>Shipping commercial pallets or e-commerce orders? Explore <a href="/bulk-commercial" style="color:var(--primary-red); font-weight:600;">Bulk &amp; Commercial</a> and <a href="/business/volume-discounts" style="color:var(--primary-red); font-weight:600;">Business Solutions</a>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <h3>Submit a Support Enquiry</h3>
+            <p class="subpage-sub">Complete all required fields below. Your enquiry will be validated and logged in our support backend with a unique `TRISYS-SUP-*` ticket reference:</p>
+
+            <form id="supportEnquiryForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitSupportEnquiryForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="supCustomerName">Your Full Name *</label>
+                  <input type="text" id="supCustomerName" class="standard-input" placeholder="e.g. Neha Kulkarni" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="supCompanyName">Company / Store Name (Optional)</label>
+                  <input type="text" id="supCompanyName" class="standard-input" placeholder="e.g. Kulkarni Exports">
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="supEmail">Email Address *</label>
+                  <input type="email" id="supEmail" class="standard-input" placeholder="neha@example.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="supPhone">Contact Phone / WhatsApp Number *</label>
+                  <input type="tel" id="supPhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="supCategory">Enquiry Category *</label>
+                  <select id="supCategory" class="standard-input" required>
+                    <option value="">Select Enquiry Category...</option>
+                    <option value="Shipment Tracking Assistance">Shipment Tracking Assistance</option>
+                    <option value="Booking & Quotation Assistance">Booking &amp; Quotation Assistance</option>
+                    <option value="Customs & Documentation Assistance">Customs &amp; Documentation Assistance</option>
+                    <option value="Medicine Courier Compliance">Medicine Courier Compliance</option>
+                    <option value="Business & Bulk-Shipping Enquiry">Business &amp; Bulk-Shipping Enquiry</option>
+                    <option value="Shipment Delay, Cancellation or Claim">Shipment Delay, Cancellation or Claim</option>
+                    <option value="Billing & GST Invoice Query">Billing &amp; GST Invoice Query</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="supShipmentRef">Shipment AWB / Reference Number (If Applicable)</label>
+                  <input type="text" id="supShipmentRef" class="standard-input" placeholder="e.g. AWB-9928172 or TRISYS-ECOM-XXXXXX">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="supSubject">Subject *</label>
+                <input type="text" id="supSubject" class="standard-input" placeholder="Brief summary of your question or issue" required>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="supMessage">Detailed Message (min. 10 characters) *</label>
+                <textarea id="supMessage" class="standard-input" rows="4" style="height:auto; padding:10px 12px; font-family:inherit; resize:vertical;" placeholder="Include origin/destination countries, package details, AWB reference, or specific customs/booking questions..." required></textarea>
+              </div>
+
+              <p id="supFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="supSubmitBtn">
+                  <span>Submit Support Enquiry</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+
+            <div id="supConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Check Support Ticket Status</h3>
+            <p class="subpage-sub">Already submitted a Support Enquiry (`TRISYS-SUP-*`) or Customs Document (`TRISYS-DOC-*`)? Check its current status below:</p>
+
+            <form id="supportTicketLookupForm" class="pickup-page-form" style="margin-top:12px;" onsubmit="event.preventDefault(); lookupSupportTicketStatus();" novalidate>
+              <div class="form-field">
+                <label class="field-label" for="supLookupTicketId">Ticket / Document Reference ID *</label>
+                <input type="text" id="supLookupTicketId" class="standard-input" placeholder="e.g. TRISYS-SUP-XXXXXX" required>
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="supLookupEmail">Your Email Address *</label>
+                <input type="email" id="supLookupEmail" class="standard-input" placeholder="neha@example.com" required>
+              </div>
+              <p id="supLookupError" class="quote-inline-error" role="alert" hidden></p>
+              <button type="submit" class="btn btn-primary full-width" style="margin-top:6px;">Check Ticket Status</button>
+            </form>
+
+            <div id="supLookupResult" hidden style="margin-top:14px;"></div>
+
+            <hr class="summary-divider">
+            <h4 style="font-size:14px; font-weight:700; color:var(--slate-900); margin-bottom:8px;">Quick Self-Service Links</h4>
+            <ul class="pickup-perks">
+              <li><a href="/track" style="color:var(--primary-red); font-weight:600;">Track Shipment by AWB →</a></li>
+              <li><a href="/schedule-pickup" style="color:var(--primary-red); font-weight:600;">Schedule Doorstep Pickup →</a></li>
+              <li><a href="/help/customs-documents" onclick="event.preventDefault(); switchHelpSection('customs', true)" style="color:var(--primary-red); font-weight:600;">Download Commercial Invoice Template →</a></li>
+              <li><a href="/business/register" style="color:var(--primary-red); font-weight:600;">Open a Corporate Business Account →</a></li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Interactive Global Countries List Modal -->
+  <div class="modal-overlay" id="countriesModal" onclick="closeModal('countriesModal')">
+    <div class="modal-card countries-view-card" role="dialog" aria-modal="true" aria-labelledby="countriesModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="countriesModalTitle">Ship to 200+ Destinations Worldwide</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countriesModal')">&times;</button>
+      </div>
+      <p class="modal-sub">Trisys Express provides door-to-door delivery with live tracking &amp; customs assistance across all major global zones:</p>
+      <div class="destinations-grid" id="destinationsGrid"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('countriesModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal" onclick="closeModal('searchModal')">
+    <div class="modal-card search-card" role="dialog" aria-modal="true" aria-label="Search" onclick="event.stopPropagation()">
+      <div class="search-bar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke-width="1.8"/><path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search services, countries or enter a tracking number..." autocomplete="off" aria-label="Search">
+        <kbd class="search-kbd">Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults" role="listbox"></div>
+    </div>
+  </div>
+
+  <!-- Business Solutions Modal -->
+  <div class="modal-overlay" id="businessModal" onclick="closeModal('businessModal')">
+    <div class="modal-card business-card" role="dialog" aria-modal="true" aria-labelledby="businessTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="businessTitle">Business Solutions</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('businessModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-lead">Scale your international shipping with dedicated pricing, bulk pickups and a single dashboard for every shipment.</p>
+        <div class="biz-grid">
+          <a href="/business/volume-discounts" class="biz-item" data-biz-action="volume-discounts" onclick="event.preventDefault(); navigateBusinessSolution('volume-discounts')">
+            <strong>Volume Discounts</strong>
+            <span>Tiered pricing that drops as your monthly shipments grow.</span>
+          </a>
+          <a href="/business/ecommerce-integrations" class="biz-item" data-biz-action="ecommerce-integrations" onclick="event.preventDefault(); navigateBusinessSolution('ecommerce-integrations')">
+            <strong>E-commerce Integrations</strong>
+            <span>Shopify &amp; WooCommerce plugins with auto label generation.</span>
+          </a>
+          <a href="/business/account-manager" class="biz-item" data-biz-action="account-manager" onclick="event.preventDefault(); navigateBusinessSolution('account-manager')">
+            <strong>Dedicated Account Manager</strong>
+            <span>One point of contact for pickups, customs and claims.</span>
+          </a>
+          <a href="/business/credit-billing" class="biz-item" data-biz-action="credit-billing" onclick="event.preventDefault(); navigateBusinessSolution('credit-billing')">
+            <strong>Credit &amp; Monthly Billing</strong>
+            <span>Consolidated invoices with GST-compliant billing.</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-biz-action="bulk" onclick="navigateBusinessSolution('bulk')">Bulk &amp; Commercial</button>
+        <button type="button" class="btn btn-primary" data-biz-action="register" onclick="navigateBusinessSolution('register')">Open Business Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal" onclick="closeModal('authModal')">
+    <div class="modal-card auth-card" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle">Sign in to Trisys Express</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('authModal')">&times;</button>
+      </div>
+      <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="input-field" id="nameFieldGroup" hidden>
+          <label for="authName">Full Name</label>
+          <input type="text" id="authName" placeholder="John Doe" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authEmail">Email Address</label>
+          <input type="email" id="authEmail" required placeholder="name@company.com" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" class="standard-input">
+        </div>
+        <p id="authModalError" class="quote-inline-error" role="alert" hidden></p>
+        <div id="authModalStatusBox" hidden></div>
+        <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/script.js?v=6"></script>
+</body>
+</html>

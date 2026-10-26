@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping Quote Details | TRISYS EXPRESS</title>
+  <meta name="description" content="Review your Trisys Express international shipping quote parameters, E-commerce Logistics fulfilment, Bulk & Commercial B2B cargo, Medicine Courier, and parcel services.">
+  <meta name="theme-color" content="#EA1D25">
+  <link rel="icon" type="image/png" href="assets/trisys_logo_transparent.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=6">
+</head>
+<body class="subpage-body" data-page="quote">
+
+  <a href="#quoteMainContent" class="skip-link">Skip to content</a>
+
+  <!-- Full-Width Top Navigation Bar (Consistent with Home Page) -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+
+      <!-- Brand Logo (Left) -->
+      <a href="/" class="brand-logo" title="TRISYS EXPRESS">
+        <img src="assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="logo-img">
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" id="navMenu" aria-label="Main navigation">
+
+        <a href="/" class="nav-item" data-nav="home">Home</a>
+
+        <!-- Ship dropdown -->
+        <div class="nav-dropdown" data-nav="ship">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-ship">
+            Ship
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-ship">
+            <a href="/quote" class="dropdown-link" data-tab="quote">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h3M13 15h3"/></svg></span>
+              <span class="dd-text"><strong>Get a Quote</strong><small>Instant rates to 200+ countries</small></span>
+            </a>
+            <a href="/schedule-pickup" class="dropdown-link" data-tab="pickup">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Schedule Pickup</strong><small>Doorstep collection, same day</small></span>
+            </a>
+            <a href="/track" class="dropdown-link" data-tab="track">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Track Shipment</strong><small>Live status with your AWB number</small></span>
+            </a>
+            <a href="/rates" class="dropdown-link" data-tab="rates">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></span>
+              <span class="dd-text"><strong>Find Rates</strong><small>Compare Economy, Express &amp; NFO</small></span>
+            </a>
+          </div>
+        </div>
+
+        <a href="/track" class="nav-item" data-tab="track" data-nav="track">Track</a>
+        <a href="/rates" class="nav-item" data-tab="rates" data-nav="rates">Rates</a>
+
+        <!-- Services dropdown -->
+        <div class="nav-dropdown" data-nav="services">
+          <button type="button" class="nav-item has-dropdown active" aria-expanded="false" aria-controls="dd-services">
+            Services
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-services">
+            <a href="/quote?type=document" class="dropdown-link" data-service="document">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
+              <span class="dd-text"><strong>Document Courier</strong><small>Certificates, contracts, passports</small></span>
+            </a>
+            <a href="/quote?type=parcel" class="dropdown-link" data-service="parcel">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Parcel Shipping</strong><small>Personal &amp; business parcels</small></span>
+            </a>
+            <a href="/quote?type=medicine" class="dropdown-link" data-service="medicine">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <span class="dd-text"><strong>Medicine Courier</strong><small>Compliant prescription shipping</small></span>
+            </a>
+            <a href="/quote?type=ecommerce" class="dropdown-link" data-service="ecommerce">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h3l2.5 11H19l2.5-9H7"/></svg></span>
+              <span class="dd-text"><strong>E-commerce Logistics</strong><small>Cross-border store fulfilment</small></span>
+            </a>
+            <a href="/quote?type=bulk" class="dropdown-link" data-service="bulk">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="12" width="6" height="6" rx="1"/><path d="M3 20h18"/></svg></span>
+              <span class="dd-text"><strong>Bulk &amp; Commercial</strong><small>B2B cargo and pallets</small></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Countries dropdown -->
+        <div class="nav-dropdown" data-nav="countries">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-countries">
+            Countries
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-countries" id="dd-countries">
+            <p class="dd-heading">Popular destinations</p>
+            <div class="dd-country-grid" id="navCountries"></div>
+            <a href="#countries" class="dd-footer-link" data-modal="countriesModal">
+              View all 200+ countries
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <a href="#business" class="nav-item" data-modal="businessModal" data-nav="business">Business Solutions</a>
+
+        <!-- Help dropdown -->
+        <div class="nav-dropdown" data-nav="help">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-help">
+            Help
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-right" id="dd-help">
+            <a href="/help/faqs" class="dropdown-link" data-help-page="faqs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+              <span class="dd-text"><strong>FAQs</strong><small>Answers to common questions</small></span>
+            </a>
+            <a href="/help/customs-documents" class="dropdown-link" data-help-page="customs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="dd-text"><strong>Customs &amp; Documents</strong><small>What you need to ship abroad</small></span>
+            </a>
+            <a href="/help/contact-support" class="dropdown-link" data-help-page="contact">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+              <span class="dd-text"><strong>Contact Support</strong><small>24/7 phone, email &amp; WhatsApp</small></span>
+            </a>
+          </div>
+        </div>
+
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="nav-actions">
+        <button class="icon-btn search-btn" aria-label="Search" onclick="toggleSearch()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="nav-svg" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" stroke-width="1.8"/>
+            <path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline" onclick="openAuthModal('login')">Login</button>
+        <button class="btn btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="subpage-main" id="quoteMainContent">
+    <div class="container">
+
+      <!-- Breadcrumb & Share Bar -->
+      <div class="subpage-topbar">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <span>Services</span>
+          <span>/</span>
+          <span aria-current="page" id="subpageBreadcrumbCurrent">Shipping Quote Details</span>
+        </nav>
+
+        <div class="share-toolbar">
+          <span class="share-label">Shareable Link:</span>
+          <input type="text" id="shareUrlInput" class="share-url-input" readonly aria-label="Shareable page URL">
+          <button type="button" class="btn-share-action" onclick="shareCurrentPageLink('Trisys Express Shipping Service')">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" aria-hidden="true" style="width:15px;height:15px;"><rect x="7" y="7" width="10" height="10" rx="2" stroke-width="1.8"/><path d="M13 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" stroke-width="1.8"/></svg>
+            Copy Link
+          </button>
+          <button type="button" class="btn-share-action whatsapp" onclick="shareViaWhatsApp()">WhatsApp</button>
+          <button type="button" class="btn-share-action" onclick="shareViaEmail()">Email</button>
+        </div>
+      </div>
+
+      <!-- Widget Navigation Tabs Bar -->
+      <div class="quote-card" style="margin-bottom: 24px;">
+        <div class="quote-tabs" role="tablist" aria-label="Shipping tools">
+          <button type="button" class="quote-tab active" role="tab" aria-selected="true" aria-controls="tabQuote" id="tab-quote" data-tab="quote">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect height="16" rx="2" width="16" x="4" y="4"></rect>
+              <line x1="8" x2="16" y1="8" y2="8"></line>
+              <line x1="8" x2="16" y1="12" y2="12"></line>
+              <line x1="8" x2="12" y1="16" y2="16"></line>
+            </svg>
+            <span>Get a Quote</span>
+          </button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" aria-controls="tabTrack" id="tab-track" data-tab="track">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Track Shipment</span>
+          </button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" aria-controls="tabPickup" id="tab-pickup" data-tab="pickup">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+              <line x1="16" x2="16" y1="2" y2="6"></line>
+              <line x1="8" x2="8" y1="2" y2="6"></line>
+              <line x1="3" x2="21" y1="10" y2="10"></line>
+            </svg>
+            <span>Schedule Pickup</span>
+          </button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" aria-controls="tabRates" id="tab-rates" data-tab="rates">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="12" x2="12" y1="1" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <span>Find Rates</span>
+          </button>
+        </div>
+
+        <!-- Interactive Route & Service/Package Type Bar -->
+        <div class="quote-body">
+          <div class="quote-form-grid">
+            <div class="route-group">
+              <div class="form-group field-from">
+                <span class="field-label" id="fromLabel">From</span>
+                <button type="button" class="select-box" aria-labelledby="fromLabel fromCountryName" onclick="toggleCountryDropdown('from')">
+                  <span class="select-main">
+                    <span class="flag-icon" id="fromFlag"></span>
+                    <span class="select-value" id="fromCountryName">India</span>
+                  </span>
+                  <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                </button>
+              </div>
+
+              <div class="swap-wrapper">
+                <button type="button" class="swap-btn" onclick="swapCountries()" title="Swap origin and destination" aria-label="Swap origin and destination">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4" transform="rotate(90 12 12)"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="form-group field-to">
+                <span class="field-label" id="toLabel">To</span>
+                <button type="button" class="select-box" aria-labelledby="toLabel toCountryName" onclick="toggleCountryDropdown('to')">
+                  <span class="select-main">
+                    <span class="flag-icon" id="toFlag"></span>
+                    <span class="select-value" id="toCountryName">United Kingdom</span>
+                  </span>
+                  <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group field-package">
+              <span class="field-label" id="pkgLabel">Service &amp; Package Type</span>
+              <div class="package-options package-options-6" role="radiogroup" aria-labelledby="pkgLabel">
+                <button type="button" class="pkg-btn active" role="radio" aria-checked="true" data-type="document" onclick="selectPackageType('document', this, false)">
+                  <span class="active-dot"></span>
+                  <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
+                  <span class="pkg-label">Document</span>
+                </button>
+                <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="parcel" onclick="selectPackageType('parcel', this, false)">
+                  <span class="active-dot"></span>
+                  <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
+                  <span class="pkg-label">Parcel</span>
+                </button>
+                <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="medicine" onclick="selectPackageType('medicine', this, false)">
+                  <span class="active-dot"></span>
+                  <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><line x1="8.5" x2="15.5" y1="8.5" y2="15.5"/></svg>
+                  <span class="pkg-label">Medicine</span>
+                </button>
+                <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="ecommerce" onclick="selectPackageType('ecommerce', this, false)">
+                  <span class="active-dot"></span>
+                  <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h3l2.5 11H19l2.5-9H7"/></svg>
+                  <span class="pkg-label">E-commerce</span>
+                </button>
+                <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="bulk" onclick="selectPackageType('bulk', this, false)">
+                  <span class="active-dot"></span>
+                  <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="12" width="6" height="6" rx="1"/><path d="M3 20h18"/></svg>
+                  <span class="pkg-label">Bulk &amp; Cargo</span>
+                </button>
+                <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="other" onclick="selectPackageType('other', this, false)">
+                  <span class="active-dot"></span>
+                  <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect height="7" rx="1.5" width="7" x="3" y="3"/><rect height="7" rx="1.5" width="7" x="14" y="3"/><rect height="7" rx="1.5" width="7" x="14" y="14"/><rect height="7" rx="1.5" width="7" x="3" y="14"/></svg>
+                  <span class="pkg-label">Other</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group field-weight">
+              <label class="field-label" for="weightInput">Weight</label>
+              <div class="weight-input-box">
+                <input type="number" id="weightInput" value="1" min="0.1" step="0.1" class="weight-number" oninput="handleWeightInput(this.value)">
+                <button type="button" class="weight-unit-select" onclick="toggleWeightUnit()" aria-label="Change weight unit">
+                  <span id="currentWeightUnit">kg</span>
+                  <svg class="dropdown-arrow-small" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group field-action">
+              <button type="button" class="btn-quote" id="updateQuoteBtn" onclick="handleUpdateQuoteParameters()">
+                <span>Update Quote</span>
+              </button>
+            </div>
+          </div>
+          <p id="quoteSubpageFormError" class="quote-inline-error" role="alert" hidden></p>
+        </div>
+      </div>
+
+      <!-- Service-Specific Hero Header Card -->
+      <div class="subpage-hero-card">
+        <div class="subpage-hero-head">
+          <div>
+            <span class="section-badge" id="quotePackageBadge" style="margin-bottom:8px; display:inline-block;">Package-Specific Quote Request</span>
+            <h1 id="quotePackageHeading" style="font-size: 1.65rem; font-weight: 800; color: var(--color-dark); margin-bottom: 6px;">Document Shipping Quote</h1>
+            <p id="quotePackageSubtitle" style="color: var(--color-text-muted); margin-bottom: 14px;">International courier handling for legal contracts, academic transcripts, certificates, and business correspondence.</p>
+            <div class="route-title-row" id="quotePageRouteTitle"></div>
+            <p class="subpage-meta" id="quotePageMeta">Package Type: Document • Weight: 1 kg • Route: India to United Kingdom</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a href="/" class="btn btn-outline">← Back to Quote Widget</a>
+            <a href="/schedule-pickup" class="btn btn-primary js-proceed-pickup-link">Schedule Pickup →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           SERVICE SECTION 1: E-COMMERCE LOGISTICS (Cross-border store fulfilment)
+           ===================================================================== -->
+      <section id="ecommerceServiceSection" class="service-dedicated-section" hidden>
+        <div class="service-capabilities-grid">
+          <div class="capability-card">
+            <span class="capability-tag">Cross-Border D2C</span>
+            <h3>E-commerce Parcel Shipping</h3>
+            <p>Direct-to-consumer Express Air (3–5 days) and Tracked Economy e-Packet (6–9 days) across 200+ global destinations with end-to-end milestone tracking.</p>
+          </div>
+          <div class="capability-card">
+            <span class="capability-tag">Store Fulfilment</span>
+            <h3>Multi-Channel Store Integrations</h3>
+            <p>Automated order sync, AWB label generation, and commercial invoice creation for Shopify, WooCommerce, Amazon Global, eBay, and CSV batch manifests.</p>
+          </div>
+          <div class="capability-card">
+            <span class="capability-tag">Export Compliance</span>
+            <h3>CSB-V &amp; DDU / DDP Clearance</h3>
+            <p>Seamless Indian customs export clearance under CSB-IV and CSB-V with GST/LUT zero-rated invoicing and flexible DDU or prepaid DDP duty options.</p>
+          </div>
+          <div class="capability-card">
+            <span class="capability-tag">Reverse Logistics</span>
+            <h3>International Returns &amp; NDR</h3>
+            <p>Proactive non-delivery report (NDR) address verification, re-attempt workflows, and consolidated return-to-origin (RTO) hub management.</p>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid" style="margin-top: 24px;">
+          <div class="subpage-card">
+            <span class="section-badge">Cross-Border Store Fulfilment</span>
+            <h2>E-commerce Shipping &amp; Fulfilment Enquiry</h2>
+            <p class="subpage-sub">Configure your cross-border e-commerce parcel details, origin pickup warehouse, destination market, parcel quantity, weight, dimensions, and fulfilment option.</p>
+
+            <form id="ecommerceForm" class="pickup-form" onsubmit="event.preventDefault(); submitEcommerceServiceForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="ecomStoreName">Store / Brand Name *</label>
+                  <input type="text" id="ecomStoreName" class="standard-input" placeholder="e.g. Aura Crafts Global Store" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomContactName">Contact Person Name *</label>
+                  <input type="text" id="ecomContactName" class="standard-input" placeholder="e.g. Priya Verma" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="ecomEmail">Business Email Address *</label>
+                  <input type="email" id="ecomEmail" class="standard-input" placeholder="logistics@yourstore.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomPhone">Mobile / WhatsApp Number *</label>
+                  <input type="tel" id="ecomPhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="ecomOriginCountry">Shipment Origin Country *</label>
+                  <input type="text" id="ecomOriginCountry" class="standard-input" value="India" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomDestCountry">Destination Country / Market *</label>
+                  <input type="text" id="ecomDestCountry" class="standard-input" value="United Kingdom" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="ecomPickupAddress">Origin Pickup Warehouse / Address &amp; PIN *</label>
+                  <input type="text" id="ecomPickupAddress" class="standard-input" placeholder="Warehouse / Street, City, State &amp; Pincode" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomDeliveryAddress">Destination Delivery Address / Postal Zone *</label>
+                  <input type="text" id="ecomDeliveryAddress" class="standard-input" placeholder="Recipient Street / Fulfilment Hub, City &amp; Postal Code" required>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="ecomParcelQty">Parcel Quantity (Orders) *</label>
+                  <input type="number" id="ecomParcelQty" class="standard-input" value="1" min="1" step="1" oninput="updateEcommerceEstimateSummary()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomWeight">Parcel Weight *</label>
+                  <input type="number" id="ecomWeight" class="standard-input" value="1" min="0.1" step="0.1" oninput="handleServiceWeightField('ecommerce', this.value)" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomWeightUnit">Weight Unit *</label>
+                  <select id="ecomWeightUnit" class="standard-input" onchange="handleServiceUnitField('ecommerce', this.value)">
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="lb">Pounds (lb)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="ecomLength">Parcel Length (cm) *</label>
+                  <input type="number" id="ecomLength" class="standard-input" value="25" min="1" step="0.5" oninput="updateEcommerceEstimateSummary()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomWidth">Parcel Width (cm) *</label>
+                  <input type="number" id="ecomWidth" class="standard-input" value="20" min="1" step="0.5" oninput="updateEcommerceEstimateSummary()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomHeight">Parcel Height (cm) *</label>
+                  <input type="number" id="ecomHeight" class="standard-input" value="10" min="1" step="0.5" oninput="updateEcommerceEstimateSummary()" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="ecomServiceOption">Shipping / Fulfilment Service Option *</label>
+                  <select id="ecomServiceOption" class="standard-input" onchange="updateEcommerceEstimateSummary()" required>
+                    <option value="Cross-Border Express D2C (3-5 Business Days)">Cross-Border Express D2C (3–5 Business Days)</option>
+                    <option value="Economy Tracked e-Packet (6-9 Business Days)">Economy Tracked e-Packet (6–9 Business Days)</option>
+                    <option value="3PL Split-Inventory & Store Fulfilment">3PL Split-Inventory &amp; Store Fulfilment</option>
+                    <option value="Marketplace FBA / Overseas Hub Replenishment">Marketplace FBA / Overseas Hub Replenishment</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomCustomsMode">Customs Clearance Mode *</label>
+                  <select id="ecomCustomsMode" class="standard-input" onchange="updateEcommerceEstimateSummary()" required>
+                    <option value="DDU - Delivered Duty Unpaid">DDU — Delivered Duty Unpaid</option>
+                    <option value="DDP - Delivered Duty Paid (Prepaid Duties)">DDP — Delivered Duty Paid (Prepaid Duties)</option>
+                    <option value="CSB-V Commercial Export (GST Refund)">CSB-V Commercial Export (GST Refund Eligible)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="ecomPlatform">Storefront / Integration Channel</label>
+                  <select id="ecomPlatform" class="standard-input">
+                    <option value="Shopify">Shopify</option>
+                    <option value="WooCommerce">WooCommerce</option>
+                    <option value="Amazon / eBay Global">Amazon / eBay Global</option>
+                    <option value="Custom Website / REST API">Custom Website / REST API</option>
+                    <option value="Manual / CSV Order Upload">Manual / CSV Order Upload</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="ecomNotes">Product Category / HS Code / Notes</label>
+                  <input type="text" id="ecomNotes" class="standard-input" placeholder="e.g. Cotton apparel, jewelry, skincare, HS code">
+                </div>
+              </div>
+
+              <p id="ecomFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="ecomSubmitBtn">
+                  <span>Submit E-commerce Fulfilment Request</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="/schedule-pickup" class="btn btn-outline js-proceed-pickup-link">Book Doorstep Pickup →</a>
+              </div>
+            </form>
+
+            <div id="ecomConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>E-commerce Fulfilment &amp; Weight Summary</h3>
+            <p class="subpage-sub">Live volumetric and chargeable weight calculation for your cross-border store shipment:</p>
+            <div id="ecomCalcSummary" class="pickup-order-summary" style="margin-top:12px;"></div>
+            <hr class="summary-divider">
+            <h4 style="font-size:14px; font-weight:700; color:var(--slate-900); margin-bottom:8px;">Included Fulfilment Features</h4>
+            <ul class="pickup-perks">
+              <li>Automated commercial/proforma invoice &amp; barcode label generation</li>
+              <li>CSB-IV / CSB-V export filing with AD Code &amp; GST LUT support</li>
+              <li>Real-time buyer tracking notifications via email &amp; WhatsApp</li>
+              <li>Dedicated cross-border e-commerce account support</li>
+            </ul>
+            <div class="pickup-confirmed-banner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937; margin-top:16px;">
+              <strong style="color:var(--primary-red); display:block; margin-bottom:4px;">Live Carrier Rate API Status</strong>
+              <p style="font-size:0.86rem; line-height:1.5; margin:0;">
+                Chargeable weight is computed automatically from your entered weight and parcel dimensions (`L × W × H ÷ 5000`). Live carrier tariff pricing and automated AWB dispatch require carrier rate API credentials.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SERVICE SECTION 2: BULK & COMMERCIAL (B2B cargo and pallets)
+           ===================================================================== -->
+      <section id="bulkServiceSection" class="service-dedicated-section" hidden>
+        <div class="service-capabilities-grid">
+          <div class="capability-card">
+            <span class="capability-tag">B2B Pallet Freight</span>
+            <h3>Palletized &amp; Master Carton Cargo</h3>
+            <p>International air and sea-air freight for Euro/standard pallets, skids, wooden crates, and high-volume commercial master cartons.</p>
+          </div>
+          <div class="capability-card">
+            <span class="capability-tag">Customs Brokerage</span>
+            <h3>Commercial Export &amp; Import Clearance</h3>
+            <p>End-to-end B2B customs documentation: IEC, AD Code, Shipping Bill, Commercial Invoice, Packing List, Certificate of Origin, and BOE support.</p>
+          </div>
+          <div class="capability-card">
+            <span class="capability-tag">Flexible Incoterms</span>
+            <h3>EXW, FOB, DAP &amp; DDP Corridors</h3>
+            <p>Tailored door-to-door, airport-to-airport, and port-to-door commercial logistics across North America, Europe, Middle East, Asia-Pacific, and Oceania.</p>
+          </div>
+          <div class="capability-card">
+            <span class="capability-tag">Specialized Handling</span>
+            <h3>Forklift, Oversized &amp; Cold Chain</h3>
+            <p>Dedicated tail-lift trucks, forklift pickup/delivery, stackable &amp; non-stackable pallet handling, dangerous goods advisory, and temperature control.</p>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid" style="margin-top: 24px;">
+          <div class="subpage-card">
+            <span class="section-badge">B2B Cargo &amp; Pallets</span>
+            <h2>Bulk &amp; Commercial Freight Quotation Form</h2>
+            <p class="subpage-sub">Provide your company details, origin &amp; destination facilities, pallet/cargo quantity, total shipment weight, dimensions, and handling requirements.</p>
+
+            <form id="bulkForm" class="pickup-form" onsubmit="event.preventDefault(); submitBulkServiceForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="bulkCompanyName">Business / Company Name *</label>
+                  <input type="text" id="bulkCompanyName" class="standard-input" placeholder="e.g. Apex Industrial Exports Pvt. Ltd." required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkContactPerson">Business Contact Person *</label>
+                  <input type="text" id="bulkContactPerson" class="standard-input" placeholder="e.g. Vikram Mehta" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="bulkEmail">Contact Email Address *</label>
+                  <input type="email" id="bulkEmail" class="standard-input" placeholder="exports@company.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkPhone">Contact Phone Number *</label>
+                  <input type="tel" id="bulkPhone" class="standard-input" placeholder="+91 98111 22334" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="bulkOriginCountry">Shipment Origin Country *</label>
+                  <input type="text" id="bulkOriginCountry" class="standard-input" value="India" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkDestCountry">Shipment Destination Country *</label>
+                  <input type="text" id="bulkDestCountry" class="standard-input" value="United Kingdom" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="bulkPickupAddress">Origin Pickup Warehouse / Factory Address *</label>
+                  <input type="text" id="bulkPickupAddress" class="standard-input" placeholder="Factory / ICD / Warehouse Address, City &amp; PIN" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkDeliveryAddress">Destination Consignee / Facility Address *</label>
+                  <input type="text" id="bulkDeliveryAddress" class="standard-input" placeholder="Consignee Warehouse / Distribution Centre, City &amp; Postcode" required>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="bulkPalletQty">Cargo / Pallet Quantity *</label>
+                  <input type="number" id="bulkPalletQty" class="standard-input" value="2" min="1" step="1" oninput="updateBulkEstimateSummary()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkTotalWeight">Total Shipment Weight *</label>
+                  <input type="number" id="bulkTotalWeight" class="standard-input" value="1" min="0.1" step="0.1" oninput="handleServiceWeightField('bulk', this.value)" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkWeightUnit">Weight Unit *</label>
+                  <select id="bulkWeightUnit" class="standard-input" onchange="handleServiceUnitField('bulk', this.value)">
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="lb">Pounds (lb)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="bulkLength">Unit / Pallet Length (cm) *</label>
+                  <input type="number" id="bulkLength" class="standard-input" value="120" min="1" step="1" oninput="updateBulkEstimateSummary()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkWidth">Unit / Pallet Width (cm) *</label>
+                  <input type="number" id="bulkWidth" class="standard-input" value="80" min="1" step="1" oninput="updateBulkEstimateSummary()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkHeight">Unit / Pallet Height (cm) *</label>
+                  <input type="number" id="bulkHeight" class="standard-input" value="100" min="1" step="1" oninput="updateBulkEstimateSummary()" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="bulkCargoType">Cargo Type *</label>
+                  <select id="bulkCargoType" class="standard-input" onchange="updateBulkEstimateSummary()" required>
+                    <option value="Palletized Commercial Goods">Palletized Commercial Goods</option>
+                    <option value="Loose Master Cartons / Boxes">Loose Master Cartons / Boxes</option>
+                    <option value="Industrial Machinery & Spare Parts">Industrial Machinery &amp; Spare Parts</option>
+                    <option value="Textiles, Garments & Apparel Bulk">Textiles, Garments &amp; Apparel Bulk</option>
+                    <option value="Pharmaceutical & Healthcare Bulk">Pharmaceutical &amp; Healthcare Bulk</option>
+                    <option value="Raw Materials & Commercial Samples">Raw Materials &amp; Commercial Samples</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkHandlingReq">Handling Requirements *</label>
+                  <select id="bulkHandlingReq" class="standard-input" onchange="updateBulkEstimateSummary()" required>
+                    <option value="Standard Palletized / Forklift Handling">Standard Palletized / Forklift Handling</option>
+                    <option value="Stackable Commercial Pallets">Stackable Commercial Pallets</option>
+                    <option value="Non-Stackable / Oversized Freight">Non-Stackable / Oversized Freight</option>
+                    <option value="Fragile / High-Value Security Cargo">Fragile / High-Value Security Cargo</option>
+                    <option value="Temperature-Controlled / Cold Chain">Temperature-Controlled / Cold Chain</option>
+                    <option value="Tail-Lift Truck Required at Pickup/Delivery">Tail-Lift Truck Required at Pickup/Delivery</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="bulkIncoterms">Freight Service Mode / Incoterms *</label>
+                  <select id="bulkIncoterms" class="standard-input" onchange="updateBulkEstimateSummary()" required>
+                    <option value="Door-to-Door Commercial Express (DAP / DDP)">Door-to-Door Commercial Express (DAP / DDP)</option>
+                    <option value="Airport-to-Airport Priority Air Cargo (FCA / CPT)">Airport-to-Airport Priority Air Cargo (FCA / CPT)</option>
+                    <option value="Consolidated B2B Air Freight">Consolidated B2B Air Freight</option>
+                    <option value="Scheduled Contract Logistics">Scheduled Contract Logistics</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="bulkPickupDate">Preferred Readiness / Pickup Date</label>
+                  <input type="date" id="bulkPickupDate" class="standard-input">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="bulkSpecialNotes">Commodity Description, IEC / GSTIN &amp; Special Instructions</label>
+                <input type="text" id="bulkSpecialNotes" class="standard-input" placeholder="e.g. HS code, fork-lift availability, dock hours, customs broker instructions">
+              </div>
+
+              <p id="bulkFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="bulkSubmitBtn">
+                  <span>Request Bulk Freight Quotation</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="/schedule-pickup" class="btn btn-outline js-proceed-pickup-link">Schedule Commercial Pickup →</a>
+              </div>
+            </form>
+
+            <div id="bulkConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>B2B Freight &amp; Volume Summary</h3>
+            <p class="subpage-sub">Live cubic volume (CBM) and air freight volumetric weight calculation for your consignment:</p>
+            <div id="bulkCalcSummary" class="pickup-order-summary" style="margin-top:12px;"></div>
+            <hr class="summary-divider">
+            <h4 style="font-size:14px; font-weight:700; color:var(--slate-900); margin-bottom:8px;">Commercial Freight Support</h4>
+            <ul class="pickup-perks">
+              <li>Dedicated B2B key account manager &amp; customs clearance desk</li>
+              <li>Support for commercial invoices, packing lists, LUT/Bond &amp; BOE</li>
+              <li>Palletized pickup via tail-lift or dock-high vehicles across India</li>
+              <li>Consolidated GST-compliant billing for corporate accounts</li>
+            </ul>
+            <div class="pickup-confirmed-banner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937; margin-top:16px;">
+              <strong style="color:var(--primary-red); display:block; margin-bottom:4px;">Live Freight Tariff Status</strong>
+              <p style="font-size:0.86rem; line-height:1.5; margin:0;">
+                Total cubic volume (`CBM`) and air-cargo volumetric weight (`L × W × H × Qty ÷ 6000`) are calculated automatically. Binding freight rates and aircraft space allocation require carrier freight API integration.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SERVICE SECTION 3: STANDARD SHIPPING QUOTE REQUEST (Document / Parcel / Medicine / Other)
+           ===================================================================== -->
+      <section id="standardQuoteSection" class="service-dedicated-section" style="margin-top: 24px;">
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <span class="section-badge" id="stdQuoteFormBadge">Verified Shipping Quote</span>
+            <h2 id="stdQuoteFormHeading">Request Verified Shipping Quote</h2>
+            <p class="subpage-sub">Enter your contact details, optional package dimensions, and service preference to log a verified shipping quote request with our dispatch desk.</p>
+
+            <form id="standardQuoteForm" class="pickup-form" onsubmit="event.preventDefault(); submitStandardQuoteForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="stdQuoteSenderName">Sender / Contact Full Name *</label>
+                  <input type="text" id="stdQuoteSenderName" class="standard-input" placeholder="e.g. Ananya Sharma" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="stdQuotePhone">Mobile / WhatsApp Number *</label>
+                  <input type="tel" id="stdQuotePhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="stdQuoteEmail">Email Address *</label>
+                  <input type="email" id="stdQuoteEmail" class="standard-input" placeholder="you@example.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="stdQuoteServiceTier">Preferred Courier Service Tier *</label>
+                  <select id="stdQuoteServiceTier" class="standard-input" required>
+                    <option value="Express Air Saver (3–5 Business Days)">Express Air Saver (3–5 Business Days)</option>
+                    <option value="Next Flight Out (2–3 Business Days)">Next Flight Out — Priority Air (2–3 Business Days)</option>
+                    <option value="Economy Air Courier (6–9 Business Days)">Economy Air Courier (6–9 Business Days)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-3" id="stdQuoteDimensionsRow">
+                <div class="form-field">
+                  <label class="field-label" for="stdQuoteLength">Length (cm) <small>(Optional)</small></label>
+                  <input type="number" id="stdQuoteLength" class="standard-input" placeholder="e.g. 30" min="1" step="0.5" oninput="updateStandardQuoteCalcSummary()">
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="stdQuoteWidth">Width (cm) <small>(Optional)</small></label>
+                  <input type="number" id="stdQuoteWidth" class="standard-input" placeholder="e.g. 25" min="1" step="0.5" oninput="updateStandardQuoteCalcSummary()">
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="stdQuoteHeight">Height (cm) <small>(Optional)</small></label>
+                  <input type="number" id="stdQuoteHeight" class="standard-input" placeholder="e.g. 15" min="1" step="0.5" oninput="updateStandardQuoteCalcSummary()">
+                </div>
+              </div>
+
+              <div class="form-field" id="stdQuoteMedicineComplianceRow" hidden style="background:#fff5f5; border:1px solid #fecaca; padding:12px 14px; border-radius:10px; margin-bottom:12px;">
+                <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.9rem; color:var(--slate-800);">
+                  <input type="checkbox" id="stdQuotePrescriptionCheck" style="margin-top:3px;">
+                  <span><strong>Medicine Compliance Confirmation *:</strong> I confirm that I hold a valid Doctor's Prescription matching the patient name and an original Pharmacy Tax Invoice with batch &amp; expiry details (up to 90-day supply).</span>
+                </label>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="stdQuoteNotes">Contents Description &amp; Special Instructions</label>
+                <input type="text" id="stdQuoteNotes" class="standard-input" placeholder="e.g. University transcripts, personal clothing gifts, blood pressure tablets">
+              </div>
+
+              <p id="stdQuoteFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="stdQuoteSubmitBtn">
+                  <span>Request Verified Quote</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="/schedule-pickup" class="btn btn-outline js-proceed-pickup-link">Book Doorstep Pickup →</a>
+              </div>
+            </form>
+
+            <div id="stdQuoteConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Available Service Tiers &amp; Weight Summary</h3>
+            <p class="subpage-sub">Live route verification and chargeable weight calculation for your shipment:</p>
+            <div id="stdQuoteCalcSummary" class="pickup-order-summary" style="margin-top:12px;"></div>
+            <div id="quoteAvailableServicesList" style="margin-top:14px;"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Submitted Shipping Parameters & Package Checklist -->
+      <div class="pickup-page-grid" style="margin-top: 24px;">
+        <div class="subpage-card">
+          <h2>Preserved Shipping Selection</h2>
+          <p class="subpage-sub">The following origin, destination, service/package type, weight, and unit are active for this quote:</p>
+          <div id="submittedQuoteDetails" class="pickup-order-summary" style="margin-top: 16px;"></div>
+
+          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="/schedule-pickup" class="btn btn-primary js-proceed-pickup-link">Proceed to Schedule Pickup</a>
+            <a href="/rates" class="btn btn-outline js-compare-rates-link">Review Route in Find Rates</a>
+            <a href="/" class="btn btn-outline">Return to Home Quote Page</a>
+          </div>
+        </div>
+
+        <div class="subpage-card">
+          <h2>Service Requirements &amp; Live Rate Status</h2>
+          <p class="subpage-sub">Handling and compliance guidelines for your selected service category:</p>
+          <ul class="plan-features" id="packageSpecificChecklist" style="margin-top: 14px; margin-bottom: 20px;"></ul>
+
+          <div class="pickup-confirmed-banner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937;">
+            <strong style="color:var(--primary-red); display:block; margin-bottom:4px;">Live Rate Calculation Requires Backend API Integration</strong>
+            <p style="font-size:0.9rem; line-height:1.5; margin:0;">
+              Your selected shipping parameters have been captured and preserved in the URL. Live carrier pricing, fuel surcharges, and binding delivery time estimates require an active backend rate-calculation API connection.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Interactive Country Selector Dropdown Modal -->
+  <div class="modal-overlay" id="countryDropdownModal" onclick="closeModal('countryDropdownModal')">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="countryModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h4 class="modal-title" id="countryModalTitle">Select Country</h4>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countryDropdownModal')">&times;</button>
+      </div>
+      <div class="modal-search">
+        <input type="text" id="countrySearchInput" placeholder="Search countries..." oninput="filterCountries()" aria-label="Search countries">
+      </div>
+      <div class="country-list" id="countryList"></div>
+    </div>
+  </div>
+
+  <!-- Interactive Global Countries List Modal -->
+  <div class="modal-overlay" id="countriesModal" onclick="closeModal('countriesModal')">
+    <div class="modal-card countries-view-card" role="dialog" aria-modal="true" aria-labelledby="countriesModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="countriesModalTitle">Ship to 200+ Destinations Worldwide</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countriesModal')">&times;</button>
+      </div>
+      <p class="modal-sub">Trisys Express provides door-to-door delivery with live tracking &amp; customs assistance across all major global zones:</p>
+      <div class="destinations-grid" id="destinationsGrid"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('countriesModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal" onclick="closeModal('searchModal')">
+    <div class="modal-card search-card" role="dialog" aria-modal="true" aria-label="Search" onclick="event.stopPropagation()">
+      <div class="search-bar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke-width="1.8"/><path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search services, countries or enter a tracking number..." autocomplete="off" aria-label="Search">
+        <kbd class="search-kbd">Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults" role="listbox"></div>
+    </div>
+  </div>
+
+  <!-- Business Solutions Modal -->
+  <div class="modal-overlay" id="businessModal" onclick="closeModal('businessModal')">
+    <div class="modal-card business-card" role="dialog" aria-modal="true" aria-labelledby="businessTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="businessTitle">Business Solutions</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('businessModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-lead">Scale your international shipping with dedicated pricing, bulk pickups and a single dashboard for every shipment.</p>
+        <div class="biz-grid">
+          <a href="/business/volume-discounts" class="biz-item" data-biz-action="volume-discounts" onclick="event.preventDefault(); navigateBusinessSolution('volume-discounts')">
+            <strong>Volume Discounts</strong>
+            <span>Tiered pricing that drops as your monthly shipments grow.</span>
+          </a>
+          <a href="/business/ecommerce-integrations" class="biz-item" data-biz-action="ecommerce-integrations" onclick="event.preventDefault(); navigateBusinessSolution('ecommerce-integrations')">
+            <strong>E-commerce Integrations</strong>
+            <span>Shopify &amp; WooCommerce plugins with auto label generation.</span>
+          </a>
+          <a href="/business/account-manager" class="biz-item" data-biz-action="account-manager" onclick="event.preventDefault(); navigateBusinessSolution('account-manager')">
+            <strong>Dedicated Account Manager</strong>
+            <span>One point of contact for pickups, customs and claims.</span>
+          </a>
+          <a href="/business/credit-billing" class="biz-item" data-biz-action="credit-billing" onclick="event.preventDefault(); navigateBusinessSolution('credit-billing')">
+            <strong>Credit &amp; Monthly Billing</strong>
+            <span>Consolidated invoices with GST-compliant billing.</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-biz-action="bulk" onclick="navigateBusinessSolution('bulk')">Bulk &amp; Commercial</button>
+        <button type="button" class="btn btn-primary" data-biz-action="register" onclick="navigateBusinessSolution('register')">Open Business Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Centre Modal -->
+  <div class="modal-overlay" id="helpModal" onclick="closeModal('helpModal')">
+    <div class="modal-card help-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="helpTitle">Help Centre</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('helpModal')">&times;</button>
+      </div>
+      <div class="modal-body help-body">
+        <section id="help-faq">
+          <h4 class="help-heading">Frequently Asked Questions</h4>
+          <details class="faq-item" open>
+            <summary>How long does international delivery take?</summary>
+            <p>Express Air delivers in 3–4 business days to most countries. Economy takes 6–8 days and Next Flight Out 2–3 days.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I track my shipment?</summary>
+            <p>Use the Track Shipment tab on the home page and enter your AWB / tracking number for live updates.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I send medicines abroad?</summary>
+            <p>Yes. Prescription medicines can be shipped with a valid doctor's prescription and purchase bill. Our team helps with customs paperwork.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you offer doorstep pickup?</summary>
+            <p>Yes, free doorstep pickup is available across major Indian cities. Book a slot from the Schedule Pickup tab.</p>
+          </details>
+        </section>
+
+        <section id="help-customs">
+          <h4 class="help-heading">Customs &amp; Documents</h4>
+          <ul class="help-list">
+            <li>Government photo ID (Aadhaar, PAN or Passport) of the sender</li>
+            <li>Commercial or proforma invoice for parcels with value</li>
+            <li>Prescription &amp; bill for medicine shipments</li>
+            <li>KYC documents for business / bulk accounts</li>
+          </ul>
+        </section>
+
+        <section id="help-contact">
+          <h4 class="help-heading">Contact Support (24/7)</h4>
+          <div class="contact-grid">
+            <a class="contact-item" href="tel:+911800000000"><strong>Call</strong><span>1800-000-0000</span></a>
+            <a class="contact-item" href="mailto:support@trisysexpress.com"><strong>Email</strong><span>support@trisysexpress.com</span></a>
+            <a class="contact-item" href="https://wa.me/911800000000" target="_blank" rel="noopener"><strong>WhatsApp</strong><span>Chat with us</span></a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal" onclick="closeModal('authModal')">
+    <div class="modal-card auth-card" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle">Sign in to Trisys Express</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('authModal')">&times;</button>
+      </div>
+      <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="input-field" id="nameFieldGroup" hidden>
+          <label for="authName">Full Name</label>
+          <input type="text" id="authName" placeholder="John Doe" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authEmail">Email Address</label>
+          <input type="email" id="authEmail" required placeholder="name@company.com" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" class="standard-input">
+        </div>
+        <p id="authModalError" class="quote-inline-error" role="alert" hidden></p>
+        <div id="authModalStatusBox" hidden></div>
+        <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/script.js?v=6"></script>
+</body>
+</html>

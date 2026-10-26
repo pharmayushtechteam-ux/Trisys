@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Shipping Made Simple - Trisys Express</title>
+<!-- Load Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              red: '#EA1D25',
+              darkRed: '#D3141B',
+              gray: '#64748B',
+              heading: '#1A202C',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="custom-styling">
+    .hero-bg-container {
+      background-image: url('hero_stitch_bg.jpg');
+      background-repeat: no-repeat;
+      background-position: right center;
+      background-size: cover;
+    }
+    
+    @media (max-width: 1024px) {
+      .hero-bg-container {
+        background-position: right -120px center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero-bg-container {
+        background-image: none;
+      }
+    }
+    
+    /* Subtle custom borders */
+    .custom-border-divider {
+      border-right: 1px solid #E2E8F0;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="bg-[#EEF2F6] min-h-screen py-6 px-3 sm:px-6 flex items-center justify-center font-sans antialiased text-[#1A202C]">
+<!-- BEGIN: Main Shipping Container -->
+<div class="w-full max-w-[1240px] bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 flex flex-col justify-between relative" data-purpose="main-shipping-card">
+<!-- BEGIN: Top Hero Section -->
+<section class="hero-bg-container relative w-full pt-10 pb-8 px-8 sm:px-12 lg:px-14 min-h-[410px] flex flex-col justify-between" data-purpose="hero-banner-content">
+<!-- Left side text & features wrapper -->
+<div class="max-w-[530px] z-10">
+<!-- Main Headings -->
+<h1 class="text-4xl sm:text-[46px] lg:text-[48px] font-extrabold tracking-tight leading-[1.08] mb-3">
+<span class="text-[#1A202C] block">Global Shipping</span>
+<span class="text-brand-red block">Made Simple</span>
+</h1>
+<!-- Subtitle Description -->
+<p class="text-slate-600 text-[15px] sm:text-[16px] leading-relaxed font-normal mb-8 max-w-[460px]">
+          Send parcels, documents and medicines from India to 200+ countries with fast, safe and reliable delivery.
+        </p>
+<!-- Service Benefits Row -->
+<div class="grid grid-cols-4 max-w-[430px] pt-1" data-purpose="service-highlights">
+<!-- Item 1: Fast Delivery -->
+<div class="flex flex-col items-center text-center pr-3 border-r border-slate-200">
+<div class="h-8 flex items-center justify-center mb-1 text-brand-red">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<rect height="12" rx="1.5" width="13" x="1" y="4"></rect>
+<path d="M14 8h4.5l3.5 4.5v3.5a1.5 1.5 0 0 1-1.5 1.5H18"></path>
+<circle cx="6" cy="18" r="2"></circle>
+<circle cx="16" cy="18" r="2"></circle>
+<!-- Speed lines -->
+<line stroke-width="1.5" x1="1" x2="3" y1="8" y2="8"></line>
+<line stroke-width="1.5" x1="0" x2="2.5" y1="11" y2="11"></line>
+</svg>
+</div>
+<span class="text-[12px] leading-[13px] font-medium text-slate-700">Fast<br/>Delivery</span>
+</div>
+<!-- Item 2: Secure Handling -->
+<div class="flex flex-col items-center text-center px-3 border-r border-slate-200">
+<div class="h-8 flex items-center justify-center mb-1 text-slate-800">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+<path d="m9 12 2 2 4-4"></path>
+</svg>
+</div>
+<span class="text-[12px] leading-[13px] font-medium text-slate-700">Secure<br/>Handling</span>
+</div>
+<!-- Item 3: Global Coverage -->
+<div class="flex flex-col items-center text-center px-3 border-r border-slate-200">
+<div class="h-8 flex items-center justify-center mb-1 text-slate-800">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<line x1="2" x2="22" y1="12" y2="12"></line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+</svg>
+</div>
+<span class="text-[12px] leading-[13px] font-medium text-slate-700">Global<br/>Coverage</span>
+</div>
+<!-- Item 4: 24/7 Support -->
+<div class="flex flex-col items-center text-center pl-3">
+<div class="h-8 flex items-center justify-center mb-1 text-slate-800">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+<path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+</svg>
+</div>
+<span class="text-[12px] leading-[13px] font-medium text-slate-700">24/7<br/>Support</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Top Hero Section -->
+<!-- BEGIN: Calculator & Booking Bottom Container -->
+<div class="w-full relative z-20 px-4 sm:px-8 pb-7 -mt-2">
+<!-- Navigation Tabs Row -->
+<nav aria-label="Shipping Services" class="flex items-center overflow-x-auto no-scrollbar max-w-fit bg-slate-50/70 border border-slate-200/90 rounded-t-xl" data-purpose="feature-tabs">
+<!-- Active Tab: Get a Quote -->
+<button class="relative flex items-center space-x-2.5 px-6 py-3.5 bg-white font-bold text-brand-red text-sm transition-colors border-b-2 border-brand-red" type="button">
+<svg class="w-5 h-5 text-brand-red" fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 18H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1zm-2-13H8v2h8V7zm0 4H8v2h8v-2zm-5 4H8v2h3v-2zm5 0h-3v2h3v-2z"></path>
+</svg>
+<span class="tracking-tight whitespace-nowrap">Get a Quote</span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200"></div>
+<!-- Tab 2: Track Shipment -->
+<button class="flex items-center space-x-2.5 px-6 py-3.5 font-semibold text-slate-700 hover:text-slate-900 text-sm transition-colors bg-white/70 hover:bg-white" type="button">
+<svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+<polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+<line x1="12" x2="12" y1="22.08" y2="12"></line>
+</svg>
+<span class="tracking-tight whitespace-nowrap">Track Shipment</span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200"></div>
+<!-- Tab 3: Schedule Pickup -->
+<button class="flex items-center space-x-2.5 px-6 py-3.5 font-semibold text-slate-700 hover:text-slate-900 text-sm transition-colors bg-white/70 hover:bg-white" type="button">
+<svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path>
+<circle cx="12" cy="10" r="2.5"></circle>
+</svg>
+<span class="tracking-tight whitespace-nowrap">Schedule Pickup</span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200"></div>
+<!-- Tab 4: Find Rates -->
+<button class="flex items-center space-x-2.5 px-6 py-3.5 font-semibold text-slate-700 hover:text-slate-900 text-sm transition-colors bg-white/70 hover:bg-white" type="button">
+<svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+<line x1="7" x2="7.01" y1="7" y2="7"></line>
+</svg>
+<span class="tracking-tight whitespace-nowrap">Find Rates</span>
+</button>
+</nav>
+<!-- BEGIN: Shipping Quote Interactive Form Card -->
+<form class="bg-white border border-slate-200 rounded-b-2xl rounded-tr-2xl shadow-sm p-4 sm:p-5" data-purpose="quote-form-card" onsubmit="event.preventDefault();">
+<div class="flex flex-wrap lg:flex-nowrap items-end gap-3.5">
+<!-- Route Section: From -> Swap -> To -->
+<div class="flex items-center gap-2 flex-grow lg:flex-grow-0 w-full lg:w-auto">
+<!-- From Input -->
+<div class="flex-1 lg:w-[150px]">
+<label class="block text-[12px] font-medium text-slate-500 mb-1">From</label>
+<div class="relative flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 bg-white hover:border-slate-300 transition-all cursor-pointer">
+<div class="flex items-center space-x-2">
+<!-- India Flag SVG -->
+<svg class="w-5 h-3.5 rounded-[2px] shadow-sm shrink-0" viewbox="0 0 640 480">
+<rect fill="#f4c430" height="160" width="640"></rect>
+<rect fill="#ffffff" height="160" width="640" y="160"></rect>
+<rect fill="#006400" height="160" width="640" y="320"></rect>
+<circle cx="320" cy="240" fill="none" r="45" stroke="#000080" stroke-width="8"></circle>
+<circle cx="320" cy="240" fill="#000080" r="10"></circle>
+</svg>
+<span class="text-sm font-semibold text-slate-800">India</span>
+</div>
+<svg class="w-4 h-4 text-slate-400 shrink-0 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Swap Route Direction Button -->
+<div class="pt-5 shrink-0">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-600 hover:text-brand-red hover:bg-slate-50 transition" title="Swap origin and destination" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4" transform="rotate(90 12 12)"></path>
+</svg>
+</button>
+</div>
+<!-- To Input -->
+<div class="flex-1 lg:w-[170px]">
+<label class="block text-[12px] font-medium text-slate-500 mb-1">To</label>
+<div class="relative flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2.5 bg-white hover:border-slate-300 transition-all cursor-pointer">
+<div class="flex items-center space-x-2">
+<!-- United States Flag SVG -->
+<svg class="w-5 h-3.5 rounded-[2px] shadow-sm shrink-0" viewbox="0 0 640 480">
+<rect fill="#bd3d44" height="480" width="640"></rect>
+<path d="M0 55h640M0 129h640M0 203h640M0 277h640M0 351h640M0 425h640" stroke="#fff" stroke-width="37"></path>
+<rect fill="#192f5d" height="259" width="260"></rect>
+</svg>
+<span class="text-sm font-semibold text-slate-800 truncate">United States</span>
+</div>
+<svg class="w-4 h-4 text-slate-400 shrink-0 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Package Type Selector -->
+<div class="w-full lg:w-auto flex-grow">
+<label class="block text-[12px] font-medium text-slate-500 mb-1">Package Type</label>
+<div class="grid grid-cols-4 gap-1.5" data-purpose="package-types-options">
+<!-- Option 1: Document (Active State) -->
+<div class="relative flex flex-col items-center justify-center py-2 px-2.5 rounded-xl border border-brand-red bg-white cursor-pointer shadow-sm">
+<!-- Red Active Indicator Dot -->
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-brand-red"></span>
+<svg class="w-4 h-4 text-brand-red mb-1" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+<polyline points="14 2 14 8 20 8"></polyline>
+<line x1="16" x2="8" y1="13" y2="13"></line>
+<line x1="16" x2="8" y1="17" y2="17"></line>
+</svg>
+<span class="text-[11px] font-medium text-brand-red">Document</span>
+</div>
+<!-- Option 2: Parcel -->
+<div class="relative flex flex-col items-center justify-center py-2 px-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
+<svg class="w-4 h-4 text-slate-600 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+<polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+<line x1="12" x2="12" y1="22.08" y2="12"></line>
+</svg>
+<span class="text-[11px] font-medium text-slate-600">Parcel</span>
+</div>
+<!-- Option 3: Medicine -->
+<div class="relative flex flex-col items-center justify-center py-2 px-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
+<svg class="w-4 h-4 text-slate-600 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+<line x1="8.5" x2="15.5" y1="8.5" y2="15.5"></line>
+</svg>
+<span class="text-[11px] font-medium text-slate-600">Medicine</span>
+</div>
+<!-- Option 4: Other -->
+<div class="relative flex flex-col items-center justify-center py-2 px-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
+<svg class="w-4 h-4 text-slate-600 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<rect height="7" rx="1.5" width="7" x="3" y="3"></rect>
+<rect height="7" rx="1.5" width="7" x="14" y="3"></rect>
+<rect height="7" rx="1.5" width="7" x="14" y="14"></rect>
+<rect height="7" rx="1.5" width="7" x="3" y="14"></rect>
+</svg>
+<span class="text-[11px] font-medium text-slate-600">Other</span>
+</div>
+</div>
+</div>
+<!-- Weight Input -->
+<div class="w-full sm:w-[130px] shrink-0">
+<label class="block text-[12px] font-medium text-slate-500 mb-1">Weight</label>
+<div class="flex items-center border border-slate-200 rounded-xl px-3 py-2 bg-white hover:border-slate-300 transition">
+<input class="w-8 border-none p-0 text-sm font-semibold text-slate-800 focus:ring-0 text-left bg-transparent" min="0.1" step="0.1" type="number" value="1"/>
+<div class="flex items-center ml-auto pl-2 text-slate-600 text-sm font-medium">
+<span>kg</span>
+<svg class="w-3.5 h-3.5 ml-1 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Submit CTA Button -->
+<div class="w-full lg:w-auto shrink-0">
+<button class="w-full lg:w-auto flex items-center justify-center space-x-2 bg-brand-red hover:bg-brand-darkRed active:scale-[0.99] text-white px-7 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-red-500/20 transition-all duration-150" type="submit">
+<span>Get Quote</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</div>
+</div>
+</form>
+<!-- END: Shipping Quote Interactive Form Card -->
+</div>
+<!-- END: Calculator & Booking Bottom Container -->
+</div>
+<!-- END: Main Shipping Container -->
+</body></html>

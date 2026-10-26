@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trisys Express Business Solutions — Volume Discounts, E-commerce Integrations, Dedicated Account Manager, Credit & Monthly Billing, and Business Account Registration.">
+  <meta name="theme-color" content="#EA1D25">
+  <title>Business Solutions | TRISYS EXPRESS</title>
+  <link rel="icon" type="image/png" href="/assets/trisys_logo_transparent.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css?v=6">
+</head>
+<body class="subpage-body" data-page="business">
+
+  <!-- Full-Width Top Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+
+      <a href="/" class="brand-logo" title="TRISYS EXPRESS">
+        <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS - Delivered Safely, Delivered On Time." class="logo-img">
+      </a>
+
+      <nav class="nav-menu" id="navMenu" aria-label="Primary">
+        <a href="/" class="nav-item" data-nav="home">Home</a>
+
+        <div class="nav-dropdown" data-nav="ship">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-ship">
+            Ship
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-ship">
+            <a href="/quote" class="dropdown-link" data-tab="quote">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h5"/></svg></span>
+              <span class="dd-text"><strong>Get Instant Quote</strong><small>Door-to-door rates in seconds</small></span>
+            </a>
+            <a href="/schedule-pickup" class="dropdown-link" data-tab="pickup">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Schedule Pickup</strong><small>Doorstep collection, same day</small></span>
+            </a>
+            <a href="/track" class="dropdown-link" data-tab="track">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Track Shipment</strong><small>Live status with your AWB number</small></span>
+            </a>
+            <a href="/rates" class="dropdown-link" data-tab="rates">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></span>
+              <span class="dd-text"><strong>Find Rates</strong><small>Compare Economy, Express &amp; NFO</small></span>
+            </a>
+          </div>
+        </div>
+
+        <a href="/track" class="nav-item" data-tab="track" data-nav="track">Track</a>
+        <a href="/rates" class="nav-item" data-tab="rates" data-nav="rates">Rates</a>
+
+        <!-- Services dropdown -->
+        <div class="nav-dropdown" data-nav="services">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-services">
+            Services
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-services">
+            <a href="/quote?type=document" class="dropdown-link" data-service="document">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
+              <span class="dd-text"><strong>Document Courier</strong><small>Certificates, contracts, passports</small></span>
+            </a>
+            <a href="/quote?type=parcel" class="dropdown-link" data-service="parcel">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Parcel Shipping</strong><small>Personal &amp; business parcels</small></span>
+            </a>
+            <a href="/quote?type=medicine" class="dropdown-link" data-service="medicine">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <span class="dd-text"><strong>Medicine Courier</strong><small>Compliant prescription shipping</small></span>
+            </a>
+            <a href="/quote?type=ecommerce" class="dropdown-link" data-service="ecommerce">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+              <span class="dd-text"><strong>E-commerce Logistics</strong><small>Cross-border store fulfilment</small></span>
+            </a>
+            <a href="/quote?type=bulk" class="dropdown-link" data-service="bulk">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Bulk &amp; Commercial</strong><small>B2B cargo and pallets</small></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown" data-nav="countries">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-countries">
+            Countries
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-countries" id="dd-countries">
+            <p class="dd-heading">Popular destinations</p>
+            <div class="dd-country-grid" id="navCountries"></div>
+            <a href="#countries" class="dd-footer-link" data-modal="countriesModal">
+              View all 200+ countries
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <a href="#business" class="nav-item active" data-modal="businessModal" data-nav="business" aria-current="page">Business Solutions</a>
+
+        <div class="nav-dropdown" data-nav="help">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-help">
+            Help
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-right" id="dd-help">
+            <a href="/help/faqs" class="dropdown-link" data-help-page="faqs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+              <span class="dd-text"><strong>FAQs</strong><small>Answers to common questions</small></span>
+            </a>
+            <a href="/help/customs-documents" class="dropdown-link" data-help-page="customs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="dd-text"><strong>Customs &amp; Documents</strong><small>What you need to ship abroad</small></span>
+            </a>
+            <a href="/help/contact-support" class="dropdown-link" data-help-page="contact">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+              <span class="dd-text"><strong>Contact Support</strong><small>24/7 phone, email &amp; WhatsApp</small></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn search-btn" aria-label="Search" onclick="toggleSearch()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="nav-svg" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" stroke-width="1.8"/>
+            <path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline" onclick="openAuthModal('login')">Login</button>
+        <button class="btn btn-primary" onclick="navigateBusinessSolution('register')">Sign Up</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="subpage-main" id="businessMainContent">
+    <div class="container">
+
+      <!-- Breadcrumb & Share Bar -->
+      <div class="subpage-topbar">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/business-solutions" onclick="event.preventDefault(); openModal('businessModal')">Business Solutions</a>
+          <span>/</span>
+          <span aria-current="page" id="bizBreadcrumbCurrent">Volume Discounts</span>
+        </nav>
+
+        <div class="share-toolbar">
+          <span class="share-label">Shareable Link:</span>
+          <input type="text" id="shareUrlInput" class="share-url-input" readonly aria-label="Shareable page URL">
+          <button type="button" class="btn-share-action" onclick="shareCurrentPageLink('Trisys Express Business Solutions')">Copy Link</button>
+          <button type="button" class="btn-share-action whatsapp" onclick="shareViaWhatsApp()">WhatsApp</button>
+          <button type="button" class="btn-share-action" onclick="shareViaEmail()">Email</button>
+        </div>
+      </div>
+
+      <!-- Business Solutions Navigation Bar -->
+      <div class="subpage-card" style="margin-bottom: 24px; padding: 18px 22px;">
+        <div class="biz-subnav-header">
+          <div>
+            <span class="section-badge" id="bizHeroBadge">Corporate &amp; Enterprise Logistics</span>
+            <h1 id="bizHeroTitle" style="font-size: 1.55rem; margin-top: 4px;">Volume Discounts Programme</h1>
+            <p class="subpage-sub" id="bizHeroSubtitle">Scale your international shipping with structured volume brackets, e-commerce plugins, dedicated account managers, and GST-compliant billing.</p>
+          </div>
+          <button type="button" class="btn btn-outline" onclick="openModal('businessModal')">Open Business Solutions Popup</button>
+        </div>
+
+        <nav class="biz-subnav-tabs" id="bizSubnavTabs" aria-label="Business Solution Programmes">
+          <a href="/business/volume-discounts" class="biz-tab-pill active" data-biz-section="volume-discounts" onclick="event.preventDefault(); switchBusinessSection('volume-discounts', true)">Volume Discounts</a>
+          <a href="/business/ecommerce-integrations" class="biz-tab-pill" data-biz-section="ecommerce-integrations" onclick="event.preventDefault(); switchBusinessSection('ecommerce-integrations', true)">E-commerce Integrations</a>
+          <a href="/business/account-manager" class="biz-tab-pill" data-biz-section="account-manager" onclick="event.preventDefault(); switchBusinessSection('account-manager', true)">Dedicated Account Manager</a>
+          <a href="/business/credit-billing" class="biz-tab-pill" data-biz-section="credit-billing" onclick="event.preventDefault(); switchBusinessSection('credit-billing', true)">Credit &amp; Monthly Billing</a>
+          <a href="/bulk-commercial" class="biz-tab-pill" data-biz-section="bulk" onclick="event.preventDefault(); navigateBusinessSolution('bulk')">Bulk &amp; Commercial →</a>
+          <a href="/business/register" class="biz-tab-pill cta-pill" data-biz-section="register" onclick="event.preventDefault(); switchBusinessSection('register', true)">Open Business Account</a>
+          <a href="/business/admin" class="biz-tab-pill admin-pill" data-biz-section="admin" onclick="event.preventDefault(); switchBusinessSection('admin', true)">Admin Review</a>
+        </nav>
+      </div>
+
+      <!-- ===================================================================
+           SECTION 1: VOLUME DISCOUNTS (/business/volume-discounts)
+           =================================================================== -->
+      <section id="bizSection-volume-discounts" class="biz-page-section">
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <span class="section-badge">Volume-Based Shipping Programme</span>
+          <h2>How Trisys Express Volume Discounts Work</h2>
+          <p class="subpage-sub">
+            Our corporate volume programme aggregates your monthly international shipments and total chargeable weight across all 200+ destination countries. As your monthly parcel or freight volume grows, your account qualifies for higher commercial brackets.
+          </p>
+
+          <div class="service-capabilities-grid" style="margin-top: 18px;">
+            <div class="capability-box">
+              <strong>Tier 1 — Starter Business (1–49 Shipments / Mo)</strong>
+              <p>Designed for emerging exporters and D2C brands. Includes free doorstep pickup across major Indian metro hubs, digital commercial invoice templates, and standard export KYC onboarding.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Tier 2 — Growth Commercial (50–199 Shipments / Mo)</strong>
+              <p>Qualifies for lane-specific commercial rate cards on primary corridors (US, UK, EU, UAE, Australia, Canada), priority export screening, and multi-parcel consolidation.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Tier 3 — High-Volume Corporate (200–499 Shipments / Mo)</strong>
+              <p>Includes custom weight-slab tariffs, dedicated key account manager assignment, automated Shopify/WooCommerce webhook fulfilment, and fortnightly/monthly consolidated billing eligibility.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Tier 4 — Enterprise Custom Contract (500+ Shipments / Mo)</strong>
+              <p>Bespoke annual SLA contracts, custom dimensional-divisor underwriting, charter/priority air-cargo allotment, and direct ERP/WMS API integration.</p>
+            </div>
+          </div>
+
+          <div class="pickup-confirmed-banner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937; margin-top: 18px;">
+            <strong style="color:var(--primary-red); display:block; margin-bottom:4px;">Pricing &amp; Discount Rate Transparency</strong>
+            <p style="font-size:0.88rem; line-height:1.55; margin:0;">
+              Fixed percentage discounts and guaranteed per-kg tariffs are not pre-configured in this environment because corporate rates depend on your specific destination lanes, commodity profile, and dimensional weight ratio. Submit the form below to request a customized volume rate card from our commercial underwriting desk.
+            </p>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <h3>Request Volume Pricing / Business Quote</h3>
+            <p class="subpage-sub">Enter your expected monthly shipment volume and primary trade corridors to receive a tailored corporate rate proposal:</p>
+
+            <form id="volumeDiscountForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitVolumeDiscountForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="volCompanyName">Business / Company Name *</label>
+                  <input type="text" id="volCompanyName" class="standard-input" placeholder="e.g. Stellar Exports Pvt. Ltd." required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="volContactName">Contact Person Name *</label>
+                  <input type="text" id="volContactName" class="standard-input" placeholder="Full Name &amp; Designation" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="volEmail">Business Email Address *</label>
+                  <input type="email" id="volEmail" class="standard-input" placeholder="logistics@company.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="volPhone">Contact Phone / WhatsApp *</label>
+                  <input type="tel" id="volPhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="volMonthlyShipments">Expected Monthly Shipments *</label>
+                  <input type="number" id="volMonthlyShipments" class="standard-input" value="75" min="1" step="1" oninput="updateVolumeBracketPreview()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="volAvgWeight">Avg. Weight per Shipment (kg) *</label>
+                  <input type="number" id="volAvgWeight" class="standard-input" value="2.5" min="0.1" step="0.1" oninput="updateVolumeBracketPreview()" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="volPrimaryCategory">Primary Shipment Type *</label>
+                  <select id="volPrimaryCategory" class="standard-input" onchange="updateVolumeBracketPreview()" required>
+                    <option value="E-commerce Parcels (CSB-V / D2C)">E-commerce Parcels (CSB-V / D2C)</option>
+                    <option value="Commercial Parcels & Samples">Commercial Parcels &amp; Samples</option>
+                    <option value="Document & Legal Pouches">Document &amp; Legal Pouches</option>
+                    <option value="Medicine & Healthcare Shipments">Medicine &amp; Healthcare Shipments</option>
+                    <option value="Bulk & Palletized Air Cargo">Bulk &amp; Palletized Air Cargo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="volCorridors">Primary Destination Countries / Corridors *</label>
+                <input type="text" id="volCorridors" class="standard-input" placeholder="e.g. United States, United Kingdom, UAE, Germany, Australia" required>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="volNotes">Additional Requirements (Pickup Cities, Packaging, Target SLA)</label>
+                <input type="text" id="volNotes" class="standard-input" placeholder="e.g. Daily pickup from Mumbai &amp; Tirupur; DDP customs clearance required">
+              </div>
+
+              <p id="volFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="volSubmitBtn">
+                  <span>Request Volume Pricing</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button type="button" class="btn btn-outline" onclick="switchBusinessSection('register', true)">Open Business Account →</button>
+              </div>
+            </form>
+
+            <div id="volConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Live Volume Tier Preview</h3>
+            <p class="subpage-sub">Estimated monthly volume classification based on your inputs:</p>
+            <div id="volumeCalcSummary" class="pickup-order-summary" style="margin-top:12px;"></div>
+            <hr class="summary-divider">
+            <h4 style="font-size:14px; font-weight:700; color:var(--slate-900); margin-bottom:8px;">What Happens Next?</h4>
+            <ul class="pickup-perks">
+              <li>Your request is logged with a unique `TRISYS-VOL-*` reference ID</li>
+              <li>Our pricing desk reviews your monthly lane mix &amp; volumetric profile</li>
+              <li>Verified corporate rate tables are issued after KYC &amp; admin approval</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 2: E-COMMERCE INTEGRATIONS (/business/ecommerce-integrations)
+           =================================================================== -->
+      <section id="bizSection-ecommerce-integrations" class="biz-page-section" hidden>
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;">
+            <div>
+              <span class="section-badge">Store Plugins &amp; Fulfilment API</span>
+              <h2>E-commerce Integrations — Shopify, WooCommerce &amp; Custom APIs</h2>
+              <p class="subpage-sub">
+                Automate cross-border order import, HS-code commercial invoice generation, AWB thermal label printing, and live tracking callbacks for your online store.
+              </p>
+            </div>
+            <div class="integration-status-pill" id="liveIntegrationStatusBadge">
+              <span class="status-dot-unconfigured"></span>
+              <span>Store Integration Status: <strong>Not Connected (Credentials Not Configured)</strong></span>
+            </div>
+          </div>
+
+          <div class="service-capabilities-grid" style="margin-top: 18px;">
+            <div class="capability-box">
+              <strong>Shopify &amp; Shopify Plus Connector</strong>
+              <p>Sync paid international orders automatically by fulfilment location or tag. Supports multi-currency order value capture, HS-code line items, and automatic AWB tracking write-back to Shopify orders.</p>
+            </div>
+            <div class="capability-box">
+              <strong>WooCommerce WordPress Plugin</strong>
+              <p>REST API webhook integration for WooCommerce 6.x–9.x stores. Export order manifests, generate `4×6` thermal shipping labels (once carrier credentials are active), and update order status to Shipped.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Automated Label &amp; Commercial Invoice Prep</strong>
+              <p>Generates CSB-V courier export declarations, proforma/commercial invoices, and itemized packing lists mapped from your store's SKU catalogue.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Live Tracking Webhooks &amp; Buyer Notifications</strong>
+              <p>Pushes milestone events (Picked Up, Export Cleared, In Transit, Out for Delivery, Delivered) back to your storefront and buyer notification channels.</p>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; padding: 18px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px;">
+            <h3 style="font-size: 1rem; margin-bottom: 10px;">Integration Setup &amp; Connection Instructions</h3>
+            <ol style="padding-left: 20px; font-size: 0.9rem; color: var(--slate-700); line-height: 1.75; margin: 0;">
+              <li><strong>Submit Store Onboarding Request:</strong> Complete the integration setup form below with your store platform (`Shopify`, `WooCommerce`, or `Custom REST API`) and store URL.</li>
+              <li><strong>Receive Merchant Sandbox Credentials:</strong> After administrator verification of your business KYC &amp; IEC/GSTIN, our integration team provisions your private webhook secret and API credentials via secure channel (credentials are never exposed in client-side code).</li>
+              <li><strong>Configure Store Webhook / App:</strong> Enter your Trisys merchant credentials inside your Shopify Custom App settings or WooCommerce REST API settings and map your default pickup warehouse.</li>
+              <li><strong>Verify Sandbox Order Sync &amp; Labels:</strong> Run a test order sync to verify SKU weight/dimension mapping before activating live production fulfilment.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <h3>Request Store Integration Setup</h3>
+            <p class="subpage-sub">Submit your store details below to request Shopify, WooCommerce, or custom API integration provisioning:</p>
+
+            <form id="integrationRequestForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitIntegrationRequestForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="intCompanyName">Store / Brand Name *</label>
+                  <input type="text" id="intCompanyName" class="standard-input" placeholder="e.g. Loom &amp; Craft Global" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="intContactName">Technical / Store Contact Name *</label>
+                  <input type="text" id="intContactName" class="standard-input" placeholder="Full Name" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="intEmail">Business Email Address *</label>
+                  <input type="email" id="intEmail" class="standard-input" placeholder="tech@yourstore.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="intPhone">Contact Phone / WhatsApp *</label>
+                  <input type="tel" id="intPhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="intPlatform">E-commerce Platform *</label>
+                  <select id="intPlatform" class="standard-input" required>
+                    <option value="Shopify / Shopify Plus">Shopify / Shopify Plus</option>
+                    <option value="WooCommerce (WordPress)">WooCommerce (WordPress)</option>
+                    <option value="Magento / Adobe Commerce">Magento / Adobe Commerce</option>
+                    <option value="Custom Storefront / REST API">Custom Storefront / REST API</option>
+                    <option value="Multi-Channel (Amazon / Etsy / eBay)">Multi-Channel (Amazon / Etsy / eBay)</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="intStoreUrl">Store Domain / URL *</label>
+                  <input type="url" id="intStoreUrl" class="standard-input" placeholder="https://yourstore.myshopify.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="intMonthlyOrders">Estimated Monthly Orders *</label>
+                  <select id="intMonthlyOrders" class="standard-input" required>
+                    <option value="1 – 50 orders / month">1 – 50 orders / month</option>
+                    <option value="51 – 250 orders / month">51 – 250 orders / month</option>
+                    <option value="251 – 1,000 orders / month">251 – 1,000 orders / month</option>
+                    <option value="1,000+ orders / month">1,000+ orders / month</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Required Integration Capabilities *</label>
+                <div class="checkbox-grid" id="intFeaturesGroup">
+                  <label class="checkbox-pill"><input type="checkbox" name="intFeature" value="Order Synchronisation" checked> <span>Order Synchronisation</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="intFeature" value="Automated Label Generation" checked> <span>Automated Label Generation</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="intFeature" value="Live Shipment Tracking Webhooks" checked> <span>Live Shipment Tracking Webhooks</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="intFeature" value="CSB-V & Commercial Invoice Automation"> <span>CSB-V &amp; Commercial Invoice Automation</span></label>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="intNotes">ERP / WMS Details or Special Integration Requirements</label>
+                <input type="text" id="intNotes" class="standard-input" placeholder="e.g. Using Unicommerce / Shiprocket alongside Shopify; need DDP UK/EU support">
+              </div>
+
+              <p id="intFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="intSubmitBtn">
+                  <span>Request Integration Access</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <a href="/ecommerce-logistics" class="btn btn-outline">Open E-commerce Parcel Fulfilment Page →</a>
+              </div>
+            </form>
+
+            <div id="intConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Security &amp; Integration Architecture</h3>
+            <p class="subpage-sub">How Trisys Express protects your store and customer data:</p>
+            <ul class="pickup-perks" style="margin-top:12px;">
+              <li>No API keys, OAuth tokens, or merchant secrets are ever stored or exposed in browser code</li>
+              <li>Webhook payloads are signed and verified using HMAC-SHA256</li>
+              <li>Supports both `DDU` and `DDP` (Delivered Duty Paid) checkout workflows</li>
+              <li>Dedicated sandbox environment provided prior to production cutover</li>
+            </ul>
+            <div class="pickup-confirmed-banner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937; margin-top:16px;">
+              <strong style="color:var(--primary-red); display:block; margin-bottom:4px;">Why Is My Store Shown as "Not Connected"?</strong>
+              <p style="font-size:0.86rem; line-height:1.5; margin:0;">
+                Connecting a live Shopify or WooCommerce store requires store-specific OAuth app credentials and carrier label API keys on the backend. Submit your request on the left to initiate onboarding.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 3: DEDICATED ACCOUNT MANAGER (/business/account-manager)
+           =================================================================== -->
+      <section id="bizSection-account-manager" class="biz-page-section" hidden>
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <span class="section-badge">Single Point of Contact</span>
+          <h2>Dedicated Account Manager Programme</h2>
+          <p class="subpage-sub">
+            Eliminate call-centre queues with a dedicated logistics specialist assigned to manage your daily pickups, export customs clearance, destination queries, and priority claims resolution.
+          </p>
+
+          <div class="service-capabilities-grid" style="margin-top: 18px;">
+            <div class="capability-box">
+              <strong>Multi-City Pickup Coordination</strong>
+              <p>Single point of coordination for scheduled daily or on-demand pickups across your factories, warehouses, and vendor locations across India.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Pre-Dispatch Customs &amp; KYC Audit</strong>
+              <p>Proactive verification of commercial invoices, HS codes, AD code registration, LUT/Bond paperwork, and destination country import rules before dispatch.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Proactive Exception &amp; Delay Resolution</strong>
+              <p>Direct escalation with carrier hub operations if a shipment encounters customs hold, address query, or weather disruption in transit.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Claims &amp; POD Reconciliation</strong>
+              <p>End-to-end assistance with proof-of-delivery (POD) documentation, export realization certificates (BRC/e-BRC support), and transit damage/loss claims.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <h3>Request a Dedicated Account Manager</h3>
+            <p class="subpage-sub">Complete your business shipping profile below. Your request will be recorded as a pending enquiry and assigned by our commercial operations team:</p>
+
+            <form id="accountManagerForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitAccountManagerForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="amCompanyName">Business Name *</label>
+                  <input type="text" id="amCompanyName" class="standard-input" placeholder="e.g. Meridian Pharma Exports Ltd." required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="amContactName">Contact Person's Name *</label>
+                  <input type="text" id="amContactName" class="standard-input" placeholder="Full Name &amp; Role" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="amEmail">Business Email *</label>
+                  <input type="email" id="amEmail" class="standard-input" placeholder="operations@company.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="amPhone">Contact Phone Number *</label>
+                  <input type="tel" id="amPhone" class="standard-input" placeholder="+91 98200 11223" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="amMonthlyShipments">Estimated Monthly Shipments *</label>
+                  <select id="amMonthlyShipments" class="standard-input" required>
+                    <option value="25 – 99 shipments / month">25 – 99 shipments / month</option>
+                    <option value="100 – 299 shipments / month">100 – 299 shipments / month</option>
+                    <option value="300 – 999 shipments / month">300 – 999 shipments / month</option>
+                    <option value="1,000+ shipments / month">1,000+ shipments / month</option>
+                    <option value="Bulk Air / Sea Cargo Consignments">Bulk Air / Sea Cargo Consignments</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="amRequirements">Primary Shipping Requirements *</label>
+                  <select id="amRequirements" class="standard-input" required>
+                    <option value="Cross-Border E-commerce & D2C Parcels">Cross-Border E-commerce &amp; D2C Parcels</option>
+                    <option value="B2B Commercial Parcels & Palletized Cargo">B2B Commercial Parcels &amp; Palletized Cargo</option>
+                    <option value="Compliant Medicine & Healthcare Exports">Compliant Medicine &amp; Healthcare Exports</option>
+                    <option value="Time-Critical / Next Flight Out (NFO)">Time-Critical / Next Flight Out (NFO)</option>
+                    <option value="Multi-Service Corporate Contract">Multi-Service Corporate Contract</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="amPickupRegions">Pickup Cities / Regions in India *</label>
+                  <input type="text" id="amPickupRegions" class="standard-input" placeholder="e.g. Delhi NCR, Mumbai, Ahmedabad, Bengaluru" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="amDeliveryRegions">Destination Delivery Regions *</label>
+                  <input type="text" id="amDeliveryRegions" class="standard-input" placeholder="e.g. North America, UK, European Union, GCC" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="amNotes">Additional Notes (Customs Brokerage, Special Handling, SLA Needs)</label>
+                <input type="text" id="amNotes" class="standard-input" placeholder="e.g. Require CSB-V filing assistance and weekly POD summary reports">
+              </div>
+
+              <p id="amFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="amSubmitBtn">
+                  <span>Request an Account Manager</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+
+            <div id="amConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Account Manager Assignment Workflow</h3>
+            <p class="subpage-sub">How account manager requests are processed:</p>
+            <ul class="pickup-perks" style="margin-top:12px;">
+              <li><strong>Step 1 — Enquiry Logged:</strong> Your request receives a `TRISYS-KAM-*` reference with status `Pending`.</li>
+              <li><strong>Step 2 — Regional Desk Matching:</strong> Our admin team matches your origin hub and commodity vertical with a regional key account specialist.</li>
+              <li><strong>Step 3 — Verified Onboarding Call:</strong> Once assigned in the admin portal, your specialist reaches out via your verified business email and phone.</li>
+            </ul>
+            <div class="pickup-confirmed-banner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937; margin-top:16px;">
+              <strong style="color:var(--primary-red); display:block; margin-bottom:4px;">No Automated / Fictional Assignments</strong>
+              <p style="font-size:0.86rem; line-height:1.5; margin:0;">
+                Account managers are assigned by authorized administrators after reviewing your shipment profile. You can track your request status (`Pending`, `Under Review`, `Approved`) at any time.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 4: CREDIT & MONTHLY BILLING (/business/credit-billing)
+           =================================================================== -->
+      <section id="bizSection-credit-billing" class="biz-page-section" hidden>
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <span class="section-badge">Corporate Invoicing &amp; Credit</span>
+          <h2>Credit &amp; Monthly Consolidated Billing</h2>
+          <p class="subpage-sub">
+            Streamline your accounts payable with consolidated GST-compliant tax invoices, itemized AWB billing statements, and corporate credit terms subject to underwriting approval.
+          </p>
+
+          <div class="service-capabilities-grid" style="margin-top: 18px;">
+            <div class="capability-box">
+              <strong>Consolidated Billing Statements</strong>
+              <p>Replace per-shipment payments with a single consolidated statement covering all international AWBs dispatched during your billing cycle, complete with cost-centre and lane breakdowns.</p>
+            </div>
+            <div class="capability-box">
+              <strong>GST-Compliant Tax Invoicing</strong>
+              <p>Tax invoices include your registered 15-digit GSTIN, SAC classification, and itemized freight/surcharge components to support seamless corporate GST reconciliation and input tax credit compliance.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Structured Credit Application Workflow</strong>
+              <p>Every credit application follows a strict 4-stage review workflow: <strong>Pending</strong> ➔ <strong>Under Review</strong> ➔ <strong>Approved</strong> / <strong>Rejected</strong> based on KYC and financial verification.</p>
+            </div>
+            <div class="capability-box">
+              <strong>Underwriting &amp; Eligibility Policy</strong>
+              <p>Credit limits, billing cycles, and payment due dates are determined during underwriting review. Submitting an application does not automatically approve credit or guarantee a credit limit.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <h3>Apply for Business Credit &amp; Monthly Billing</h3>
+            <p class="subpage-sub">Submit your corporate billing and GST details below to initiate credit and consolidated invoicing review:</p>
+
+            <form id="creditBillingForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitCreditBillingForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="crdCompanyName">Company or Business Name *</label>
+                  <input type="text" id="crdCompanyName" class="standard-input" placeholder="e.g. Zenith Precision Instruments Pvt. Ltd." required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="crdContactName">Billing Contact Name *</label>
+                  <input type="text" id="crdContactName" class="standard-input" placeholder="Finance / Accounts Payable Contact" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="crdEmail">Billing Contact Email *</label>
+                  <input type="email" id="crdEmail" class="standard-input" placeholder="accounts@company.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="crdPhone">Billing Contact Phone *</label>
+                  <input type="tel" id="crdPhone" class="standard-input" placeholder="+91 98111 22334" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="crdGstin">Company GSTIN / Tax Registration No. *</label>
+                  <input type="text" id="crdGstin" class="standard-input" placeholder="e.g. 27AABCU9603R1ZM" maxlength="20" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="crdMonthlyVolume">Estimated Monthly Shipment Volume *</label>
+                  <select id="crdMonthlyVolume" class="standard-input" required>
+                    <option value="25 – 99 shipments / month">25 – 99 shipments / month</option>
+                    <option value="100 – 299 shipments / month">100 – 299 shipments / month</option>
+                    <option value="300 – 999 shipments / month">300 – 999 shipments / month</option>
+                    <option value="1,000+ shipments / month">1,000+ shipments / month</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="crdBillingAddress">Registered Business Billing Address *</label>
+                <input type="text" id="crdBillingAddress" class="standard-input" placeholder="Registered Office Address, City, State &amp; PIN Code" required>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="crdBillingCycle">Requested Billing Mode *</label>
+                  <select id="crdBillingCycle" class="standard-input" required>
+                    <option value="Monthly Consolidated GST Invoicing">Monthly Consolidated GST Invoicing</option>
+                    <option value="Bi-Weekly (Fortnightly) Consolidated Billing">Bi-Weekly (Fortnightly) Consolidated Billing</option>
+                    <option value="Corporate Prepaid Wallet with Consolidated GST Invoice">Corporate Prepaid Wallet with Consolidated GST Invoice</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="crdNotes">CIN / PAN Reference or Accounting Notes</label>
+                  <input type="text" id="crdNotes" class="standard-input" placeholder="e.g. Require PO number on every consolidated invoice">
+                </div>
+              </div>
+
+              <p id="crdFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="crdSubmitBtn">
+                  <span>Apply for Business Credit &amp; Monthly Billing</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+
+            <div id="crdConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Check Application / Enquiry Status</h3>
+            <p class="subpage-sub">Already submitted a Credit Application, Business Account, or Business Solution enquiry? Check its live status (`Pending`, `Under Review`, `Approved`, `Rejected`):</p>
+
+            <form id="statusLookupForm" class="pickup-page-form" style="margin-top:12px;" onsubmit="event.preventDefault(); lookupBusinessApplicationStatus();" novalidate>
+              <div class="form-field">
+                <label class="field-label" for="lookupRefId">Reference ID *</label>
+                <input type="text" id="lookupRefId" class="standard-input" placeholder="e.g. TRISYS-CRD-XXXXXX" required>
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="lookupEmail">Registered Business Email *</label>
+                <input type="email" id="lookupEmail" class="standard-input" placeholder="accounts@company.com" required>
+              </div>
+              <p id="lookupStatusError" class="quote-inline-error" role="alert" hidden></p>
+              <button type="submit" class="btn btn-primary full-width" id="lookupStatusBtn" style="margin-top:6px;">Check Application Status</button>
+            </form>
+
+            <div id="lookupStatusResult" hidden style="margin-top:14px;"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 5: OPEN BUSINESS ACCOUNT (/business/register)
+           =================================================================== -->
+      <section id="bizSection-register" class="biz-page-section" hidden>
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <span class="section-badge">Corporate Account Onboarding</span>
+          <h2>Open a Trisys Express Business Account</h2>
+          <p class="subpage-sub">
+            Register your company for a unified shipping account supporting international documents, parcels, prescription medicines, e-commerce store fulfilment, and B2B palletized freight.
+          </p>
+        </div>
+
+        <div class="pickup-page-grid">
+          <div class="subpage-card">
+            <h3>Business Account Application Form</h3>
+            <p class="subpage-sub">Complete all required corporate KYC, address, and contact fields below. New business account applications are created with status <strong>Pending</strong> pending administrator verification:</p>
+
+            <form id="businessRegisterForm" class="pickup-page-form" onsubmit="event.preventDefault(); submitBusinessRegistrationForm();" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="regCompanyName">Company or Business Name *</label>
+                  <input type="text" id="regCompanyName" class="standard-input" placeholder="e.g. Bharat Global Trade Pvt. Ltd." required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regBusinessType">Business Entity Type *</label>
+                  <select id="regBusinessType" class="standard-input" required>
+                    <option value="">Select Business Type...</option>
+                    <option value="Private Limited / Public Limited Company">Private Limited / Public Limited Company</option>
+                    <option value="LLP / Registered Partnership">LLP / Registered Partnership</option>
+                    <option value="Sole Proprietorship / MSME">Sole Proprietorship / MSME</option>
+                    <option value="D2C / Cross-Border E-commerce Brand">D2C / Cross-Border E-commerce Brand</option>
+                    <option value="Manufacturer / Merchant Exporter">Manufacturer / Merchant Exporter</option>
+                    <option value="Pharmaceutical / Healthcare Distributor">Pharmaceutical / Healthcare Distributor</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="regContactName">Contact Person's Full Name *</label>
+                  <input type="text" id="regContactName" class="standard-input" placeholder="Authorized Signatory / Logistics Head" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regEmail">Business Email Address *</label>
+                  <input type="email" id="regEmail" class="standard-input" placeholder="shipping@company.com" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regPhone">Contact Number *</label>
+                  <input type="tel" id="regPhone" class="standard-input" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="regAddress">Business Street Address *</label>
+                <input type="text" id="regAddress" class="standard-input" placeholder="Building, Plot No., Industrial Area / Street" required>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-field">
+                  <label class="field-label" for="regCity">City *</label>
+                  <input type="text" id="regCity" class="standard-input" placeholder="e.g. Mumbai" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regState">State / Province *</label>
+                  <input type="text" id="regState" class="standard-input" placeholder="e.g. Maharashtra" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regPinCode">PIN / Postal Code *</label>
+                  <input type="text" id="regPinCode" class="standard-input" placeholder="e.g. 400001" maxlength="10" required>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="regGstin">GSTIN or Tax Registration / IEC Number *</label>
+                  <input type="text" id="regGstin" class="standard-input" placeholder="e.g. 27AABCB1234F1Z5" maxlength="20" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regMonthlyVolume">Estimated Monthly Shipment Volume *</label>
+                  <select id="regMonthlyVolume" class="standard-input" required>
+                    <option value="">Select Estimated Volume...</option>
+                    <option value="1 – 25 shipments / month">1 – 25 shipments / month</option>
+                    <option value="26 – 100 shipments / month">26 – 100 shipments / month</option>
+                    <option value="101 – 500 shipments / month">101 – 500 shipments / month</option>
+                    <option value="500+ shipments / month">500+ shipments / month</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Preferred Shipping Services (Select at least one) *</label>
+                <div class="checkbox-grid" id="regServicesGroup">
+                  <label class="checkbox-pill"><input type="checkbox" name="regService" value="Document Courier"> <span>Document Courier</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="regService" value="Parcel Shipping" checked> <span>Parcel Shipping</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="regService" value="Medicine Courier"> <span>Medicine Courier</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="regService" value="E-commerce Logistics" checked> <span>E-commerce Logistics</span></label>
+                  <label class="checkbox-pill"><input type="checkbox" name="regService" value="Bulk & Commercial Cargo"> <span>Bulk &amp; Commercial Cargo</span></label>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label class="field-label" for="regPassword">Create Portal Password (min. 8 characters) *</label>
+                  <input type="password" id="regPassword" class="standard-input" placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required>
+                </div>
+                <div class="form-field">
+                  <label class="field-label" for="regConfirmPassword">Confirm Portal Password *</label>
+                  <input type="password" id="regConfirmPassword" class="standard-input" placeholder="Re-enter password" minlength="8" autocomplete="new-password" required>
+                </div>
+              </div>
+
+              <div class="medicine-declaration-box" style="margin-top:6px;">
+                <label class="checkbox-label" for="regAcceptTerms">
+                  <input type="checkbox" id="regAcceptTerms" required>
+                  <span>I confirm that I am authorized to apply on behalf of this business and accept the Trisys Express Business Terms of Service, Export Compliance Policy, and Privacy Policy. *</span>
+                </label>
+              </div>
+
+              <p id="regFormError" class="quote-inline-error" role="alert" hidden></p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+                <button type="submit" class="btn-quote" id="regSubmitBtn">
+                  <span>Submit Business Account Application</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button type="button" class="btn btn-outline" onclick="openAuthModal('login')">Already Registered? Sign In</button>
+              </div>
+            </form>
+
+            <div id="regConfirmationBox" hidden></div>
+          </div>
+
+          <aside class="subpage-card pickup-summary-aside">
+            <h3>Corporate Onboarding &amp; Governance</h3>
+            <p class="subpage-sub">How business account applications are verified:</p>
+            <ul class="pickup-perks" style="margin-top:12px;">
+              <li><strong>Duplicate Account Protection:</strong> Each business email and GSTIN can only register one active corporate account.</li>
+              <li><strong>PBKDF2-SHA256 Password Security:</strong> Credentials are salted and hashed server-side before storage.</li>
+              <li><strong>Pending Verification Status:</strong> New accounts start with `Pending` status until KYC &amp; GSTIN verification is completed by an administrator.</li>
+              <li><strong>No Automatic Credit Grant:</strong> Submitting an application does not automatically enable credit limits or discounted contract rates until approved.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 6: ADMIN REVIEW PORTAL (/business/admin)
+           =================================================================== -->
+      <section id="bizSection-admin" class="biz-page-section" hidden>
+        <div class="subpage-card" style="margin-bottom: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;">
+            <div>
+              <span class="section-badge">Authorized Administrator Portal</span>
+              <h2>Business Applications &amp; Enquiries Review Dashboard</h2>
+              <p class="subpage-sub">
+                Restricted to authorized administrators. Review submitted Business Account applications, Credit &amp; Monthly Billing applications, Volume Discount requests, Integration requests, Account Manager enquiries, and B2B Service Enquiries, and update their review status.
+              </p>
+            </div>
+          </div>
+
+          <form id="adminAuthForm" class="pickup-page-form" style="margin-top: 16px; max-width: 620px;" onsubmit="event.preventDefault(); loadAdminSubmissions();" novalidate>
+            <div class="form-row-2" style="align-items: flex-end;">
+              <div class="form-field">
+                <label class="field-label" for="adminPasscodeInput">Administrator Passcode (`X-Admin-Key`) *</label>
+                <input type="password" id="adminPasscodeInput" class="standard-input" placeholder="Enter admin passcode (default: TRISYS-ADMIN-2026)" required>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button type="submit" class="btn btn-primary" id="adminLoadBtn">Unlock &amp; Load Submissions</button>
+                <button type="button" class="btn btn-outline" onclick="lockAdminDashboard()">Lock</button>
+              </div>
+            </div>
+            <p id="adminAuthError" class="quote-inline-error" role="alert" hidden></p>
+          </form>
+        </div>
+
+        <div id="adminDashboardContent" hidden>
+          <div class="subpage-card" style="margin-bottom: 24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+              <h3 style="margin:0;">Submitted Business Applications &amp; Enquiries (<span id="adminTotalCount">0</span>)</h3>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <select id="adminFilterType" class="standard-input" style="height:38px; width:auto;" onchange="renderAdminTables()">
+                  <option value="all">All Submission Types</option>
+                  <option value="business_account">Business Account Registrations</option>
+                  <option value="credit_billing">Credit &amp; Monthly Billing</option>
+                  <option value="volume_discount">Volume Discounts</option>
+                  <option value="ecommerce_integration">E-commerce Integrations</option>
+                  <option value="account_manager">Dedicated Account Manager</option>
+                  <option value="service_enquiry">E-commerce &amp; Bulk Service Enquiries</option>
+                </select>
+                <button type="button" class="btn btn-outline" onclick="loadAdminSubmissions()">Refresh List</button>
+              </div>
+            </div>
+
+            <div class="rates-table-wrapper">
+              <table class="rates-comparison-table" id="adminSubmissionsTable">
+                <thead>
+                  <tr>
+                    <th>Reference ID</th>
+                    <th>Type</th>
+                    <th>Business / Company</th>
+                    <th>Authorized Contact</th>
+                    <th>Key Details</th>
+                    <th>Submitted</th>
+                    <th>Current Status</th>
+                    <th>Update Status</th>
+                  </tr>
+                </thead>
+                <tbody id="adminSubmissionsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Interactive Global Countries List Modal -->
+  <div class="modal-overlay" id="countriesModal" onclick="closeModal('countriesModal')">
+    <div class="modal-card countries-view-card" role="dialog" aria-modal="true" aria-labelledby="countriesModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="countriesModalTitle">Ship to 200+ Destinations Worldwide</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countriesModal')">&times;</button>
+      </div>
+      <p class="modal-sub">Trisys Express provides door-to-door delivery with live tracking &amp; customs assistance across all major global zones:</p>
+      <div class="destinations-grid" id="destinationsGrid"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('countriesModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal" onclick="closeModal('searchModal')">
+    <div class="modal-card search-card" role="dialog" aria-modal="true" aria-label="Search" onclick="event.stopPropagation()">
+      <div class="search-bar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke-width="1.8"/><path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search services, countries or enter a tracking number..." autocomplete="off" aria-label="Search">
+        <kbd class="search-kbd">Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults" role="listbox"></div>
+    </div>
+  </div>
+
+  <!-- Business Solutions Modal -->
+  <div class="modal-overlay" id="businessModal" onclick="closeModal('businessModal')">
+    <div class="modal-card business-card" role="dialog" aria-modal="true" aria-labelledby="businessTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="businessTitle">Business Solutions</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('businessModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-lead">Scale your international shipping with dedicated pricing, bulk pickups and a single dashboard for every shipment.</p>
+        <div class="biz-grid">
+          <a href="/business/volume-discounts" class="biz-item" data-biz-action="volume-discounts" onclick="event.preventDefault(); navigateBusinessSolution('volume-discounts')">
+            <strong>Volume Discounts</strong>
+            <span>Tiered pricing that drops as your monthly shipments grow.</span>
+          </a>
+          <a href="/business/ecommerce-integrations" class="biz-item" data-biz-action="ecommerce-integrations" onclick="event.preventDefault(); navigateBusinessSolution('ecommerce-integrations')">
+            <strong>E-commerce Integrations</strong>
+            <span>Shopify &amp; WooCommerce plugins with auto label generation.</span>
+          </a>
+          <a href="/business/account-manager" class="biz-item" data-biz-action="account-manager" onclick="event.preventDefault(); navigateBusinessSolution('account-manager')">
+            <strong>Dedicated Account Manager</strong>
+            <span>One point of contact for pickups, customs and claims.</span>
+          </a>
+          <a href="/business/credit-billing" class="biz-item" data-biz-action="credit-billing" onclick="event.preventDefault(); navigateBusinessSolution('credit-billing')">
+            <strong>Credit &amp; Monthly Billing</strong>
+            <span>Consolidated invoices with GST-compliant billing.</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-biz-action="bulk" onclick="navigateBusinessSolution('bulk')">Bulk &amp; Commercial</button>
+        <button type="button" class="btn btn-primary" data-biz-action="register" onclick="navigateBusinessSolution('register')">Open Business Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Centre Modal -->
+  <div class="modal-overlay" id="helpModal" onclick="closeModal('helpModal')">
+    <div class="modal-card help-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="helpTitle">Help Centre</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('helpModal')">&times;</button>
+      </div>
+      <div class="modal-body help-body">
+        <section id="help-faq">
+          <h4 class="help-heading">Frequently Asked Questions</h4>
+          <details class="faq-item" open>
+            <summary>How long does international delivery take?</summary>
+            <p>Express Air delivers in 3–4 business days to most countries. Economy takes 6–8 days and Next Flight Out 2–3 days.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I track my shipment?</summary>
+            <p>Use the Track Shipment tab on the home page and enter your AWB / tracking number for live updates.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I send medicines abroad?</summary>
+            <p>Yes. Prescription medicines can be shipped with a valid doctor's prescription and purchase bill. Our team helps with customs paperwork.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you offer doorstep pickup?</summary>
+            <p>Yes, free doorstep pickup is available across major Indian cities. Book a slot from the Schedule Pickup tab.</p>
+          </details>
+        </section>
+
+        <section id="help-customs">
+          <h4 class="help-heading">Customs &amp; Documents</h4>
+          <ul class="help-list">
+            <li>Government photo ID (Aadhaar, PAN or Passport) of the sender</li>
+            <li>Commercial or proforma invoice for parcels with value</li>
+            <li>Prescription &amp; bill for medicine shipments</li>
+            <li>KYC documents for business / bulk accounts</li>
+          </ul>
+        </section>
+
+        <section id="help-contact">
+          <h4 class="help-heading">Contact Support (24/7)</h4>
+          <div class="contact-grid">
+            <a class="contact-item" href="tel:+911800000000"><strong>Call</strong><span>1800-000-0000</span></a>
+            <a class="contact-item" href="mailto:support@trisysexpress.com"><strong>Email</strong><span>support@trisysexpress.com</span></a>
+            <a class="contact-item" href="https://wa.me/911800000000" target="_blank" rel="noopener"><strong>WhatsApp</strong><span>Chat with us</span></a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal (Login) -->
+  <div class="modal-overlay" id="authModal" onclick="closeModal('authModal')">
+    <div class="modal-card auth-card" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle">Sign in to Trisys Express</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('authModal')">&times;</button>
+      </div>
+      <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="input-field" id="nameFieldGroup" hidden>
+          <label for="authName">Full Name</label>
+          <input type="text" id="authName" placeholder="John Doe" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authEmail">Email Address</label>
+          <input type="email" id="authEmail" required placeholder="name@company.com" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" class="standard-input">
+        </div>
+        <p id="authModalError" class="quote-inline-error" role="alert" hidden></p>
+        <div id="authModalStatusBox" hidden></div>
+        <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/script.js?v=6"></script>
+</body>
+</html>

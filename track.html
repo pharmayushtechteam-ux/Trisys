@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Shipment | TRISYS EXPRESS</title>
+  <meta name="description" content="Track your international shipment with Trisys Express using your Airway Bill (AWB) or tracking reference number.">
+  <meta name="theme-color" content="#EA1D25">
+  <link rel="icon" type="image/png" href="assets/trisys_logo_transparent.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=6">
+</head>
+<body class="subpage-body" data-page="track">
+
+  <a href="#trackMainContent" class="skip-link">Skip to content</a>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-logo" title="TRISYS EXPRESS">
+        <img src="assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="logo-img">
+      </a>
+
+      <nav class="nav-menu" id="navMenu" aria-label="Main navigation">
+        <a href="/" class="nav-item" data-nav="home">Home</a>
+
+        <div class="nav-dropdown" data-nav="ship">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-ship">
+            Ship
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-ship">
+            <a href="/quote" class="dropdown-link" data-tab="quote">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h3M13 15h3"/></svg></span>
+              <span class="dd-text"><strong>Get a Quote</strong><small>Instant rates to 200+ countries</small></span>
+            </a>
+            <a href="/schedule-pickup" class="dropdown-link" data-tab="pickup">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Schedule Pickup</strong><small>Doorstep collection, same day</small></span>
+            </a>
+            <a href="/track" class="dropdown-link active" data-tab="track" aria-current="page">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Track Shipment</strong><small>Live status with your AWB number</small></span>
+            </a>
+            <a href="/rates" class="dropdown-link" data-tab="rates">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></span>
+              <span class="dd-text"><strong>Find Rates</strong><small>Compare Economy, Express &amp; NFO</small></span>
+            </a>
+          </div>
+        </div>
+
+        <a href="/track" class="nav-item active" data-tab="track" data-nav="track" aria-current="page">Track</a>
+        <a href="/rates" class="nav-item" data-tab="rates" data-nav="rates">Rates</a>
+
+        <!-- Services dropdown -->
+        <div class="nav-dropdown" data-nav="services">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-services">
+            Services
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-services">
+            <a href="/quote?type=document" class="dropdown-link" data-service="document">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
+              <span class="dd-text"><strong>Document Courier</strong><small>Certificates, contracts, passports</small></span>
+            </a>
+            <a href="/quote?type=parcel" class="dropdown-link" data-service="parcel">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Parcel Shipping</strong><small>Personal &amp; business parcels</small></span>
+            </a>
+            <a href="/quote?type=medicine" class="dropdown-link" data-service="medicine">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <span class="dd-text"><strong>Medicine Courier</strong><small>Compliant prescription shipping</small></span>
+            </a>
+            <a href="/quote?type=ecommerce" class="dropdown-link" data-service="ecommerce">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h3l2.5 11H19l2.5-9H7"/></svg></span>
+              <span class="dd-text"><strong>E-commerce Logistics</strong><small>Cross-border store fulfilment</small></span>
+            </a>
+            <a href="/quote?type=bulk" class="dropdown-link" data-service="bulk">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="12" width="6" height="6" rx="1"/><path d="M3 20h18"/></svg></span>
+              <span class="dd-text"><strong>Bulk &amp; Commercial</strong><small>B2B cargo and pallets</small></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown" data-nav="countries">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-countries">
+            Countries
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-countries" id="dd-countries">
+            <p class="dd-heading">Popular destinations</p>
+            <div class="dd-country-grid" id="navCountries"></div>
+            <a href="#countries" class="dd-footer-link" data-modal="countriesModal">
+              View all 200+ countries
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <a href="#business" class="nav-item" data-modal="businessModal" data-nav="business">Business Solutions</a>
+
+        <div class="nav-dropdown" data-nav="help">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-help">
+            Help
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-right" id="dd-help">
+            <a href="/help/faqs" class="dropdown-link" data-help-page="faqs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+              <span class="dd-text"><strong>FAQs</strong><small>Answers to common questions</small></span>
+            </a>
+            <a href="/help/customs-documents" class="dropdown-link" data-help-page="customs">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="dd-text"><strong>Customs &amp; Documents</strong><small>What you need to ship abroad</small></span>
+            </a>
+            <a href="/help/contact-support" class="dropdown-link" data-help-page="contact">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+              <span class="dd-text"><strong>Contact Support</strong><small>24/7 phone, email &amp; WhatsApp</small></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn search-btn" aria-label="Search" onclick="toggleSearch()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="nav-svg" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" stroke-width="1.8"/>
+            <path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline" onclick="openAuthModal('login')">Login</button>
+        <button class="btn btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="subpage-main" id="trackMainContent">
+    <div class="container">
+
+      <!-- Breadcrumb & Share Bar -->
+      <div class="subpage-topbar">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <span aria-current="page">Track Shipment</span>
+        </nav>
+
+        <div class="share-toolbar">
+          <span class="share-label">Shareable Link:</span>
+          <input type="text" id="shareUrlInput" class="share-url-input" readonly aria-label="Shareable page URL">
+          <button type="button" class="btn-share-action" onclick="shareCurrentPageLink('Trisys Express Shipment Tracking')">
+            Copy Link
+          </button>
+          <button type="button" class="btn-share-action whatsapp" onclick="shareViaWhatsApp()">WhatsApp</button>
+          <button type="button" class="btn-share-action" onclick="shareViaEmail()">Email</button>
+        </div>
+      </div>
+
+      <!-- Widget Navigation Tabs Bar -->
+      <div class="quote-card" style="margin-bottom: 24px;">
+        <div class="quote-tabs" role="tablist" aria-label="Shipping tools">
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" aria-controls="tabQuote" id="tab-quote" data-tab="quote">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect height="16" rx="2" width="16" x="4" y="4"></rect>
+              <line x1="8" x2="16" y1="8" y2="8"></line>
+              <line x1="8" x2="16" y1="12" y2="12"></line>
+              <line x1="8" x2="12" y1="16" y2="16"></line>
+            </svg>
+            <span>Get a Quote</span>
+          </button>
+          <button type="button" class="quote-tab active" role="tab" aria-selected="true" aria-controls="tabTrack" id="tab-track" data-tab="track">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Track Shipment</span>
+          </button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" aria-controls="tabPickup" id="tab-pickup" data-tab="pickup">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+              <line x1="16" x2="16" y1="2" y2="6"></line>
+              <line x1="8" x2="8" y1="2" y2="6"></line>
+              <line x1="3" x2="21" y1="10" y2="10"></line>
+            </svg>
+            <span>Schedule Pickup</span>
+          </button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" aria-controls="tabRates" id="tab-rates" data-tab="rates">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="12" x2="12" y1="1" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <span>Find Rates</span>
+          </button>
+        </div>
+
+        <div class="quote-body">
+          <form class="inline-form" onsubmit="event.preventDefault(); lookupTrackingStatus();">
+            <div class="inline-field grow">
+              <label class="field-label" for="trackingInput">Enter Shipment Tracking Number or Airway Bill (AWB)</label>
+              <input type="text" id="trackingInput" placeholder="e.g. TRISYS-84920412" class="standard-input" required>
+            </div>
+            <div class="inline-field">
+              <button type="submit" class="btn-quote">
+                <span>Track Shipment</span>
+                <svg class="arrow-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" x2="19" y1="12" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </form>
+          <p id="trackErrorBox" class="quote-inline-error" role="alert" hidden></p>
+        </div>
+      </div>
+
+      <!-- Tracking Status Card -->
+      <div class="subpage-card" id="trackResultContainer">
+        <div class="track-status-header">
+          <div>
+            <span class="section-badge" id="trackRecordTypeBadge">Shipment Tracking Lookup</span>
+            <h2>Tracking Reference: <span id="trackAwbNumber">Not Queried</span></h2>
+            <p class="subpage-sub" id="trackSubtitleText">Enter your Airway Bill (AWB) or Trisys Pickup/Quote Reference (`TRISYS-PKP-*` / `TRISYS-QTE-*`) above and click <strong>Track Shipment</strong>.</p>
+          </div>
+          <a href="/" class="btn btn-outline">← Return to Quote Page</a>
+        </div>
+
+        <div id="trackDetailsContent" hidden style="margin-top: 16px;"></div>
+
+        <div class="pickup-confirmed-banner" id="trackApiBanner" style="background:#fff5f5; border-color:#fecaca; color:#1f2937; margin-top:16px;">
+          <strong id="trackApiBannerTitle" style="color:var(--primary-red); display:block; margin-bottom:4px;">Live Tracking API Connection Required</strong>
+          <p id="trackApiBannerText" style="font-size:0.92rem; line-height:1.55; margin:0;">
+            Local pickup bookings (`TRISYS-PKP-*`), quote requests (`TRISYS-QTE-*`), and service enquiries (`TRISYS-ECOM-*` / `TRISYS-BULK-*`) are retrieved directly from the backend database. External carrier AWB scan events require live carrier tracking API credentials (`TRISYS_CARRIER_API_KEY`); no fabricated shipment milestones are displayed.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Interactive Global Countries List Modal -->
+  <div class="modal-overlay" id="countriesModal" onclick="closeModal('countriesModal')">
+    <div class="modal-card countries-view-card" role="dialog" aria-modal="true" aria-labelledby="countriesModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="countriesModalTitle">Ship to 200+ Destinations Worldwide</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countriesModal')">&times;</button>
+      </div>
+      <p class="modal-sub">Trisys Express provides door-to-door delivery with live tracking &amp; customs assistance across all major global zones:</p>
+      <div class="destinations-grid" id="destinationsGrid"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('countriesModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal" onclick="closeModal('searchModal')">
+    <div class="modal-card search-card" role="dialog" aria-modal="true" aria-label="Search" onclick="event.stopPropagation()">
+      <div class="search-bar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke-width="1.8"/><path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search services, countries or enter a tracking number..." autocomplete="off" aria-label="Search">
+        <kbd class="search-kbd">Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults" role="listbox"></div>
+    </div>
+  </div>
+
+  <!-- Business Solutions Modal -->
+  <div class="modal-overlay" id="businessModal" onclick="closeModal('businessModal')">
+    <div class="modal-card business-card" role="dialog" aria-modal="true" aria-labelledby="businessTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="businessTitle">Business Solutions</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('businessModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-lead">Scale your international shipping with dedicated pricing, bulk pickups and a single dashboard for every shipment.</p>
+        <div class="biz-grid">
+          <a href="/business/volume-discounts" class="biz-item" data-biz-action="volume-discounts" onclick="event.preventDefault(); navigateBusinessSolution('volume-discounts')">
+            <strong>Volume Discounts</strong>
+            <span>Tiered pricing that drops as your monthly shipments grow.</span>
+          </a>
+          <a href="/business/ecommerce-integrations" class="biz-item" data-biz-action="ecommerce-integrations" onclick="event.preventDefault(); navigateBusinessSolution('ecommerce-integrations')">
+            <strong>E-commerce Integrations</strong>
+            <span>Shopify &amp; WooCommerce plugins with auto label generation.</span>
+          </a>
+          <a href="/business/account-manager" class="biz-item" data-biz-action="account-manager" onclick="event.preventDefault(); navigateBusinessSolution('account-manager')">
+            <strong>Dedicated Account Manager</strong>
+            <span>One point of contact for pickups, customs and claims.</span>
+          </a>
+          <a href="/business/credit-billing" class="biz-item" data-biz-action="credit-billing" onclick="event.preventDefault(); navigateBusinessSolution('credit-billing')">
+            <strong>Credit &amp; Monthly Billing</strong>
+            <span>Consolidated invoices with GST-compliant billing.</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-biz-action="bulk" onclick="navigateBusinessSolution('bulk')">Bulk &amp; Commercial</button>
+        <button type="button" class="btn btn-primary" data-biz-action="register" onclick="navigateBusinessSolution('register')">Open Business Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Centre Modal -->
+  <div class="modal-overlay" id="helpModal" onclick="closeModal('helpModal')">
+    <div class="modal-card help-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="helpTitle">Help Centre</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('helpModal')">&times;</button>
+      </div>
+      <div class="modal-body help-body">
+        <section id="help-faq">
+          <h4 class="help-heading">Frequently Asked Questions</h4>
+          <details class="faq-item" open>
+            <summary>How long does international delivery take?</summary>
+            <p>Express Air delivers in 3–4 business days to most countries. Economy takes 6–8 days and Next Flight Out 2–3 days.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I track my shipment?</summary>
+            <p>Use the Track Shipment tab on the home page and enter your AWB / tracking number for live updates.</p>
+          </details>
+        </section>
+        <section id="help-customs">
+          <h4 class="help-heading">Customs &amp; Documents</h4>
+          <ul class="help-list">
+            <li>Government photo ID (Aadhaar, PAN or Passport) of the sender</li>
+            <li>Commercial or proforma invoice for parcels with value</li>
+            <li>Prescription &amp; bill for medicine shipments</li>
+            <li>KYC documents for business / bulk accounts</li>
+          </ul>
+        </section>
+        <section id="help-contact">
+          <h4 class="help-heading">Contact Support (24/7)</h4>
+          <div class="contact-grid">
+            <a class="contact-item" href="tel:+911800000000"><strong>Call</strong><span>1800-000-0000</span></a>
+            <a class="contact-item" href="mailto:support@trisysexpress.com"><strong>Email</strong><span>support@trisysexpress.com</span></a>
+            <a class="contact-item" href="https://wa.me/911800000000" target="_blank" rel="noopener"><strong>WhatsApp</strong><span>Chat with us</span></a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal" onclick="closeModal('authModal')">
+    <div class="modal-card auth-card" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle">Sign in to Trisys Express</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('authModal')">&times;</button>
+      </div>
+      <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="input-field" id="nameFieldGroup" hidden>
+          <label for="authName">Full Name</label>
+          <input type="text" id="authName" placeholder="John Doe" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authEmail">Email Address</label>
+          <input type="email" id="authEmail" required placeholder="name@company.com" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" class="standard-input">
+        </div>
+        <p id="authModalError" class="quote-inline-error" role="alert" hidden></p>
+        <div id="authModalStatusBox" hidden></div>
+        <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/script.js?v=6"></script>
+</body>
+</html>

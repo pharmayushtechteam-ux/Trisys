@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trisys Express - Send parcels, documents and medicines from India to 200+ countries with fast, safe and reliable delivery.">
+  <meta name="theme-color" content="#EA1D25">
+  <title>TRISYS EXPRESS - Global Shipping Made Simple</title>
+  <link rel="icon" type="image/png" href="assets/trisys_logo_transparent.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+
+  <!-- Preload hero artwork for a faster first paint -->
+  <link rel="preload" as="image" href="assets/hero_stitch_bg.jpg">
+
+  <link rel="stylesheet" href="/styles.css?v=6">
+</head>
+<body>
+
+  <a href="#home" class="skip-link">Skip to content</a>
+
+  <!-- Full-Width Top Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+
+      <!-- Brand Logo (Left) -->
+      <a href="#home" class="brand-logo" title="TRISYS EXPRESS">
+        <img src="assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="logo-img">
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" id="navMenu" aria-label="Main navigation">
+
+        <a href="#home" class="nav-item active" data-nav="home">Home</a>
+
+        <!-- Ship dropdown -->
+        <div class="nav-dropdown" data-nav="ship">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-ship">
+            Ship
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-ship">
+            <a href="/quote" class="dropdown-link" data-tab="quote">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h3M13 15h3"/></svg></span>
+              <span class="dd-text"><strong>Get a Quote</strong><small>Instant rates to 200+ countries</small></span>
+            </a>
+            <a href="/schedule-pickup" class="dropdown-link" data-tab="pickup">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="dd-text"><strong>Schedule Pickup</strong><small>Doorstep collection, same day</small></span>
+            </a>
+            <a href="/track" class="dropdown-link" data-tab="track">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Track Shipment</strong><small>Live status with your AWB number</small></span>
+            </a>
+            <a href="/rates" class="dropdown-link" data-tab="rates">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></span>
+              <span class="dd-text"><strong>Find Rates</strong><small>Compare Economy, Express &amp; NFO</small></span>
+            </a>
+          </div>
+        </div>
+
+        <a href="/track" class="nav-item" data-tab="track" data-nav="track">Track</a>
+        <a href="/rates" class="nav-item" data-tab="rates" data-nav="rates">Rates</a>
+
+        <!-- Services dropdown -->
+        <div class="nav-dropdown" data-nav="services">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-services">
+            Services
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel" id="dd-services">
+            <a href="/quote?type=document" class="dropdown-link" data-service="document">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
+              <span class="dd-text"><strong>Document Courier</strong><small>Certificates, contracts, passports</small></span>
+            </a>
+            <a href="/quote?type=parcel" class="dropdown-link" data-service="parcel">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
+              <span class="dd-text"><strong>Parcel Shipping</strong><small>Personal &amp; business parcels</small></span>
+            </a>
+            <a href="/quote?type=medicine" class="dropdown-link" data-service="medicine">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <span class="dd-text"><strong>Medicine Courier</strong><small>Compliant prescription shipping</small></span>
+            </a>
+            <a href="/quote?type=ecommerce" class="dropdown-link" data-service="ecommerce">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h3l2.5 11H19l2.5-9H7"/></svg></span>
+              <span class="dd-text"><strong>E-commerce Logistics</strong><small>Cross-border store fulfilment</small></span>
+            </a>
+            <a href="/quote?type=bulk" class="dropdown-link" data-service="bulk">
+              <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="12" width="6" height="6" rx="1"/><path d="M3 20h18"/></svg></span>
+              <span class="dd-text"><strong>Bulk &amp; Commercial</strong><small>B2B cargo and pallets</small></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Countries dropdown -->
+        <div class="nav-dropdown" data-nav="countries">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-countries">
+            Countries
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-countries" id="dd-countries">
+            <p class="dd-heading">Popular destinations</p>
+            <div class="dd-country-grid" id="navCountries">
+              <!-- Injected via JavaScript -->
+            </div>
+            <a href="#countries" class="dd-footer-link" data-modal="countriesModal">
+              View all 200+ countries
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M9 4L13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <a href="#business" class="nav-item" data-modal="businessModal" data-nav="business">Business Solutions</a>
+
+        <!-- Help dropdown -->
+        <div class="nav-dropdown" data-nav="help">
+          <button type="button" class="nav-item has-dropdown" aria-expanded="false" aria-controls="dd-help">
+            Help
+            <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown-panel dropdown-right" id="dd-help">
+            <a href="/help/faqs" class="dropdown-link" data-help-page="faqs">
+              <span class="dd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+              <span class="dd-text"><strong>FAQs</strong><small>Answers to common questions</small></span>
+            </a>
+            <a href="/help/customs-documents" class="dropdown-link" data-help-page="customs">
+              <span class="dd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="dd-text"><strong>Customs &amp; Documents</strong><small>What you need to ship abroad</small></span>
+            </a>
+            <a href="/help/contact-support" class="dropdown-link" data-help-page="contact">
+              <span class="dd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+              <span class="dd-text"><strong>Contact Support</strong><small>24/7 phone, email &amp; WhatsApp</small></span>
+            </a>
+          </div>
+        </div>
+
+      </nav>
+
+      <!-- Right Actions (Search, Login, Sign Up) -->
+      <div class="nav-actions">
+        <!-- Search Button -->
+        <button class="icon-btn search-btn" aria-label="Search" onclick="toggleSearch()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" class="nav-svg">
+            <circle cx="9" cy="9" r="6" stroke-width="1.8"/>
+            <path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <!-- Login Button -->
+        <button class="btn btn-outline" onclick="openAuthModal('login')">Login</button>
+
+        <!-- Sign Up Button -->
+        <button class="btn btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Full-Width Main Content Wrapper -->
+  <main class="main-wrapper">
+
+    <!-- BEGIN: Main Shipping Card (Stitch layout: rounded white card on grey page) -->
+    <div class="hero-card" data-purpose="main-shipping-card">
+
+      <!-- Top Hero Section with Stitch Background Artwork -->
+      <section class="hero-section" id="home" data-purpose="hero-banner-content">
+
+        <!-- Hero Content (Text + 4 Benefits matching Stitch) -->
+        <div class="hero-content">
+          <h1 class="hero-title anim-fade-up" style="--delay: 0.05s">
+            <span class="title-dark">Global Shipping</span>
+            <span class="title-red">Made Simple</span>
+          </h1>
+
+          <p class="hero-subtitle anim-fade-up" style="--delay: 0.15s">
+            Send parcels, documents and medicines from India to 200+ countries with fast, safe and reliable delivery.
+          </p>
+
+          <!-- Service Benefits Row matching Stitch Highlights -->
+          <ul class="hero-features anim-fade-up" style="--delay: 0.25s" data-purpose="service-highlights">
+
+            <!-- Benefit 1: Fast Delivery (Red Truck) -->
+            <li class="feature-item">
+              <div class="feature-icon is-red">
+                <svg class="feature-svg feature-svg-lg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect height="12" rx="1.5" width="13" x="1" y="4"></rect>
+                  <path d="M14 8h4.5l3.5 4.5v3.5a1.5 1.5 0 0 1-1.5 1.5H18"></path>
+                  <circle cx="6" cy="18" r="2"></circle>
+                  <circle cx="16" cy="18" r="2"></circle>
+                  <line stroke-width="1.5" x1="1" x2="3" y1="8" y2="8"></line>
+                  <line stroke-width="1.5" x1="0" x2="2.5" y1="11" y2="11"></line>
+                </svg>
+              </div>
+              <span class="feature-label">Fast<br/>Delivery</span>
+            </li>
+
+            <!-- Benefit 2: Secure Handling -->
+            <li class="feature-item">
+              <div class="feature-icon">
+                <svg class="feature-svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <span class="feature-label">Secure<br/>Handling</span>
+            </li>
+
+            <!-- Benefit 3: Global Coverage -->
+            <li class="feature-item">
+              <div class="feature-icon">
+                <svg class="feature-svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" x2="22" y1="12" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+              </div>
+              <span class="feature-label">Global<br/>Coverage</span>
+            </li>
+
+            <!-- Benefit 4: 24/7 Support -->
+            <li class="feature-item">
+              <div class="feature-icon">
+                <svg class="feature-svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                </svg>
+              </div>
+              <span class="feature-label">24/7<br/>Support</span>
+            </li>
+
+          </ul>
+        </div>
+
+      </section>
+      <!-- END: Top Hero Section -->
+
+      <!-- BEGIN: Calculator & Booking Bottom Container -->
+      <div class="quote-card-container anim-fade-up" style="--delay: 0.35s" id="ship">
+
+        <!-- Navigation Tabs Row matching Stitch -->
+        <div class="quote-tabs" role="tablist" aria-label="Shipping Services" data-purpose="feature-tabs">
+
+          <!-- Tab 1: Get a Quote (Active) -->
+          <button class="quote-tab active" type="button" role="tab" id="tab-quote" aria-controls="tabQuote" aria-selected="true" data-tab="quote">
+            <svg class="tab-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 18H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1zm-2-13H8v2h8V7zm0 4H8v2h8v-2zm-5 4H8v2h3v-2zm5 0h-3v2h3v-2z"></path>
+            </svg>
+            <span>Get a Quote</span>
+          </button>
+
+          <span class="tab-separator" aria-hidden="true"></span>
+
+          <!-- Tab 2: Track Shipment -->
+          <button class="quote-tab" type="button" role="tab" id="tab-track" aria-controls="tabTrack" aria-selected="false" tabindex="-1" data-tab="track">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" x2="12" y1="22.08" y2="12"></line>
+            </svg>
+            <span>Track Shipment</span>
+          </button>
+
+          <span class="tab-separator" aria-hidden="true"></span>
+
+          <!-- Tab 3: Schedule Pickup -->
+          <button class="quote-tab" type="button" role="tab" id="tab-pickup" aria-controls="tabPickup" aria-selected="false" tabindex="-1" data-tab="pickup">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path>
+              <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+            <span>Schedule Pickup</span>
+          </button>
+
+          <span class="tab-separator" aria-hidden="true"></span>
+
+          <!-- Tab 4: Find Rates -->
+          <button class="quote-tab" type="button" role="tab" id="tab-rates" aria-controls="tabRates" aria-selected="false" tabindex="-1" data-tab="rates">
+            <svg class="tab-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <line x1="7" x2="7.01" y1="7" y2="7"></line>
+            </svg>
+            <span>Find Rates</span>
+          </button>
+
+        </div>
+
+        <!-- Shipping Quote Interactive Form Card -->
+        <div class="quote-card" data-purpose="quote-form-card">
+
+          <!-- Tab Pane 1: Get a Quote (Active Default) -->
+          <div class="tab-content active" id="tabQuote" role="tabpanel" aria-labelledby="tab-quote">
+            <form class="quote-form" id="quoteForm" novalidate onsubmit="event.preventDefault(); navigateToQuotePage();">
+
+              <!-- Route Section: From -> Swap -> To -->
+              <div class="route-group">
+
+                <!-- From Country -->
+                <div class="form-group field-from">
+                  <span class="field-label" id="fromLabel">From</span>
+                  <button type="button" class="select-box" aria-labelledby="fromLabel fromCountryName" onclick="toggleCountryDropdown('from')">
+                    <span class="select-main">
+                      <span class="flag-icon" id="fromFlag">
+                        <!-- Indian Flag SVG matching Stitch -->
+                        <svg class="flag-svg" viewBox="0 0 640 480">
+                          <rect fill="#f4c430" height="160" width="640"></rect>
+                          <rect fill="#ffffff" height="160" width="640" y="160"></rect>
+                          <rect fill="#006400" height="160" width="640" y="320"></rect>
+                          <circle cx="320" cy="240" fill="none" r="45" stroke="#000080" stroke-width="8"></circle>
+                          <circle cx="320" cy="240" fill="#000080" r="10"></circle>
+                        </svg>
+                      </span>
+                      <span class="select-value" id="fromCountryName">India</span>
+                    </span>
+                    <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Swap Route Direction Button -->
+                <div class="swap-wrapper">
+                  <button type="button" class="swap-btn" onclick="swapCountries()" title="Swap origin and destination" aria-label="Swap origin and destination">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4" transform="rotate(90 12 12)"></path>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- To Country -->
+                <div class="form-group field-to">
+                  <span class="field-label" id="toLabel">To</span>
+                  <button type="button" class="select-box" aria-labelledby="toLabel toCountryName" onclick="toggleCountryDropdown('to')">
+                    <span class="select-main">
+                      <span class="flag-icon" id="toFlag">
+                        <!-- UK Flag SVG matching Stitch -->
+                        <svg class="flag-svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+                        <!-- flag paths rendered above -->
+                        <!-- flag paths rendered above -->
+                        <!-- flag paths rendered above -->
+                        </svg>
+                      </span>
+                      <span class="select-value" id="toCountryName">United Kingdom</span>
+                    </span>
+                    <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Package Type Selector matching Stitch -->
+              <div class="form-group field-package">
+                <span class="field-label" id="pkgLabel">Package Type</span>
+                <div class="package-options" role="radiogroup" aria-labelledby="pkgLabel" data-purpose="package-types-options">
+
+                  <!-- Option 1: Document (Active by default) -->
+                  <button type="button" class="pkg-btn active" role="radio" aria-checked="true" data-type="document" onclick="selectPackageType('document', this)">
+                    <span class="active-dot"></span>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" x2="8" y1="13" y2="13"></line>
+                      <line x1="16" x2="8" y1="17" y2="17"></line>
+                    </svg>
+                    <span class="pkg-label">Document</span>
+                  </button>
+
+                  <!-- Option 2: Parcel -->
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="parcel" onclick="selectPackageType('parcel', this)">
+                    <span class="active-dot"></span>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                      <line x1="12" x2="12" y1="22.08" y2="12"></line>
+                    </svg>
+                    <span class="pkg-label">Parcel</span>
+                  </button>
+
+                  <!-- Option 3: Medicine -->
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="medicine" onclick="selectPackageType('medicine', this)">
+                    <span class="active-dot"></span>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+                      <line x1="8.5" x2="15.5" y1="8.5" y2="15.5"></line>
+                    </svg>
+                    <span class="pkg-label">Medicine</span>
+                  </button>
+
+                  <!-- Option 4: Other -->
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="other" onclick="selectPackageType('other', this)">
+                    <span class="active-dot"></span>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect height="7" rx="1.5" width="7" x="3" y="3"></rect>
+                      <rect height="7" rx="1.5" width="7" x="14" y="3"></rect>
+                      <rect height="7" rx="1.5" width="7" x="14" y="14"></rect>
+                      <rect height="7" rx="1.5" width="7" x="3" y="14"></rect>
+                    </svg>
+                    <span class="pkg-label">Other</span>
+                  </button>
+
+                </div>
+              </div>
+
+              <!-- Weight Input -->
+              <div class="form-group field-weight">
+                <label class="field-label" for="weightInput">Weight</label>
+                <div class="weight-input-box">
+                  <input type="number" id="weightInput" value="1" min="0.1" step="0.1" class="weight-number" aria-describedby="quoteFormError" oninput="handleWeightInput(this.value)" required>
+                  <button type="button" class="weight-unit-select" onclick="toggleWeightUnit()" aria-label="Change weight unit" title="Switch between kg and lb">
+                    <span id="currentWeightUnit">kg</span>
+                    <svg class="dropdown-arrow-small" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Submit CTA Button -->
+              <div class="form-group field-action">
+                <button type="submit" class="btn-quote">
+                  <span>Get Quote</span>
+                  <svg class="arrow-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                    <line x1="5" x2="19" y1="12" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- Tab Pane 2: Track Shipment -->
+          <div class="tab-content" id="tabTrack" role="tabpanel" aria-labelledby="tab-track" hidden>
+            <form class="inline-form" onsubmit="event.preventDefault(); navigateToTrackPage();">
+              <div class="inline-field grow">
+                <label class="field-label" for="trackingInput">Airway Bill (AWB) or Tracking Reference</label>
+                <input type="text" id="trackingInput" placeholder="e.g. TRISYS-84920412" value="TRISYS-84920412" class="standard-input" required>
+              </div>
+              <div class="inline-field">
+                <button type="submit" class="btn-quote">
+                  <span>Track Shipment</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tab Pane 3: Schedule Pickup -->
+          <div class="tab-content" id="tabPickup" role="tabpanel" aria-labelledby="tab-pickup" hidden>
+            <form class="inline-form" onsubmit="event.preventDefault(); navigateToPickupPage();">
+              <div class="inline-field grow-2">
+                <label class="field-label" for="pickupAddress">Pickup Address &amp; City</label>
+                <input type="text" id="pickupAddress" placeholder="Street, Landmark, City &amp; Pincode" class="standard-input" value="B-14 Sector 62, Noida, UP" required>
+              </div>
+              <div class="inline-field grow">
+                <label class="field-label" for="pickupSlot">Preferred Date &amp; Slot</label>
+                <input type="text" id="pickupSlot" class="standard-input" value="Today, 02:00 PM - 05:00 PM" required>
+              </div>
+              <div class="inline-field">
+                <button type="submit" class="btn-quote">
+                  <span>Book Pickup</span>
+                  <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tab Pane 4: Find Rates -->
+          <div class="tab-content" id="tabRates" role="tabpanel" aria-labelledby="tab-rates" hidden>
+            <div class="rates-preview-inline">
+              <p class="rates-hint">Compare Economy, Express and Next Flight Out courier tariffs across 200+ global destinations.</p>
+              <button type="button" class="btn-quote" onclick="navigateToRatesPage()">
+                <span>Open Rate Calculator</span>
+                <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <!-- END: Shipping Quote Interactive Form Card -->
+
+      </div>
+      <!-- END: Calculator & Booking Bottom Container -->
+
+    </div>
+    <!-- END: Main Shipping Card -->
+
+    <!-- Horizontal Bottom Statistics Strip (5 Items with Dividers) -->
+    <section class="stats-section reveal">
+      <div class="stats-container">
+
+        <!-- Stat 1: 10,000+ Happy Customers -->
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg viewBox="0 0 32 32" fill="none" class="stat-svg" aria-hidden="true">
+              <path d="M16 13C18.2 13 20 11.2 20 9C20 6.8 18.2 5 16 5C13.8 5 12 6.8 12 9C12 11.2 13.8 13 16 13Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 24C8 20 11.6 17 16 17C20.4 17 24 20 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M22 8C23.6 8.5 25 10 25 12C25 14 23.6 15.5 22 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M25 21C26.8 21.8 28 23 28 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M10 8C8.4 8.5 7 10 7 12C7 14 8.4 15.5 10 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M7 21C5.2 21.8 4 23 4 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value" data-count="10000" data-suffix="+">10,000+</h3>
+            <p class="stat-label">Happy Customers</p>
+          </div>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <!-- Stat 2: 200+ Countries -->
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg viewBox="0 0 32 32" fill="none" class="stat-svg" aria-hidden="true">
+              <circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="2"/>
+              <ellipse cx="16" cy="16" rx="5.5" ry="11" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M5.5 16H26.5M7 11H25M7 21H25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value" data-count="200" data-suffix="+">200+</h3>
+            <p class="stat-label">Countries</p>
+          </div>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <!-- Stat 3: Door to Door Delivery -->
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg viewBox="0 0 32 32" fill="none" class="stat-svg" aria-hidden="true">
+              <path d="M16 3L5 9L16 15L27 9L16 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M5 9V22L16 28V15" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M27 9V22L16 28" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M11 6L21 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">Door to Door</h3>
+            <p class="stat-label">Delivery</p>
+          </div>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <!-- Stat 4: Real-time Tracking -->
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg viewBox="0 0 32 32" fill="none" class="stat-svg" aria-hidden="true">
+              <path d="M16 4L6 8V15C6 21.6 10.3 27.7 16 29C21.7 27.7 26 21.6 26 15V8L16 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M11 15.5L14.5 19L21 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">Real-time</h3>
+            <p class="stat-label">Tracking</p>
+          </div>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <!-- Stat 5: 24/7 Customer Support -->
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg viewBox="0 0 32 32" fill="none" class="stat-svg" aria-hidden="true">
+              <path d="M6 17V15C6 9.48 10.48 5 16 5C21.52 5 26 9.48 26 15V17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <rect x="4" y="17" width="5" height="8" rx="2.5" stroke="currentColor" stroke-width="2"/>
+              <rect x="23" y="17" width="5" height="8" rx="2.5" stroke="currentColor" stroke-width="2"/>
+              <path d="M26 21V25C26 26.66 24.66 28 23 28H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="18" cy="28" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">24/7</h3>
+            <p class="stat-label">Customer Support</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+      <div class="services-container">
+
+        <!-- Section Header -->
+        <div class="services-header reveal">
+          <div class="header-left">
+            <div class="section-eyebrow">
+              <span class="eyebrow-line"></span>
+              <span class="eyebrow-text">OUR SERVICES</span>
+            </div>
+            <h2 class="section-title">
+              Shipping Solutions for <span class="highlight-red">Every Need</span>
+            </h2>
+          </div>
+          <a href="#all-services" class="view-all-link" onclick="event.preventDefault(); openServicesModal()">
+            <span>View All Services</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" class="link-arrow" aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- 5 Service Cards Grid -->
+        <div class="services-grid">
+
+          <!-- Card 1: Document Courier -->
+          <button type="button" class="service-card reveal" style="--delay: 0s" onclick="openServiceDetail('document')">
+            <span class="service-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" class="svc-svg" aria-hidden="true">
+                <path d="M6 3H14L18 7V20C18 20.6 17.5 21 17 21H6C5.4 21 5 20.6 5 20V4C5 3.4 5.4 3 6 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M14 3V7H18" stroke="currentColor" stroke-width="1.8"/>
+                <line x1="8" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <line x1="8" y1="16" x2="13" y2="16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="service-card-body">
+              <span class="service-name">Document Courier</span>
+              <span class="service-desc">Fast and secure delivery of important documents.</span>
+            </span>
+            <span class="service-arrow-btn" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Card 2: Parcel Shipping -->
+          <button type="button" class="service-card reveal" style="--delay: 0.06s" onclick="openServiceDetail('parcel')">
+            <span class="service-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" class="svc-svg" aria-hidden="true">
+                <path d="M12 2L3 6.5V17.5L12 22L21 17.5V6.5L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M12 2V22M3 6.5L12 11M21 6.5L12 11" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M7.5 4.25L16.5 8.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="service-card-body">
+              <span class="service-name">Parcel Shipping</span>
+              <span class="service-desc">Send personal or business parcels worldwide.</span>
+            </span>
+            <span class="service-arrow-btn" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Card 3: Medicine Courier -->
+          <button type="button" class="service-card reveal" style="--delay: 0.12s" onclick="openServiceDetail('medicine')">
+            <span class="service-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" class="svc-svg" aria-hidden="true">
+                <rect x="7" y="3" width="7" height="15" rx="3.5" transform="rotate(35 10.5 10.5)" stroke="currentColor" stroke-width="1.8"/>
+                <line x1="6.5" y1="10.5" x2="14.5" y2="10.5" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="17.5" cy="16.5" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+                <line x1="15.5" y1="16.5" x2="19.5" y2="16.5" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            <span class="service-card-body">
+              <span class="service-name">Medicine Courier</span>
+              <span class="service-desc">International medicine shipping with compliance support.</span>
+            </span>
+            <span class="service-arrow-btn" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Card 4: E-commerce Logistics -->
+          <button type="button" class="service-card reveal" style="--delay: 0.18s" onclick="openServiceDetail('ecommerce')">
+            <span class="service-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" class="svc-svg" aria-hidden="true">
+                <circle cx="9" cy="20" r="1.8" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="18" cy="20" r="1.8" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M3 4H6L8.5 15H19L21.5 6H7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="service-card-body">
+              <span class="service-name">E-commerce Logistics</span>
+              <span class="service-desc">Reliable shipping for online businesses.</span>
+            </span>
+            <span class="service-arrow-btn" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Card 5: Bulk & Commercial -->
+          <button type="button" class="service-card reveal" style="--delay: 0.24s" onclick="openServiceDetail('bulk')">
+            <span class="service-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" class="svc-svg" aria-hidden="true">
+                <rect x="4" y="6" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="14" y="6" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="9" y="12" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                <line x1="3" y1="20" x2="21" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 20V22M18 20V22" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="service-card-body">
+              <span class="service-name">Bulk &amp; Commercial</span>
+              <span class="service-desc">Custom solutions for business shipments.</span>
+            </span>
+            <span class="service-arrow-btn" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BEGIN: Worldwide Shipping Banner (Stitch design) -->
+    <section class="banner-section reveal">
+      <aside class="promo-banner" role="region" aria-label="Worldwide Shipping Promotion" data-purpose="international-shipping-strip">
+
+        <!-- Background Layer: Ambient Top-Left Red Flare -->
+        <div class="banner-top-glow" aria-hidden="true"></div>
+        <!-- Background Layer: Center Flowing Ribbon Glow -->
+        <div class="banner-glow-swoosh" aria-hidden="true"></div>
+        <div class="banner-dynamic-curve" aria-hidden="true"></div>
+        <!-- Background Layer: Halftone / Dotted World Map Visual on the Right -->
+        <div class="banner-dotted-matrix" aria-hidden="true"></div>
+
+        <!-- Foreground Content Wrapper -->
+        <div class="banner-inner">
+
+          <!-- Left Content: Globe Icon & Headline Information -->
+          <div class="banner-left" data-purpose="banner-content">
+            <div class="banner-globe-icon" aria-hidden="true">
+              <svg fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9.5"></circle>
+                <line stroke-linecap="round" x1="2.5" x2="21.5" y1="12" y2="12"></line>
+                <ellipse cx="12" cy="12" rx="4.5" ry="9.5"></ellipse>
+                <path d="M4.5 7.2C6.8 8.6 9.3 9.3 12 9.3C14.7 9.3 17.2 8.6 19.5 7.2" stroke-linecap="round"></path>
+                <path d="M4.5 16.8C6.8 15.4 9.3 14.7 12 14.7C14.7 14.7 17.2 15.4 19.5 16.8" stroke-linecap="round"></path>
+              </svg>
+            </div>
+
+            <!-- Text Stack: Main Title and USPs -->
+            <div class="banner-text">
+              <h2 class="banner-title">Ship to 200+ Countries Worldwide</h2>
+              <p class="banner-sub">
+                <span>Competitive rates</span>
+                <span class="divider" aria-hidden="true">|</span>
+                <span>Door-to-Door Delivery</span>
+                <span class="divider" aria-hidden="true">|</span>
+                <span>Customs Support</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Content: Call-to-Action Button -->
+          <div class="banner-right" data-purpose="banner-cta">
+            <button type="button" class="btn-banner" onclick="openCountriesModal()">
+              <span>View Countries</span>
+              <svg class="banner-arrow" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M3 8H13M9 4L13 8L9 12" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </aside>
+    </section>
+    <!-- END: Worldwide Shipping Banner -->
+
+  </main>
+
+  <!-- Toast notification (replaces browser alerts) -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Interactive Country Selector Dropdown Modal -->
+  <div class="modal-overlay" id="countryDropdownModal" onclick="closeModal('countryDropdownModal')">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="countryModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h4 class="modal-title" id="countryModalTitle">Select Country</h4>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countryDropdownModal')">&times;</button>
+      </div>
+      <div class="modal-search">
+        <input type="text" id="countrySearchInput" placeholder="Search countries..." oninput="filterCountries()" aria-label="Search countries">
+      </div>
+      <div class="country-list" id="countryList">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Quote Estimation Result Modal -->
+  <div class="modal-overlay" id="quoteResultModal" onclick="closeModal('quoteResultModal')">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Instant rate estimate" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-brand">
+          <img src="assets/trisys_logo_transparent.png" alt="Trisys" class="modal-logo">
+          <span class="modal-badge">Instant Rate Estimate</span>
+        </div>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('quoteResultModal')">&times;</button>
+      </div>
+      <div class="quote-summary-bar">
+        <span id="routeSummary">India ➔ United States</span>
+        <span id="packageSummary">Document • 1.0 kg</span>
+      </div>
+      <div class="rate-plans" id="ratePlansList">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('quoteResultModal')">Recalculate</button>
+        <button class="btn btn-primary" onclick="proceedToBooking()">Proceed to Ship Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Tracking Modal -->
+  <div class="modal-overlay" id="trackingModal" onclick="closeModal('trackingModal')">
+    <div class="modal-card tracking-card" role="dialog" aria-modal="true" aria-label="Live tracking" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-brand">
+          <img src="assets/trisys_logo_transparent.png" alt="Trisys" class="modal-logo">
+          <span class="modal-badge success">Live Tracking</span>
+        </div>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('trackingModal')">&times;</button>
+      </div>
+      <div class="tracking-details" id="trackingTimeline">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Global Countries List Modal -->
+  <div class="modal-overlay" id="countriesModal" onclick="closeModal('countriesModal')">
+    <div class="modal-card countries-view-card" role="dialog" aria-modal="true" aria-labelledby="countriesModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="countriesModalTitle">Ship to 200+ Destinations Worldwide</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('countriesModal')">&times;</button>
+      </div>
+      <p class="modal-sub">Trisys Express provides door-to-door delivery with live tracking &amp; customs assistance across all major global zones:</p>
+      <div class="destinations-grid" id="destinationsGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('countriesModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal" onclick="closeModal('searchModal')">
+    <div class="modal-card search-card" role="dialog" aria-modal="true" aria-label="Search" onclick="event.stopPropagation()">
+      <div class="search-bar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke-width="1.8"/><path d="M13.5 13.5L18 18" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search services, countries or enter a tracking number..." autocomplete="off" aria-label="Search">
+        <kbd class="search-kbd">Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults" role="listbox">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Solutions Modal -->
+  <div class="modal-overlay" id="businessModal" onclick="closeModal('businessModal')">
+    <div class="modal-card business-card" role="dialog" aria-modal="true" aria-labelledby="businessTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="businessTitle">Business Solutions</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('businessModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-lead">Scale your international shipping with dedicated pricing, bulk pickups and a single dashboard for every shipment.</p>
+        <div class="biz-grid">
+          <a href="/business/volume-discounts" class="biz-item" data-biz-action="volume-discounts" onclick="event.preventDefault(); navigateBusinessSolution('volume-discounts')">
+            <strong>Volume Discounts</strong>
+            <span>Tiered pricing that drops as your monthly shipments grow.</span>
+          </a>
+          <a href="/business/ecommerce-integrations" class="biz-item" data-biz-action="ecommerce-integrations" onclick="event.preventDefault(); navigateBusinessSolution('ecommerce-integrations')">
+            <strong>E-commerce Integrations</strong>
+            <span>Shopify &amp; WooCommerce plugins with auto label generation.</span>
+          </a>
+          <a href="/business/account-manager" class="biz-item" data-biz-action="account-manager" onclick="event.preventDefault(); navigateBusinessSolution('account-manager')">
+            <strong>Dedicated Account Manager</strong>
+            <span>One point of contact for pickups, customs and claims.</span>
+          </a>
+          <a href="/business/credit-billing" class="biz-item" data-biz-action="credit-billing" onclick="event.preventDefault(); navigateBusinessSolution('credit-billing')">
+            <strong>Credit &amp; Monthly Billing</strong>
+            <span>Consolidated invoices with GST-compliant billing.</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-biz-action="bulk" onclick="navigateBusinessSolution('bulk')">Bulk &amp; Commercial</button>
+        <button type="button" class="btn btn-primary" data-biz-action="register" onclick="navigateBusinessSolution('register')">Open Business Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Centre Modal -->
+  <div class="modal-overlay" id="helpModal" onclick="closeModal('helpModal')">
+    <div class="modal-card help-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="helpTitle">Help Centre</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('helpModal')">&times;</button>
+      </div>
+      <div class="modal-body help-body">
+        <section id="help-faq">
+          <h4 class="help-heading">Frequently Asked Questions</h4>
+          <details class="faq-item" open>
+            <summary>How long does international delivery take?</summary>
+            <p>Express Air delivers in 3–4 business days to most countries. Economy takes 6–8 days and Next Flight Out 2–3 days.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I track my shipment?</summary>
+            <p>Use the Track Shipment tab on the home page and enter your AWB / tracking number for live updates.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I send medicines abroad?</summary>
+            <p>Yes. Prescription medicines can be shipped with a valid doctor's prescription and purchase bill. Our team helps with customs paperwork.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you offer doorstep pickup?</summary>
+            <p>Yes, free doorstep pickup is available across major Indian cities. Book a slot from the Schedule Pickup tab.</p>
+          </details>
+        </section>
+
+        <section id="help-customs">
+          <h4 class="help-heading">Customs &amp; Documents</h4>
+          <ul class="help-list">
+            <li>Government photo ID (Aadhaar, PAN or Passport) of the sender</li>
+            <li>Commercial or proforma invoice for parcels with value</li>
+            <li>Prescription &amp; bill for medicine shipments</li>
+            <li>KYC documents for business / bulk accounts</li>
+          </ul>
+        </section>
+
+        <section id="help-contact">
+          <h4 class="help-heading">Contact Support (24/7)</h4>
+          <div class="contact-grid">
+            <a class="contact-item" href="tel:+911800000000"><strong>Call</strong><span>1800-000-0000</span></a>
+            <a class="contact-item" href="mailto:support@trisysexpress.com"><strong>Email</strong><span>support@trisysexpress.com</span></a>
+            <a class="contact-item" href="https://wa.me/911800000000" target="_blank" rel="noopener"><strong>WhatsApp</strong><span>Chat with us</span></a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal (Login / Sign Up) -->
+  <div class="modal-overlay" id="authModal" onclick="closeModal('authModal')">
+    <div class="modal-card auth-card" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle">Sign in to Trisys Express</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal('authModal')">&times;</button>
+      </div>
+      <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="input-field" id="nameFieldGroup" hidden>
+          <label for="authName">Full Name</label>
+          <input type="text" id="authName" placeholder="John Doe" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authEmail">Email Address</label>
+          <input type="email" id="authEmail" required placeholder="name@company.com" class="standard-input">
+        </div>
+        <div class="input-field">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" class="standard-input">
+        </div>
+        <p id="authModalError" class="quote-inline-error" role="alert" hidden></p>
+        <div id="authModalStatusBox" hidden></div>
+        <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/script.js?v=6"></script>
+</body>
+</html>
