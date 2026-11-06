@@ -8,3 +8,4 @@ _backup_*/
 .DS_Store
 Thumbs.db
 .env
+*.log

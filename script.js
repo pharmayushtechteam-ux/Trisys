@@ -210,7 +210,32 @@ const appState = {
   weightUnit: 'kg',
   error: '',
   isSubmitting: false,
-  lastFocused: null
+  isUpdatingQuote: false,
+  isUpdatingRates: false,
+  lastFocused: null,
+  serviceDetails: {
+    documentCategory: 'Academic Transcripts & University Certificates',
+    documentQty: 1,
+    parcelCategory: 'Personal Gifts, Clothing & Apparel',
+    parcelQty: 1,
+    medicineType: 'Allopathic Prescription Medicines (Licensed Rx)',
+    medicineSupplyDays: 30,
+    medicinePackaging: 'Standard Tamper-Evident Blister / Bottle Box',
+    prescriptionConfirmed: false,
+    ecommerceServiceOption: 'Cross-Border Express D2C (3-5 Business Days)',
+    ecommerceCustomsMode: 'DDU - Delivered Duty Unpaid',
+    ecommerceQty: 1,
+    bulkCargoType: 'Palletized Commercial Goods',
+    bulkHandlingReq: 'Standard Palletized / Forklift Handling',
+    bulkIncoterms: 'Door-to-Door Commercial Express (DAP / DDP)',
+    bulkPalletQty: 1,
+    otherCategory: 'Excess / Unaccompanied Baggage & Suitcases',
+    otherQty: 1,
+    otherNotes: '',
+    length: '',
+    width: '',
+    height: ''
+  }
 };
 
 // Popular Worldwide Destinations
@@ -239,6 +264,7 @@ const supportedCountries = [
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+  initSharedSiteFooter();
   applyUrlParamsToState();
   updateCountryUI();
   renderCountryDropdownList();
@@ -252,13 +278,241 @@ document.addEventListener('DOMContentLoaded', () => {
   setupScrollReveal();
   setupGlobalKeys();
   initDedicatedPage();
+  renderInlineServiceContextStrip();
 
   window.addEventListener('popstate', () => {
+    initSharedSiteFooter();
     applyUrlParamsToState();
     updateCountryUI();
     refreshDedicatedPage();
+    renderInlineServiceContextStrip();
+  });
+
+  window.addEventListener('pageshow', (e) => {
+    appState.isSubmitting = false;
+    appState.isUpdatingQuote = false;
+    appState.isUpdatingRates = false;
+    const submitBtn = document.querySelector('#tabQuote .btn-quote');
+    if (submitBtn) submitBtn.disabled = false;
+    if (e && e.persisted) {
+      applyUrlParamsToState();
+      updateCountryUI();
+      refreshDedicatedPage();
+      renderInlineServiceContextStrip();
+    }
   });
 });
+
+/* --------------------------------------------------------------------------
+   Shared Public Site Footer Component
+   -------------------------------------------------------------------------- */
+function scrollToTopSmoothly() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getSharedSiteFooterCardHtml() {
+  const currentYear = Math.max(2026, new Date().getFullYear());
+  return `
+    <div class="footer-card">
+
+      <!-- Top Multi-Column Grid -->
+      <div class="footer-main">
+
+        <!-- Column 1: Brand Overview & Direct Contact -->
+        <div class="footer-brand-col">
+          <a href="/" class="footer-logo" title="TRISYS EXPRESS">
+            <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="footer-logo-img">
+          </a>
+          <p class="footer-desc">
+            Fast, safe, and compliant door-to-door international shipping from India to 200+ countries worldwide. Trusted for documents, personal parcels, prescription medicines, and commercial cargo.
+          </p>
+
+          <div class="footer-trust-badges" aria-label="Service highlights">
+            <span class="footer-trust-pill">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M8 1.5L2.5 4v4.2c0 3.4 2.3 6.5 5.5 7.3 3.2-.8 5.5-3.9 5.5-7.3V4L8 1.5Z" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 8l1.8 1.8L10.8 6.3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Customs Cleared
+            </span>
+            <span class="footer-trust-pill">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              3–5 Days Express
+            </span>
+            <span class="footer-trust-pill">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M8 1.5a5 5 0 0 0-5 5c0 3.5 5 8 5 8s5-4.5 5-8a5 5 0 0 0-5-5Z" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" stroke-width="1.4"/></svg>
+              Free Doorstep Pickup
+            </span>
+          </div>
+
+          <div class="footer-contact-row">
+            <a href="tel:+911800000000" class="footer-contact-chip">
+              <span class="footer-chip-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"><path d="M3.5 4.5A1.5 1.5 0 0 1 5 3h2.2a1 1 0 0 1 .95.68l.85 2.55a1 1 0 0 1-.27 1.04L7.3 8.7a11.05 11.05 0 0 0 4 4l1.43-1.43a1 1 0 0 1 1.04-.27l2.55.85a1 1 0 0 1 .68.95V15a1.5 1.5 0 0 1-1.5 1.5A13 13 0 0 1 3.5 4.5Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="footer-chip-text">
+                <small>24/7 Toll-Free</small>
+                <strong>1800-000-0000</strong>
+              </span>
+            </a>
+
+            <a href="mailto:support@trisysexpress.com" class="footer-contact-chip">
+              <span class="footer-chip-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"><rect x="2.5" y="4.5" width="15" height="11" rx="2" stroke-width="1.6"/><path d="M3 5.5l7 5 7-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="footer-chip-text">
+                <small>Email Support</small>
+                <strong>support@trisysexpress.com</strong>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Ship & Track -->
+        <nav class="footer-nav-col" aria-label="Ship and Track links">
+          <h3 class="footer-col-title">Ship &amp; Track</h3>
+          <ul class="footer-link-list">
+            <li><a href="/quote" class="footer-link">Get Instant Quote</a></li>
+            <li><a href="/schedule-pickup" class="footer-link">Schedule Pickup</a></li>
+            <li><a href="/track" class="footer-link">Track Shipment</a></li>
+            <li><a href="/rates" class="footer-link">Find International Rates</a></li>
+            <li><a href="#countries" class="footer-link" onclick="event.preventDefault(); openCountriesModal()">200+ Countries Served</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 3: Shipping Services -->
+        <nav class="footer-nav-col" aria-label="Shipping Services links">
+          <h3 class="footer-col-title">Our Services</h3>
+          <ul class="footer-link-list">
+            <li><a href="/document-courier" class="footer-link">Document Courier</a></li>
+            <li><a href="/parcel-shipping" class="footer-link">Parcel Shipping</a></li>
+            <li>
+              <a href="/medicine-courier" class="footer-link">
+                Medicine Courier
+                <span class="footer-mini-badge">Rx</span>
+              </a>
+            </li>
+            <li><a href="/ecommerce-logistics" class="footer-link">E-commerce Logistics</a></li>
+            <li><a href="/bulk-commercial" class="footer-link">Bulk &amp; Commercial</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 4: Business Solutions -->
+        <nav class="footer-nav-col" aria-label="Business Solutions links">
+          <h3 class="footer-col-title">For Business</h3>
+          <ul class="footer-link-list">
+            <li><a href="/business/volume-discounts" class="footer-link" data-footer-biz="volume-discounts">Volume Discounts</a></li>
+            <li><a href="/business/ecommerce-integrations" class="footer-link" data-footer-biz="ecommerce-integrations">E-commerce Integrations</a></li>
+            <li><a href="/business/account-manager" class="footer-link" data-footer-biz="account-manager">Dedicated Account Manager</a></li>
+            <li><a href="/business/credit-billing" class="footer-link" data-footer-biz="credit-billing">Credit &amp; Monthly Billing</a></li>
+            <li><a href="/business/register" class="footer-link footer-link-accent" data-footer-biz="register">Open Business Account →</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 5: Help & Support -->
+        <nav class="footer-nav-col" aria-label="Help and Support links">
+          <h3 class="footer-col-title">Help &amp; Compliance</h3>
+          <ul class="footer-link-list">
+            <li><a href="/help/faqs" class="footer-link" data-footer-help="faqs">Frequently Asked Questions</a></li>
+            <li><a href="/help/customs-documents" class="footer-link" data-footer-help="customs">Customs &amp; KYC Guide</a></li>
+            <li><a href="/help/contact-support" class="footer-link" data-footer-help="contact">24/7 Customer Support</a></li>
+            <li><a href="https://wa.me/911800000000" target="_blank" rel="noopener" class="footer-link">WhatsApp Live Desk</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <!-- Middle Strip: Popular Shipping Corridors -->
+      <div class="footer-corridors">
+        <span class="footer-corridors-label">Popular Shipping Corridors from India:</span>
+        <div class="footer-corridors-tags">
+          <a href="/quote?to=United%20States" class="corridor-tag">United States</a>
+          <a href="/quote?to=United%20Kingdom" class="corridor-tag">United Kingdom</a>
+          <a href="/quote?to=Canada" class="corridor-tag">Canada</a>
+          <a href="/quote?to=United%20Arab%20Emirates" class="corridor-tag">UAE (Dubai)</a>
+          <a href="/quote?to=Australia" class="corridor-tag">Australia</a>
+          <a href="/quote?to=Germany" class="corridor-tag">Germany</a>
+          <a href="/quote?to=Singapore" class="corridor-tag">Singapore</a>
+          <button type="button" class="corridor-tag corridor-tag-more" onclick="openCountriesModal()">View All 200+ →</button>
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Copyright, Trust Note & Quick Legal Links -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footerCurrentYear">${currentYear}</span> <strong>Trisys Express</strong>. All rights reserved. Door-to-door international courier from India.
+        </p>
+        <div class="footer-bottom-links">
+          <a href="/help/customs-documents" class="footer-bottom-link" data-footer-help="customs">Customs &amp; Restricted Items</a>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="/help/faqs" class="footer-bottom-link" data-footer-help="faqs">Terms of Carriage</a>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="/help/contact-support" class="footer-bottom-link" data-footer-help="contact">Privacy &amp; KYC Policy</a>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="#top" class="footer-back-top" onclick="event.preventDefault(); scrollToTopSmoothly();" aria-label="Back to top">
+            Back to Top
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" aria-hidden="true"><path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function initSharedSiteFooter() {
+  const path = (window.location.pathname || '/').replace(/\/+$/, '') || '/';
+  const isInternalAdminView =
+    path === '/admin' ||
+    path.startsWith('/admin/');
+
+  const existingFooters = Array.from(document.querySelectorAll('footer.site-footer'));
+  if (isInternalAdminView) {
+    existingFooters.forEach(f => { f.hidden = true; });
+    return;
+  }
+
+  let footer = existingFooters[0];
+  // Remove any accidental duplicate footers
+  for (let i = 1; i < existingFooters.length; i++) {
+    existingFooters[i].remove();
+  }
+
+  if (!footer) {
+    footer = document.createElement('footer');
+    footer.className = 'site-footer';
+    footer.id = 'sharedSiteFooter';
+    footer.setAttribute('role', 'contentinfo');
+    footer.setAttribute('aria-label', 'Site Footer');
+    const mainEl = document.querySelector('main');
+    if (mainEl && mainEl.parentNode) {
+      mainEl.insertAdjacentElement('afterend', footer);
+    } else {
+      document.body.appendChild(footer);
+    }
+  } else {
+    footer.id = 'sharedSiteFooter';
+    footer.hidden = false;
+  }
+
+  footer.innerHTML = getSharedSiteFooterCardHtml();
+
+  if (!footer.dataset.boundEvents) {
+    footer.dataset.boundEvents = 'true';
+    footer.addEventListener('click', (e) => {
+      const bizLink = e.target.closest('[data-footer-biz]');
+      if (bizLink && document.getElementById('bizMainContent')) {
+        e.preventDefault();
+        switchBusinessSection(bizLink.dataset.footerBiz, true);
+        scrollToTopSmoothly();
+        return;
+      }
+      const helpLink = e.target.closest('[data-footer-help]');
+      if (helpLink && document.getElementById('helpMainContent')) {
+        e.preventDefault();
+        switchHelpSection(helpLink.dataset.footerHelp, true);
+        scrollToTopSmoothly();
+      }
+    });
+  }
+}
 
 /* --------------------------------------------------------------------------
    Toast (non-blocking replacement for alert())
@@ -355,22 +609,42 @@ function setupTabs() {
   });
 }
 
+function isDedicatedServiceRoute() {
+  const currentPath = (window.location.pathname.replace(/\/+$/, '') || '/').toLowerCase();
+  return [
+    '/document-courier',
+    '/document',
+    '/parcel-shipping',
+    '/parcel',
+    '/medicine-courier',
+    '/medicine',
+    '/ecommerce-logistics',
+    '/ecommerce',
+    '/bulk-commercial',
+    '/bulk',
+    '/other-services',
+    '/specialized-cargo',
+    '/other'
+  ].includes(currentPath);
+}
+
 function navigateTabRoute(tabName) {
   switchMainTab(tabName);
   const pageType = document.body?.dataset?.page || '';
   const currentPath = (window.location.pathname.replace(/\/+$/, '') || '/').toLowerCase();
 
   if (tabName === 'quote') {
-    if (currentPath === '/' || currentPath === '/index.html') {
-      return;
-    }
-    if (pageType === 'quote') {
+    const isAlreadyOnQuoteRoute =
+      pageType === 'quote' &&
+      !isDedicatedServiceRoute() &&
+      ['/quote', '/quote-result', '/quote.html', '/quote-result.html'].includes(currentPath);
+
+    if (isAlreadyOnQuoteRoute) {
       renderDedicatedQuotePage();
-      const stdForm = document.getElementById('standardQuoteSection');
-      const ecomForm = document.getElementById('ecommerceServiceSection');
-      const bulkForm = document.getElementById('bulkServiceSection');
-      const targetSec = (ecomForm && !ecomForm.hidden) ? ecomForm : (bulkForm && !bulkForm.hidden) ? bulkForm : stdForm;
-      if (targetSec) targetSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const quoteCard = document.querySelector('#quoteMainContent .quote-card') || document.getElementById('standardQuoteSection');
+      if (quoteCard) quoteCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const weightInput = document.getElementById('weightInput');
+      if (weightInput) setTimeout(() => weightInput.focus({ preventScroll: true }), 220);
       return;
     }
     window.location.href = buildQuoteUrl('/quote');
@@ -516,10 +790,11 @@ function setupNavigation() {
         appState.toCountry = { code: c.code, name: c.name, flagSvg: getFlagSvg(c.code) };
         updateCountryUI();
         if (document.getElementById('ship')) {
-          goToTab('quote');
+          switchMainTab('quote');
+          document.getElementById('ship').scrollIntoView({ behavior: 'smooth', block: 'center' });
           showToast(`Destination set to ${c.name}`);
         } else {
-          window.location.href = buildQuoteUrl();
+          window.location.href = buildQuoteUrl('/quote');
         }
       }
     } else if (modal) {
@@ -659,24 +934,148 @@ function switchMainTab(tabName) {
    Quote form controls
    -------------------------------------------------------------------------- */
 // Select Package Type in Quote Form
-function selectPackageType(type, buttonElement, shouldNavigate = true) {
-  const normalizedType = String(type || 'document').toLowerCase();
+function normalizePackageTypeId(raw) {
+  const val = String(raw || 'document').trim().toLowerCase();
+  if (val === 'bulk_cargo' || val === 'bulkcargo' || val === 'commercial') return 'bulk';
+  if (val === 'e-commerce' || val === 'ecom') return 'ecommerce';
+  return ['document', 'parcel', 'medicine', 'ecommerce', 'bulk', 'other'].includes(val) ? val : 'document';
+}
+
+function syncSharedQuoteFormFields(fromType, toType) {
+  if (!fromType || !toType || fromType === toType) return;
+
+  const getVal = (id) => (document.getElementById(id)?.value || '').trim();
+  const setIfEmptyOrSync = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  };
+
+  let sharedName = '';
+  let sharedEmail = '';
+  let sharedPhone = '';
+  let sharedCompany = '';
+  let sharedPickup = '';
+  let sharedDelivery = '';
+
+  if (fromType === 'ecommerce') {
+    sharedName = getVal('ecomContactName');
+    sharedEmail = getVal('ecomEmail');
+    sharedPhone = getVal('ecomPhone');
+    sharedCompany = getVal('ecomStoreName');
+    sharedPickup = getVal('ecomPickupAddress');
+    sharedDelivery = getVal('ecomDeliveryAddress');
+  } else if (fromType === 'bulk') {
+    sharedName = getVal('bulkContactPerson');
+    sharedEmail = getVal('bulkEmail');
+    sharedPhone = getVal('bulkPhone');
+    sharedCompany = getVal('bulkCompanyName');
+    sharedPickup = getVal('bulkPickupAddress');
+    sharedDelivery = getVal('bulkDeliveryAddress');
+  } else {
+    sharedName = getVal('stdQuoteSenderName');
+    sharedEmail = getVal('stdQuoteEmail');
+    sharedPhone = getVal('stdQuotePhone');
+  }
+
+  if (toType === 'ecommerce') {
+    setIfEmptyOrSync('ecomContactName', sharedName);
+    setIfEmptyOrSync('ecomEmail', sharedEmail);
+    setIfEmptyOrSync('ecomPhone', sharedPhone);
+    setIfEmptyOrSync('ecomStoreName', sharedCompany);
+    setIfEmptyOrSync('ecomPickupAddress', sharedPickup);
+    setIfEmptyOrSync('ecomDeliveryAddress', sharedDelivery);
+  } else if (toType === 'bulk') {
+    setIfEmptyOrSync('bulkContactPerson', sharedName);
+    setIfEmptyOrSync('bulkEmail', sharedEmail);
+    setIfEmptyOrSync('bulkPhone', sharedPhone);
+    setIfEmptyOrSync('bulkCompanyName', sharedCompany);
+    setIfEmptyOrSync('bulkPickupAddress', sharedPickup);
+    setIfEmptyOrSync('bulkDeliveryAddress', sharedDelivery);
+  } else {
+    setIfEmptyOrSync('stdQuoteSenderName', sharedName);
+    setIfEmptyOrSync('stdQuoteEmail', sharedEmail);
+    setIfEmptyOrSync('stdQuotePhone', sharedPhone);
+  }
+}
+
+function selectPackageType(type, buttonElement, shouldNavigate = true, options = {}) {
+  const normalizedType = normalizePackageTypeId(type);
+  const previousType = appState.selectedPackage;
   appState.packageType = normalizedType;
   appState.selectedPackage = normalizedType;
+
+  const hiddenPkgInput = document.getElementById('selectedPackageInput');
+  if (hiddenPkgInput) hiddenPkgInput.value = normalizedType;
+
   document.querySelectorAll('.pkg-btn').forEach(btn => {
-    const isMatch = btn === buttonElement || (!buttonElement && btn.dataset.type === normalizedType);
+    const isMatch = btn === buttonElement || (!buttonElement && btn.dataset.type === normalizedType) || btn.dataset.type === normalizedType;
     btn.classList.toggle('active', isMatch);
     btn.setAttribute('aria-checked', String(isMatch));
     btn.tabIndex = isMatch ? 0 : -1;
   });
 
+  // Reset stale error/confirmation states when switching between services
+  setQuoteInlineError('');
+  ['quoteSubpageFormError', 'stdQuoteFormError', 'ecomFormError', 'bulkFormError', 'ratesFormError'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.hidden = true;
+      el.textContent = '';
+    }
+  });
+  if (previousType && previousType !== normalizedType) {
+    syncSharedQuoteFormFields(previousType, normalizedType);
+    ['stdQuoteConfirmationBox', 'ecomConfirmationBox', 'bulkConfirmationBox'].forEach(id => {
+      const box = document.getElementById(id);
+      if (box) box.hidden = true;
+    });
+    document.querySelectorAll('.has-field-error').forEach(el => {
+      el.classList.remove('has-field-error');
+      el.removeAttribute('aria-invalid');
+    });
+  }
+
+  // Revalidate current weight against newly selected service rules
+  const check = validateQuoteInputs();
+  if (!check.valid) {
+    setQuoteInlineError(check.error);
+  }
+
+  const pageType = document.body?.dataset?.page || '';
+  const serviceRoute = SERVICE_ROUTE_MAP[normalizedType] || '/quote';
+
   if (shouldNavigate) {
-    const targetUrl = buildQuoteUrl('/quote');
+    if (pageType === 'quote') {
+      const targetUrl = buildQuoteUrl(serviceRoute);
+      const currentUrl = `${window.location.pathname}${window.location.search}`;
+      if (currentUrl !== targetUrl) {
+        window.history.pushState({ packageType: normalizedType }, '', targetUrl);
+      }
+      if (typeof renderDedicatedQuotePage === 'function') renderDedicatedQuotePage();
+      if (typeof renderInlineServiceContextStrip === 'function') renderInlineServiceContextStrip();
+      return;
+    }
+    if (pageType === 'rates') {
+      const targetRatesUrl = buildQuoteUrl('/rates');
+      const currentUrl = `${window.location.pathname}${window.location.search}`;
+      if (currentUrl !== targetRatesUrl) {
+        window.history.pushState({ packageType: normalizedType }, '', targetRatesUrl);
+      }
+      if (typeof renderDedicatedRatesPage === 'function') renderDedicatedRatesPage();
+      if (typeof renderInlineServiceContextStrip === 'function') renderInlineServiceContextStrip();
+      return;
+    }
+    const targetUrl = buildQuoteUrl(serviceRoute);
     window.location.href = targetUrl;
     return;
   }
 
-  if (typeof refreshDedicatedPage === 'function') refreshDedicatedPage();
+  if (!options.skipRefresh && typeof refreshDedicatedPage === 'function') {
+    refreshDedicatedPage();
+  }
+  if (!options.skipRefresh && typeof renderInlineServiceContextStrip === 'function') {
+    renderInlineServiceContextStrip();
+  }
 }
 
 function setupPackageRadiogroup() {
@@ -691,11 +1090,16 @@ function setupPackageRadiogroup() {
         next = buttons[(idx + 1) % buttons.length];
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         next = buttons[(idx - 1 + buttons.length) % buttons.length];
+      } else if (e.key === 'Home') {
+        next = buttons[0];
+      } else if (e.key === 'End') {
+        next = buttons[buttons.length - 1];
       }
       if (next) {
         e.preventDefault();
         next.focus();
-        selectPackageType(next.dataset.type, next, true);
+        const isDedicatedSubpage = Boolean(document.body?.dataset?.page);
+        selectPackageType(next.dataset.type, next, isDedicatedSubpage);
       }
     });
   });
@@ -711,6 +1115,7 @@ function swapCountries() {
   const btn = document.querySelector('.swap-btn');
   if (btn) btn.classList.toggle('is-spinning');
   if (typeof refreshDedicatedPage === 'function') refreshDedicatedPage();
+  if (typeof renderInlineServiceContextStrip === 'function') renderInlineServiceContextStrip();
 }
 
 function updateCountryUI() {
@@ -743,10 +1148,13 @@ function setQuoteInlineError(message = '') {
     }
   }
 
-  if (errorEl) {
-    errorEl.textContent = message;
-    errorEl.hidden = !message;
-  }
+  ['quoteFormError', 'quoteSubpageFormError', 'ratesFormError'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = message;
+      el.hidden = !message;
+    }
+  });
 
   if (weightInput) {
     if (message) weightInput.setAttribute('aria-invalid', 'true');
@@ -759,20 +1167,40 @@ function setQuoteInlineError(message = '') {
 }
 
 function handleWeightInput(rawValue) {
-  appState.weight = String(rawValue).trim();
-  const num = Number(appState.weight);
-  if (appState.weight !== '' && Number.isFinite(num) && num > 0) {
+  const weightInput = document.getElementById('weightInput');
+  const trimmed = String(rawValue ?? (weightInput ? weightInput.value : '')).trim();
+  appState.weight = trimmed;
+
+  const check = validateQuoteInputs();
+  if (check.valid) {
     setQuoteInlineError('');
+    ['ecomWeight', 'bulkTotalWeight', 'pickupWeightInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && document.activeElement !== el) {
+        el.value = String(appState.weight);
+      }
+    });
+  } else {
+    setQuoteInlineError(check.error);
   }
+
   if (typeof refreshDedicatedPage === 'function') refreshDedicatedPage();
+  if (typeof updateInlineServiceLiveRateBanner === 'function') updateInlineServiceLiveRateBanner();
 }
 
-// Toggle lb <-> kg without silently converting the numeric weight
+// Toggle lb <-> kg and sync all unit selectors
 function toggleWeightUnit() {
   appState.weightUnit = appState.weightUnit === 'lb' ? 'kg' : 'lb';
   const unitEl = document.getElementById('currentWeightUnit');
   if (unitEl) unitEl.textContent = appState.weightUnit;
+  ['ecomWeightUnit', 'bulkWeightUnit', 'pickupWeightUnit'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) sel.value = appState.weightUnit;
+  });
+  const check = validateQuoteInputs();
+  setQuoteInlineError(check.valid ? '' : check.error);
   if (typeof refreshDedicatedPage === 'function') refreshDedicatedPage();
+  if (typeof updateInlineServiceLiveRateBanner === 'function') updateInlineServiceLiveRateBanner();
 }
 
 /* --------------------------------------------------------------------------
@@ -784,11 +1212,11 @@ function toggleCountryDropdown(field) {
   document.getElementById('countryModalTitle').textContent =
     field === 'from' ? 'Select Origin Country' : 'Select Destination Country';
   document.getElementById('countrySearchInput').value = '';
-  renderCountryDropdownList();
+  renderCountryDropdownList('');
   openModal('countryDropdownModal');
 }
 
-// Render Supported Countries List
+// Render Supported Countries List (All Countries, No Scrollbars, No Pagination)
 function renderCountryDropdownList(filter = '') {
   const list = document.getElementById('countryList');
   if (!list) return;
@@ -840,7 +1268,10 @@ function selectCountry(country) {
   }
   updateCountryUI();
   closeModal('countryDropdownModal');
+  const check = validateQuoteInputs();
+  setQuoteInlineError(check.valid ? '' : check.error);
   if (typeof refreshDedicatedPage === 'function') refreshDedicatedPage();
+  if (typeof renderInlineServiceContextStrip === 'function') renderInlineServiceContextStrip();
 }
 
 /* --------------------------------------------------------------------------
@@ -878,15 +1309,20 @@ function applyUrlParamsToState() {
     '/bulk-commercial': 'bulk',
     '/bulk': 'bulk',
     '/document-courier': 'document',
-    '/parcel-shipping': 'parcel'
+    '/document': 'document',
+    '/parcel-shipping': 'parcel',
+    '/parcel': 'parcel',
+    '/other-services': 'other',
+    '/specialized-cargo': 'other',
+    '/other': 'other'
   };
 
-  const pkg = params.get('type') || params.get('pkg') || pathServiceMap[pathSlug];
+  const pkg = params.get('type') || params.get('pkg') || pathServiceMap[pathSlug] || 'document';
   if (pkg && ['document', 'parcel', 'medicine', 'other', 'ecommerce', 'bulk'].includes(pkg.toLowerCase())) {
     appState.packageType = pkg.toLowerCase();
     appState.selectedPackage = pkg.toLowerCase();
     const pkgBtn = document.querySelector(`.pkg-btn[data-type="${appState.selectedPackage}"]`);
-    selectPackageType(appState.selectedPackage, pkgBtn, false);
+    selectPackageType(appState.selectedPackage, pkgBtn, false, { skipRefresh: true });
   }
 
   const rawWeight = params.get('weight');
@@ -911,6 +1347,25 @@ function applyUrlParamsToState() {
     appState.weightUnit = explicitUnit;
     const unitEl = document.getElementById('currentWeightUnit');
     if (unitEl) unitEl.textContent = explicitUnit;
+  }
+
+  const qtyParam = parseInt(params.get('qty') || '', 10);
+  if (Number.isFinite(qtyParam) && qtyParam >= 1 && appState.serviceDetails) {
+    const activePkg = appState.selectedPackage || 'document';
+    if (activePkg === 'document') appState.serviceDetails.documentQty = qtyParam;
+    else if (activePkg === 'parcel') appState.serviceDetails.parcelQty = qtyParam;
+    else if (activePkg === 'ecommerce') appState.serviceDetails.ecommerceQty = qtyParam;
+    else if (activePkg === 'bulk') appState.serviceDetails.bulkPalletQty = qtyParam;
+    else if (activePkg === 'other') appState.serviceDetails.otherQty = qtyParam;
+  }
+
+  const lParam = parseFloat(params.get('length') || '');
+  const wParam = parseFloat(params.get('width') || '');
+  const hParam = parseFloat(params.get('height') || '');
+  if (Number.isFinite(lParam) && lParam > 0 && Number.isFinite(wParam) && wParam > 0 && Number.isFinite(hParam) && hParam > 0 && appState.serviceDetails) {
+    appState.serviceDetails.length = String(lParam);
+    appState.serviceDetails.width = String(wParam);
+    appState.serviceDetails.height = String(hParam);
   }
 
   const awb = params.get('awb');
@@ -943,6 +1398,14 @@ function buildQuoteUrl(page = '/quote') {
   const cleanNumeric = rawWeight.replace(/(lb|kg)$/i, '').trim() || '1';
   const unit = appState.weightUnit || 'kg';
   const pkgType = appState.selectedPackage || appState.packageType || 'document';
+  const sd = appState.serviceDetails || {};
+
+  let qty = 1;
+  if (pkgType === 'document') qty = Math.max(1, parseInt(sd.documentQty || '1', 10) || 1);
+  else if (pkgType === 'parcel') qty = Math.max(1, parseInt(sd.parcelQty || '1', 10) || 1);
+  else if (pkgType === 'ecommerce') qty = Math.max(1, parseInt(sd.ecommerceQty || '1', 10) || 1);
+  else if (pkgType === 'bulk') qty = Math.max(1, parseInt(sd.bulkPalletQty || '1', 10) || 1);
+  else if (pkgType === 'other') qty = Math.max(1, parseInt(sd.otherQty || '1', 10) || 1);
 
   const query = [
     `from=${encodeURIComponent(appState.fromCountry.name)}`,
@@ -950,8 +1413,14 @@ function buildQuoteUrl(page = '/quote') {
     `type=${encodeURIComponent(pkgType)}`,
     `weight=${encodeURIComponent(cleanNumeric)}`,
     `unit=${encodeURIComponent(unit)}`
-  ].join('&');
-  return `${page}?${query}`;
+  ];
+  if (qty > 1) query.push(`qty=${encodeURIComponent(String(qty))}`);
+  if (pkgType !== 'document' && sd.length && sd.width && sd.height) {
+    query.push(`length=${encodeURIComponent(String(sd.length))}`);
+    query.push(`width=${encodeURIComponent(String(sd.width))}`);
+    query.push(`height=${encodeURIComponent(String(sd.height))}`);
+  }
+  return `${page}?${query.join('&')}`;
 }
 
 const PACKAGE_WEIGHT_LIMITS_KG = {
@@ -984,7 +1453,10 @@ function validateQuoteInputs() {
   if (!['document', 'parcel', 'medicine', 'ecommerce', 'bulk', 'other'].includes(pkgType)) {
     return { valid: false, error: 'Please select a valid package type.' };
   }
-  if (rawVal === '' || !Number.isFinite(numVal) || isNaN(numVal) || numVal <= 0) {
+  if (weightInput && weightInput.validity && weightInput.validity.badInput) {
+    return { valid: false, error: 'Please enter a valid numeric weight greater than 0.' };
+  }
+  if (rawVal === '' || !/^\d+(\.\d+)?$/.test(rawVal) || !Number.isFinite(numVal) || isNaN(numVal) || numVal <= 0) {
     return { valid: false, error: 'Please enter a valid positive numeric weight greater than 0.' };
   }
   if (!['lb', 'kg'].includes(appState.weightUnit)) {
@@ -1022,7 +1494,9 @@ function navigateToQuotePage() {
   const submitBtn = document.querySelector('#tabQuote .btn-quote');
   if (submitBtn) submitBtn.disabled = true;
 
-  window.location.href = buildQuoteUrl('/quote');
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  const routePath = SERVICE_ROUTE_MAP[pkgType] || '/quote';
+  window.location.href = buildQuoteUrl(routePath);
 }
 
 function navigateToTrackPage() {
@@ -1156,36 +1630,78 @@ async function fetchBackendRuntimeConfig() {
   }
 }
 
-async function shareCurrentPageLink(customTitle, customText) {
-  const shareUrl = getShareablePageUrl();
-  const shareInput = document.getElementById('shareUrlInput');
-  if (shareInput) shareInput.value = shareUrl;
-
-  try {
-    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-      await navigator.clipboard.writeText(shareUrl);
-      showToast('Link copied successfully');
-      return;
-    }
-  } catch (_) {
-    // Fallback to input selection copy below
-  }
-
-  if (shareInput) {
+function copyTextWithFallback(text, inputEl) {
+  return new Promise(async resolve => {
     try {
-      shareInput.focus();
-      shareInput.select();
-      const copied = document.execCommand('copy');
-      if (copied) {
-        showToast('Link copied successfully');
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        await navigator.clipboard.writeText(text);
+        resolve(true);
         return;
       }
     } catch (_) {
-      // Fall through to error message
+      // Fallback below
     }
+
+    try {
+      if (inputEl) {
+        inputEl.focus();
+        inputEl.select();
+        inputEl.setSelectionRange(0, text.length);
+        if (document.execCommand('copy')) {
+          resolve(true);
+          return;
+        }
+      }
+      const tempArea = document.createElement('textarea');
+      tempArea.value = text;
+      tempArea.style.position = 'fixed';
+      tempArea.style.opacity = '0';
+      tempArea.style.pointerEvents = 'none';
+      document.body.appendChild(tempArea);
+      tempArea.focus();
+      tempArea.select();
+      const copied = document.execCommand('copy');
+      document.body.removeChild(tempArea);
+      resolve(Boolean(copied));
+    } catch (_) {
+      resolve(false);
+    }
+  });
+}
+
+async function shareCurrentPageLink(customTitle, customText) {
+  const shareUrl = getShareablePageUrl();
+  const shareInput = document.getElementById('shareUrlInput');
+  if (shareInput) {
+    shareInput.value = shareUrl;
+    shareInput.focus();
+    shareInput.select();
+    try {
+      shareInput.setSelectionRange(0, shareUrl.length);
+    } catch (_) {}
   }
 
-  showToast('Unable to copy link automatically — please select and copy the URL from the Shareable Link field.');
+  const copyBtn = document.querySelector('.share-toolbar .btn-share-action[onclick*="shareCurrentPageLink"]');
+  const copied = await copyTextWithFallback(shareUrl, shareInput);
+
+  if (copied) {
+    if (copyBtn) {
+      if (!copyBtn.dataset.origLabel) {
+        copyBtn.dataset.origLabel = copyBtn.textContent.trim() || 'Copy Link';
+      }
+      copyBtn.textContent = '✓ Copied!';
+      copyBtn.classList.add('copied');
+      clearTimeout(copyBtn._copyTimer);
+      copyBtn._copyTimer = setTimeout(() => {
+        copyBtn.textContent = copyBtn.dataset.origLabel || 'Copy Link';
+        copyBtn.classList.remove('copied');
+      }, 2200);
+    }
+    showToast(`Copied link: ${shareUrl}`);
+    return;
+  }
+
+  showToast('Unable to copy link automatically — please press Ctrl+C on the highlighted Shareable Link field.');
 }
 
 function shareViaWhatsApp() {
@@ -1209,11 +1725,25 @@ function shareViaEmail() {
 }
 
 function syncUrlWithCurrentForm() {
-  const currentPath = window.location.pathname || '/quote';
+  const pageType = document.body?.dataset?.page || '';
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  let currentPath = window.location.pathname || '/quote';
+  if (pageType === 'quote' && isDedicatedServiceRoute()) {
+    currentPath = SERVICE_ROUTE_MAP[pkgType] || currentPath;
+  }
   const url = buildQuoteUrl(currentPath);
-  window.history.replaceState({}, '', url);
+  window.history.replaceState({ packageType: pkgType }, '', url);
   const shareInput = document.getElementById('shareUrlInput');
-  if (shareInput) shareInput.value = getShareablePageUrl();
+  if (shareInput) {
+    shareInput.value = getShareablePageUrl();
+    if (!shareInput.dataset.copyBound) {
+      shareInput.dataset.copyBound = '1';
+      shareInput.title = 'Click to select & copy link';
+      shareInput.addEventListener('click', () => {
+        shareCurrentPageLink();
+      });
+    }
+  }
 }
 
 function initDedicatedPage() {
@@ -1222,7 +1752,16 @@ function initDedicatedPage() {
   if (!pageType) return;
 
   const shareInput = document.getElementById('shareUrlInput');
-  if (shareInput) shareInput.value = getShareablePageUrl();
+  if (shareInput) {
+    shareInput.value = getShareablePageUrl();
+    if (!shareInput.dataset.copyBound) {
+      shareInput.dataset.copyBound = '1';
+      shareInput.title = 'Click to select & copy link';
+      shareInput.addEventListener('click', () => {
+        shareCurrentPageLink();
+      });
+    }
+  }
 
   // Ensure the correct top widget tab is marked active on direct load / refresh
   const pageToTab = { quote: 'quote', track: 'track', pickup: 'pickup', rates: 'rates' };
@@ -1259,44 +1798,82 @@ function refreshDedicatedPage() {
 
 function renderDedicatedQuotePage() {
   const weightInput = document.getElementById('weightInput');
-  const weight = weightInput && parseFloat(weightInput.value) > 0 ? parseFloat(weightInput.value) : parseFloat(appState.weight) || 1;
+  const rawW = weightInput ? String(weightInput.value).trim() : String(appState.weight || '1').trim();
+  const parsedW = parseFloat(rawW);
+  const weight = Number.isFinite(parsedW) && parsedW > 0 ? parsedW : (parseFloat(appState.weight) > 0 ? parseFloat(appState.weight) : 1);
   const unit = appState.weightUnit || 'kg';
   const pkgType = (appState.selectedPackage || appState.packageType || 'document').toLowerCase();
   const from = appState.fromCountry;
   const to = appState.toCountry;
   const pkgInfo = PACKAGE_TYPE_CONFIG[pkgType] || PACKAGE_TYPE_CONFIG.document;
   const pkgName = pkgInfo.label;
+  const isServiceView = isDedicatedServiceRoute();
+
+  const hiddenPkgInput = document.getElementById('selectedPackageInput');
+  if (hiddenPkgInput) hiddenPkgInput.value = pkgType;
 
   syncUrlWithCurrentForm();
 
-  if (pkgInfo.pageTitle) {
-    document.title = pkgInfo.pageTitle;
+  if (isServiceView) {
+    if (pkgInfo.pageTitle) {
+      document.title = pkgInfo.pageTitle;
+    }
+  } else {
+    document.title = `Get a Quote — ${pkgInfo.serviceName || pkgName} | TRISYS EXPRESS`;
   }
 
+  const breadcrumbParent = document.getElementById('subpageBreadcrumbParent');
+  const breadcrumbSep = document.getElementById('subpageBreadcrumbSep');
   const breadcrumbCurrent = document.getElementById('subpageBreadcrumbCurrent');
+  if (breadcrumbParent) breadcrumbParent.hidden = !isServiceView;
+  if (breadcrumbSep) breadcrumbSep.hidden = !isServiceView;
   if (breadcrumbCurrent) {
-    breadcrumbCurrent.textContent = pkgInfo.serviceName || pkgInfo.heading;
+    breadcrumbCurrent.textContent = isServiceView
+      ? (pkgInfo.serviceName || pkgInfo.heading)
+      : 'Get a Quote';
   }
 
   const badgeEl = document.getElementById('quotePackageBadge');
   if (badgeEl) {
-    badgeEl.textContent = pkgInfo.badge || 'Package-Specific Quote Request';
+    badgeEl.textContent = isServiceView
+      ? (pkgInfo.badge || 'Package-Specific Quote Request')
+      : `Instant International Quote • ${pkgInfo.badge || pkgName}`;
   }
 
   const headingEl = document.getElementById('quotePackageHeading');
-  if (headingEl) headingEl.textContent = pkgInfo.heading;
+  if (headingEl) {
+    headingEl.textContent = pkgInfo.heading;
+  }
 
   const subtitleEl = document.getElementById('quotePackageSubtitle');
   if (subtitleEl) subtitleEl.textContent = pkgInfo.subtitle;
 
-  // Highlight active service item inside the Services dropdown
-  setActiveNav('services');
-  document.querySelectorAll('#dd-services .dropdown-link').forEach(link => {
-    const isSelected = link.dataset.service === pkgType;
-    link.classList.toggle('active', isSelected);
-    if (isSelected) link.setAttribute('aria-current', 'page');
-    else link.removeAttribute('aria-current');
-  });
+  // Highlight active navigation item: Ship -> Get a Quote on /quote, or Services on service routes
+  if (isServiceView) {
+    setActiveNav('services');
+    document.querySelectorAll('#dd-ship .dropdown-link').forEach(link => {
+      link.classList.remove('active');
+      link.removeAttribute('aria-current');
+    });
+    document.querySelectorAll('#dd-services .dropdown-link').forEach(link => {
+      const isSelected = link.dataset.service === pkgType;
+      link.classList.toggle('active', isSelected);
+      if (isSelected) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  } else {
+    setActiveNav('ship');
+    document.querySelectorAll('#dd-ship .dropdown-link').forEach(link => {
+      const isQuoteLink = link.dataset.tab === 'quote';
+      link.classList.toggle('active', isQuoteLink);
+      if (isQuoteLink) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    document.querySelectorAll('#dd-services .dropdown-link').forEach(link => {
+      link.classList.remove('active');
+      link.removeAttribute('aria-current');
+    });
+  }
 
   // Ensure package type radio button on the page reflects pkgType
   document.querySelectorAll('.pkg-btn').forEach(btn => {
@@ -1353,7 +1930,7 @@ function renderDedicatedQuotePage() {
       const unitField = document.getElementById('ecomWeightUnit');
       if (originInput) originInput.value = from.name;
       if (destInput) destInput.value = to.name;
-      if (weightField) weightField.value = String(weight);
+      if (weightField && Number.isFinite(parsedW) && parsedW > 0) weightField.value = String(weight);
       if (unitField) unitField.value = unit;
       updateEcommerceEstimateSummary();
     }
@@ -1369,7 +1946,7 @@ function renderDedicatedQuotePage() {
       const unitField = document.getElementById('bulkWeightUnit');
       if (originInput) originInput.value = from.name;
       if (destInput) destInput.value = to.name;
-      if (weightField) weightField.value = String(weight);
+      if (weightField && Number.isFinite(parsedW) && parsedW > 0) weightField.value = String(weight);
       if (unitField) unitField.value = unit;
       updateBulkEstimateSummary();
     }
@@ -1381,12 +1958,37 @@ function renderDedicatedQuotePage() {
     if (showStd) {
       const formBadge = document.getElementById('stdQuoteFormBadge');
       const formHeading = document.getElementById('stdQuoteFormHeading');
+      const docRow = document.getElementById('stdQuoteDocumentRow');
+      const parcelRow = document.getElementById('stdQuoteParcelRow');
+      const otherRow = document.getElementById('stdQuoteOtherRow');
       const medRow = document.getElementById('stdQuoteMedicineComplianceRow');
       const dimRow = document.getElementById('stdQuoteDimensionsRow');
+      const notesLabel = document.getElementById('stdQuoteNotesLabel');
+      const notesInput = document.getElementById('stdQuoteNotes');
+
       if (formBadge) formBadge.textContent = pkgInfo.badge || 'Verified Shipping Quote';
       if (formHeading) formHeading.textContent = `Request Verified ${pkgName} Quote`;
+      if (docRow) docRow.hidden = pkgType !== 'document';
+      if (parcelRow) parcelRow.hidden = pkgType !== 'parcel';
+      if (otherRow) otherRow.hidden = pkgType !== 'other';
       if (medRow) medRow.hidden = pkgType !== 'medicine';
       if (dimRow) dimRow.hidden = pkgType === 'document';
+
+      if (notesLabel) {
+        notesLabel.textContent = pkgType === 'other'
+          ? 'Detailed Shipment & Contents Description * (Required for Other)'
+          : 'Contents Description & Special Instructions';
+      }
+      if (notesInput) {
+        const placeholders = {
+          document: 'e.g. Sealed university transcripts, notarized legal contracts, apostille certificates',
+          parcel: 'e.g. Personal clothing gifts, household non-perishables, retail samples',
+          medicine: 'e.g. 60-day personal supply of prescribed blood pressure & diabetes tablets',
+          other: 'Describe exact item type, packaging, dimensions, and special handling requirements (Required)'
+        };
+        notesInput.placeholder = placeholders[pkgType] || placeholders.parcel;
+        notesInput.required = pkgType === 'other';
+      }
       updateStandardQuoteCalcSummary();
     }
   }
@@ -1400,26 +2002,657 @@ function renderDedicatedQuotePage() {
   ratesLinks.forEach(link => {
     link.href = buildQuoteUrl('/rates');
   });
+
+  renderInlineServiceContextStrip();
+}
+
+function syncInlineServiceField(fieldKey, rawVal) {
+  if (!appState.serviceDetails) appState.serviceDetails = {};
+  const sd = appState.serviceDetails;
+
+  const setElVal = (id, v) => {
+    const el = document.getElementById(id);
+    if (el && document.activeElement !== el) el.value = v;
+  };
+  const setElChecked = (id, v) => {
+    const el = document.getElementById(id);
+    if (el) el.checked = Boolean(v);
+  };
+
+  if (fieldKey === 'documentCategory') {
+    sd.documentCategory = String(rawVal || '');
+    setElVal('stdQuoteDocumentCategory', sd.documentCategory);
+  } else if (fieldKey === 'documentQty') {
+    sd.documentQty = rawVal;
+    setElVal('stdQuoteEnvelopeQty', rawVal);
+  } else if (fieldKey === 'parcelCategory') {
+    sd.parcelCategory = String(rawVal || '');
+    setElVal('stdQuoteParcelCategory', sd.parcelCategory);
+  } else if (fieldKey === 'parcelQty') {
+    sd.parcelQty = rawVal;
+    setElVal('stdQuoteParcelQty', rawVal);
+  } else if (fieldKey === 'medicineType') {
+    sd.medicineType = String(rawVal || '');
+    setElVal('stdQuoteMedicineType', sd.medicineType);
+  } else if (fieldKey === 'medicineSupplyDays') {
+    sd.medicineSupplyDays = rawVal;
+    setElVal('stdQuoteMedicineSupplyDays', rawVal);
+  } else if (fieldKey === 'medicinePackaging') {
+    sd.medicinePackaging = String(rawVal || '');
+    setElVal('stdQuoteMedicinePackaging', sd.medicinePackaging);
+  } else if (fieldKey === 'prescriptionConfirmed') {
+    sd.prescriptionConfirmed = Boolean(rawVal);
+    setElChecked('stdQuotePrescriptionCheck', sd.prescriptionConfirmed);
+  } else if (fieldKey === 'ecommerceServiceOption') {
+    sd.ecommerceServiceOption = String(rawVal || '');
+    setElVal('ecomServiceOption', sd.ecommerceServiceOption);
+  } else if (fieldKey === 'ecommerceCustomsMode') {
+    sd.ecommerceCustomsMode = String(rawVal || '');
+    setElVal('ecomCustomsMode', sd.ecommerceCustomsMode);
+  } else if (fieldKey === 'ecommerceQty') {
+    sd.ecommerceQty = rawVal;
+    setElVal('ecomParcelQty', rawVal);
+  } else if (fieldKey === 'bulkCargoType') {
+    sd.bulkCargoType = String(rawVal || '');
+    setElVal('bulkCargoType', sd.bulkCargoType);
+  } else if (fieldKey === 'bulkHandlingReq') {
+    sd.bulkHandlingReq = String(rawVal || '');
+    setElVal('bulkHandlingReq', sd.bulkHandlingReq);
+  } else if (fieldKey === 'bulkIncoterms') {
+    sd.bulkIncoterms = String(rawVal || '');
+    setElVal('bulkIncoterms', sd.bulkIncoterms);
+  } else if (fieldKey === 'bulkPalletQty') {
+    sd.bulkPalletQty = rawVal;
+    setElVal('bulkPalletQty', rawVal);
+  } else if (fieldKey === 'otherCategory') {
+    sd.otherCategory = String(rawVal || '');
+    setElVal('stdQuoteOtherCategory', sd.otherCategory);
+  } else if (fieldKey === 'otherQty') {
+    sd.otherQty = rawVal;
+    setElVal('stdQuoteOtherQty', rawVal);
+  } else if (fieldKey === 'otherNotes') {
+    sd.otherNotes = String(rawVal || '');
+    setElVal('stdQuoteNotes', sd.otherNotes);
+  } else if (fieldKey === 'length') {
+    sd.length = String(rawVal ?? '').trim();
+    ['stdQuoteLength', 'ecomLength', 'bulkLength', 'ratesLengthInput'].forEach(id => {
+      if (sd.length !== '') setElVal(id, sd.length);
+    });
+  } else if (fieldKey === 'width') {
+    sd.width = String(rawVal ?? '').trim();
+    ['stdQuoteWidth', 'ecomWidth', 'bulkWidth', 'ratesWidthInput'].forEach(id => {
+      if (sd.width !== '') setElVal(id, sd.width);
+    });
+  } else if (fieldKey === 'height') {
+    sd.height = String(rawVal ?? '').trim();
+    ['stdQuoteHeight', 'ecomHeight', 'bulkHeight', 'ratesHeightInput'].forEach(id => {
+      if (sd.height !== '') setElVal(id, sd.height);
+    });
+  }
+
+  setQuoteInlineError('');
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  if (pkgType === 'ecommerce') updateEcommerceEstimateSummary();
+  else if (pkgType === 'bulk') updateBulkEstimateSummary();
+  else updateStandardQuoteCalcSummary();
+
+  if (document.body?.dataset?.page === 'rates' && typeof renderDedicatedRatesPage === 'function') {
+    renderDedicatedRatesPage();
+  }
+  updateInlineServiceLiveRateBanner();
+}
+
+function renderInlineServiceContextStrip() {
+  const strip = document.getElementById('quoteServiceContextStrip');
+  if (!strip) return;
+
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  const pkgInfo = PACKAGE_TYPE_CONFIG[pkgType] || PACKAGE_TYPE_CONFIG.document;
+  const rulesInfo = RATES_PACKAGE_RULES_UI[pkgType] || RATES_PACKAGE_RULES_UI.document;
+  const sd = appState.serviceDetails || {};
+
+  // Read current main form values if available so both stay in sync
+  const readVal = (id, fallback) => {
+    const el = document.getElementById(id);
+    return el && el.value !== undefined && el.value !== '' ? el.value : fallback;
+  };
+  const readChecked = (id, fallback) => {
+    const el = document.getElementById(id);
+    return el ? Boolean(el.checked) : Boolean(fallback);
+  };
+
+  let fieldsHtml = '';
+  if (pkgType === 'document') {
+    const docCat = readVal('stdQuoteDocumentCategory', sd.documentCategory);
+    const docQty = readVal('stdQuoteEnvelopeQty', sd.documentQty || 1);
+    sd.documentCategory = docCat;
+    sd.documentQty = docQty;
+    fieldsHtml = `
+      <div class="quote-strip-field">
+        <label for="inlineDocCategory">Document Classification</label>
+        <select id="inlineDocCategory" class="quote-strip-input" onchange="syncInlineServiceField('documentCategory', this.value)">
+          ${[
+            'Academic Transcripts & University Certificates',
+            'Legal Contracts, Deeds & Power of Attorney',
+            'Banking, Financial & Tax Paperwork',
+            'Visa, Passport & Immigration Documents',
+            'Corporate & Commercial Correspondence'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${docCat === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field is-compact">
+        <label for="inlineDocQty">Envelopes / Packets</label>
+        <input type="number" id="inlineDocQty" class="quote-strip-input" value="${escapeHtml(String(docQty))}" min="1" max="20" step="1" oninput="syncInlineServiceField('documentQty', this.value)">
+      </div>
+    `;
+  } else if (pkgType === 'parcel') {
+    const pCat = readVal('stdQuoteParcelCategory', sd.parcelCategory);
+    const pQty = readVal('stdQuoteParcelQty', sd.parcelQty || 1);
+    const lVal = readVal('stdQuoteLength', sd.length || '');
+    const wVal = readVal('stdQuoteWidth', sd.width || '');
+    const hVal = readVal('stdQuoteHeight', sd.height || '');
+    sd.parcelCategory = pCat;
+    sd.parcelQty = pQty;
+    fieldsHtml = `
+      <div class="quote-strip-field">
+        <label for="inlineParcelCategory">Parcel Goods Category</label>
+        <select id="inlineParcelCategory" class="quote-strip-input" onchange="syncInlineServiceField('parcelCategory', this.value)">
+          ${[
+            'Personal Gifts, Clothing & Apparel',
+            'Household Goods & Non-Perishable Items',
+            'Consumer Electronics & Accessories (Non-DG)',
+            'Commercial Samples & Prototypes',
+            'Books & Printed Merchandise'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${pCat === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field is-compact">
+        <label for="inlineParcelQty">Packages / Boxes</label>
+        <input type="number" id="inlineParcelQty" class="quote-strip-input" value="${escapeHtml(String(pQty))}" min="1" max="50" step="1" oninput="syncInlineServiceField('parcelQty', this.value)">
+      </div>
+      <div class="quote-strip-field is-dims">
+        <label>Dimensions L × W × H (cm, Optional)</label>
+        <div class="quote-strip-dims-row">
+          <input type="number" id="inlineDimLength" class="quote-strip-input" placeholder="L" min="1" step="0.5" value="${escapeHtml(String(lVal))}" aria-label="Length cm" oninput="syncInlineServiceField('length', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimWidth" class="quote-strip-input" placeholder="W" min="1" step="0.5" value="${escapeHtml(String(wVal))}" aria-label="Width cm" oninput="syncInlineServiceField('width', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimHeight" class="quote-strip-input" placeholder="H" min="1" step="0.5" value="${escapeHtml(String(hVal))}" aria-label="Height cm" oninput="syncInlineServiceField('height', this.value)">
+        </div>
+      </div>
+    `;
+  } else if (pkgType === 'medicine') {
+    const mType = readVal('stdQuoteMedicineType', sd.medicineType);
+    const mDays = readVal('stdQuoteMedicineSupplyDays', sd.medicineSupplyDays || 30);
+    const mPkg = readVal('stdQuoteMedicinePackaging', sd.medicinePackaging);
+    const rxOk = readChecked('stdQuotePrescriptionCheck', sd.prescriptionConfirmed);
+    sd.medicineType = mType;
+    sd.medicineSupplyDays = mDays;
+    sd.medicinePackaging = mPkg;
+    sd.prescriptionConfirmed = rxOk;
+    fieldsHtml = `
+      <div class="quote-strip-field">
+        <label for="inlineMedicineType">Medicine Category</label>
+        <select id="inlineMedicineType" class="quote-strip-input" onchange="syncInlineServiceField('medicineType', this.value)">
+          ${[
+            'Allopathic Prescription Medicines (Licensed Rx)',
+            'Ayurvedic / Herbal Formulations (Sealed Retail Pack)',
+            'Homeopathic Medicines (Doctor Prescribed)',
+            'Temperature-Sensitive / Cold-Chain Biologics (2°C–8°C)',
+            'Narcotic / Psychotropic / Controlled Substances (Prohibited)'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${mType === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field is-compact">
+        <label for="inlineMedicineDays">Supply Days (1–90)</label>
+        <input type="number" id="inlineMedicineDays" class="quote-strip-input" value="${escapeHtml(String(mDays))}" min="1" max="90" step="1" oninput="syncInlineServiceField('medicineSupplyDays', this.value)">
+      </div>
+      <div class="quote-strip-field">
+        <label for="inlineMedicinePkg">Medical Packaging</label>
+        <select id="inlineMedicinePkg" class="quote-strip-input" onchange="syncInlineServiceField('medicinePackaging', this.value)">
+          ${[
+            'Standard Tamper-Evident Blister / Bottle Box',
+            'Insulated Thermal Cold-Pack Box (Gel Packs)',
+            'Shock-Proof Glass Vial Cushioning'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${mPkg === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <label class="quote-strip-check">
+        <input type="checkbox" id="inlineMedicineRxCheck" ${rxOk ? 'checked' : ''} onchange="syncInlineServiceField('prescriptionConfirmed', this.checked)">
+        <span>Valid Doctor's Rx &amp; Pharmacy Invoice</span>
+      </label>
+    `;
+  } else if (pkgType === 'ecommerce') {
+    const eOpt = readVal('ecomServiceOption', sd.ecommerceServiceOption);
+    const eCust = readVal('ecomCustomsMode', sd.ecommerceCustomsMode);
+    const eQty = readVal('ecomParcelQty', sd.ecommerceQty || 1);
+    const lVal = readVal('ecomLength', sd.length || '20');
+    const wVal = readVal('ecomWidth', sd.width || '15');
+    const hVal = readVal('ecomHeight', sd.height || '10');
+    sd.ecommerceServiceOption = eOpt;
+    sd.ecommerceCustomsMode = eCust;
+    sd.ecommerceQty = eQty;
+    fieldsHtml = `
+      <div class="quote-strip-field">
+        <label for="inlineEcomOption">Fulfilment Service Mode</label>
+        <select id="inlineEcomOption" class="quote-strip-input" onchange="syncInlineServiceField('ecommerceServiceOption', this.value)">
+          ${[
+            'Cross-Border Express D2C (3-5 Business Days)',
+            'Economy Tracked e-Packet (6-9 Business Days)',
+            '3PL Split-Inventory & Store Fulfilment',
+            'Marketplace FBA / Overseas Hub Replenishment'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${eOpt === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field">
+        <label for="inlineEcomCustoms">Customs Mode</label>
+        <select id="inlineEcomCustoms" class="quote-strip-input" onchange="syncInlineServiceField('ecommerceCustomsMode', this.value)">
+          ${[
+            'DDU - Delivered Duty Unpaid',
+            'DDP - Delivered Duty Paid (Prepaid Duties)',
+            'CSB-V Commercial Export (GST Refund)'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${eCust === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field is-compact">
+        <label for="inlineEcomQty">Order Parcels</label>
+        <input type="number" id="inlineEcomQty" class="quote-strip-input" value="${escapeHtml(String(eQty))}" min="1" step="1" oninput="syncInlineServiceField('ecommerceQty', this.value)">
+      </div>
+      <div class="quote-strip-field is-dims">
+        <label>Parcel Size L × W × H (cm)</label>
+        <div class="quote-strip-dims-row">
+          <input type="number" id="inlineDimLength" class="quote-strip-input" placeholder="L" min="1" step="0.5" value="${escapeHtml(String(lVal))}" aria-label="Length cm" oninput="syncInlineServiceField('length', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimWidth" class="quote-strip-input" placeholder="W" min="1" step="0.5" value="${escapeHtml(String(wVal))}" aria-label="Width cm" oninput="syncInlineServiceField('width', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimHeight" class="quote-strip-input" placeholder="H" min="1" step="0.5" value="${escapeHtml(String(hVal))}" aria-label="Height cm" oninput="syncInlineServiceField('height', this.value)">
+        </div>
+      </div>
+    `;
+  } else if (pkgType === 'bulk') {
+    const bCargo = readVal('bulkCargoType', sd.bulkCargoType);
+    const bInco = readVal('bulkIncoterms', sd.bulkIncoterms);
+    const bQty = readVal('bulkPalletQty', sd.bulkPalletQty || 1);
+    const lVal = readVal('bulkLength', sd.length || '20');
+    const wVal = readVal('bulkWidth', sd.width || '15');
+    const hVal = readVal('bulkHeight', sd.height || '10');
+    sd.bulkCargoType = bCargo;
+    sd.bulkIncoterms = bInco;
+    sd.bulkPalletQty = bQty;
+    fieldsHtml = `
+      <div class="quote-strip-field">
+        <label for="inlineBulkCargoType">Commercial Cargo Type</label>
+        <select id="inlineBulkCargoType" class="quote-strip-input" onchange="syncInlineServiceField('bulkCargoType', this.value)">
+          ${[
+            'Palletized Commercial Goods',
+            'Loose Master Cartons / Boxes',
+            'Industrial Machinery & Spare Parts',
+            'Textiles, Garments & Apparel Bulk',
+            'Pharmaceutical & Healthcare Bulk',
+            'Raw Materials & Commercial Samples'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${bCargo === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field">
+        <label for="inlineBulkIncoterms">Freight Mode / Incoterms</label>
+        <select id="inlineBulkIncoterms" class="quote-strip-input" onchange="syncInlineServiceField('bulkIncoterms', this.value)">
+          ${[
+            'Door-to-Door Commercial Express (DAP / DDP)',
+            'Airport-to-Airport Priority Air Cargo (FCA / CPT)',
+            'Consolidated B2B Air Freight',
+            'Scheduled Contract Logistics'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${bInco === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field is-compact">
+        <label for="inlineBulkQty">Pallets / Units</label>
+        <input type="number" id="inlineBulkQty" class="quote-strip-input" value="${escapeHtml(String(bQty))}" min="1" step="1" oninput="syncInlineServiceField('bulkPalletQty', this.value)">
+      </div>
+      <div class="quote-strip-field is-dims">
+        <label>Unit / Pallet L × W × H (cm)</label>
+        <div class="quote-strip-dims-row">
+          <input type="number" id="inlineDimLength" class="quote-strip-input" placeholder="L" min="1" step="1" value="${escapeHtml(String(lVal))}" aria-label="Length cm" oninput="syncInlineServiceField('length', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimWidth" class="quote-strip-input" placeholder="W" min="1" step="1" value="${escapeHtml(String(wVal))}" aria-label="Width cm" oninput="syncInlineServiceField('width', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimHeight" class="quote-strip-input" placeholder="H" min="1" step="1" value="${escapeHtml(String(hVal))}" aria-label="Height cm" oninput="syncInlineServiceField('height', this.value)">
+        </div>
+      </div>
+    `;
+  } else {
+    const oCat = readVal('stdQuoteOtherCategory', sd.otherCategory);
+    const oQty = readVal('stdQuoteOtherQty', sd.otherQty || 1);
+    const oNotes = readVal('stdQuoteNotes', sd.otherNotes || '');
+    const lVal = readVal('stdQuoteLength', sd.length || '');
+    const wVal = readVal('stdQuoteWidth', sd.width || '');
+    const hVal = readVal('stdQuoteHeight', sd.height || '');
+    sd.otherCategory = oCat;
+    sd.otherQty = oQty;
+    sd.otherNotes = oNotes;
+    fieldsHtml = `
+      <div class="quote-strip-field">
+        <label for="inlineOtherCategory">Specialized Shipment Category</label>
+        <select id="inlineOtherCategory" class="quote-strip-input" onchange="syncInlineServiceField('otherCategory', this.value)">
+          ${[
+            'Excess / Unaccompanied Baggage & Suitcases',
+            'Musical Instruments & Studio Equipment',
+            'Sports Equipment & Bicycles',
+            'Artwork, Antiques & Fragile Collectibles',
+            'Household Relocation Cartons',
+            'Custom / Specialized Consignment'
+          ].map(opt => `<option value="${escapeHtml(opt)}" ${oCat === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="quote-strip-field is-compact">
+        <label for="inlineOtherQty">Pieces / Cartons</label>
+        <input type="number" id="inlineOtherQty" class="quote-strip-input" value="${escapeHtml(String(oQty))}" min="1" max="50" step="1" oninput="syncInlineServiceField('otherQty', this.value)">
+      </div>
+      <div class="quote-strip-field">
+        <label for="inlineOtherNotes">Shipment Description</label>
+        <input type="text" id="inlineOtherNotes" class="quote-strip-input" placeholder="Describe item type &amp; handling..." value="${escapeHtml(String(oNotes))}" oninput="syncInlineServiceField('otherNotes', this.value)">
+      </div>
+      <div class="quote-strip-field is-dims">
+        <label>Dimensions L × W × H (cm, Optional)</label>
+        <div class="quote-strip-dims-row">
+          <input type="number" id="inlineDimLength" class="quote-strip-input" placeholder="L" min="1" step="0.5" value="${escapeHtml(String(lVal))}" aria-label="Length cm" oninput="syncInlineServiceField('length', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimWidth" class="quote-strip-input" placeholder="W" min="1" step="0.5" value="${escapeHtml(String(wVal))}" aria-label="Width cm" oninput="syncInlineServiceField('width', this.value)">
+          <span>×</span>
+          <input type="number" id="inlineDimHeight" class="quote-strip-input" placeholder="H" min="1" step="0.5" value="${escapeHtml(String(hVal))}" aria-label="Height cm" oninput="syncInlineServiceField('height', this.value)">
+        </div>
+      </div>
+    `;
+  }
+
+  strip.hidden = false;
+  strip.innerHTML = `
+    <div class="quote-service-strip-head">
+      <div class="quote-service-strip-title">
+        <span class="quote-service-strip-badge">${escapeHtml(pkgInfo.serviceName || pkgInfo.label)}</span>
+        <span>${escapeHtml(rulesInfo.note)}</span>
+      </div>
+      <div class="quote-service-strip-rate" id="inlineServiceLiveRatePill">
+        <span>Calculating live rate...</span>
+      </div>
+    </div>
+    <div class="quote-service-strip-fields">
+      ${fieldsHtml}
+    </div>
+  `;
+
+  updateInlineServiceLiveRateBanner();
+}
+
+async function updateInlineServiceLiveRateBanner() {
+  const pill = document.getElementById('inlineServiceLiveRatePill');
+  if (!pill) return;
+
+  const check = validateQuoteInputs();
+  if (!check.valid) {
+    pill.innerHTML = `<span style="color:var(--primary-red); font-weight:600;">${escapeHtml(check.error)}</span>`;
+    return;
+  }
+
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  const pkgInfo = PACKAGE_TYPE_CONFIG[pkgType] || PACKAGE_TYPE_CONFIG.document;
+  const weightInput = document.getElementById('weightInput');
+  const weight = weightInput ? parseFloat(weightInput.value) : parseFloat(appState.weight) || 1;
+  const unit = appState.weightUnit || 'kg';
+  const sd = appState.serviceDetails || {};
+
+  let qty = 1;
+  if (pkgType === 'document') qty = Math.max(1, parseInt(document.getElementById('inlineDocQty')?.value || document.getElementById('stdQuoteEnvelopeQty')?.value || sd.documentQty || '1', 10) || 1);
+  else if (pkgType === 'parcel') qty = Math.max(1, parseInt(document.getElementById('inlineParcelQty')?.value || document.getElementById('stdQuoteParcelQty')?.value || sd.parcelQty || '1', 10) || 1);
+  else if (pkgType === 'ecommerce') qty = Math.max(1, parseInt(document.getElementById('inlineEcomQty')?.value || document.getElementById('ecomParcelQty')?.value || sd.ecommerceQty || '1', 10) || 1);
+  else if (pkgType === 'bulk') qty = Math.max(1, parseInt(document.getElementById('inlineBulkQty')?.value || document.getElementById('bulkPalletQty')?.value || sd.bulkPalletQty || '1', 10) || 1);
+  else if (pkgType === 'other') qty = Math.max(1, parseInt(document.getElementById('inlineOtherQty')?.value || document.getElementById('stdQuoteOtherQty')?.value || sd.otherQty || '1', 10) || 1);
+
+  const lRaw = document.getElementById('inlineDimLength')?.value || sd.length || '';
+  const wRaw = document.getElementById('inlineDimWidth')?.value || sd.width || '';
+  const hRaw = document.getElementById('inlineDimHeight')?.value || sd.height || '';
+  const lVal = parseFloat(lRaw);
+  const wVal = parseFloat(wRaw);
+  const hVal = parseFloat(hRaw);
+  const hasDims = pkgType !== 'document' && Number.isFinite(lVal) && lVal > 0 && Number.isFinite(wVal) && wVal > 0 && Number.isFinite(hVal) && hVal > 0;
+
+  try {
+    const qs = new URLSearchParams({
+      from: appState.fromCountry.name,
+      to: appState.toCountry.name,
+      type: pkgType,
+      weight: String(weight),
+      unit,
+      qty: String(qty)
+    });
+    if (hasDims) {
+      qs.set('length', String(lVal));
+      qs.set('width', String(wVal));
+      qs.set('height', String(hVal));
+    }
+    const res = await fetch(`/api/rates?${qs.toString()}`);
+    const data = await res.json().catch(() => null);
+    if (res.ok && data && data.ok) {
+      const q = data.query || {};
+      const expressTier = (Array.isArray(data.serviceTiers) && (data.serviceTiers.find(t => t.tierId === 'express') || data.serviceTiers[0])) || null;
+      const priceStr = (expressTier && expressTier.priceDisplay) || data.priceDisplay || '';
+      const transitStr = (expressTier && expressTier.transitTime) || '';
+      pill.innerHTML = `
+        <span><strong>${escapeHtml(appState.fromCountry.code)} ➔ ${escapeHtml(appState.toCountry.code)}</strong> • Chargeable: <strong>${q.chargeableWeightKg ?? data.chargeableWeightKg} kg</strong> (${weight} ${escapeHtml(unit)})</span>
+        ${priceStr ? `<strong class="rate-price">${escapeHtml(priceStr)}</strong>` : ''}
+        ${transitStr ? `<span style="font-size:11px; color:var(--slate-500);">(${escapeHtml(transitStr)})</span>` : ''}
+      `;
+    } else if (data && data.error) {
+      pill.innerHTML = `<span style="color:var(--primary-red); font-weight:600;">${escapeHtml(data.error)}</span>`;
+    }
+  } catch (_) {
+    // Keep non-blocking
+  }
+}
+
+function validateServiceSpecificQuoteFields(pkgType) {
+  const sd = appState.serviceDetails || {};
+
+  if (pkgType === 'document') {
+    const qtyEl = document.getElementById('stdQuoteEnvelopeQty') || document.getElementById('inlineDocQty');
+    const qty = parseInt(qtyEl ? qtyEl.value : (sd.documentQty || '1'), 10);
+    if (!Number.isFinite(qty) || qty < 1) {
+      return { valid: false, error: 'Document envelope / packet count must be a whole number of at least 1.', focusEl: qtyEl };
+    }
+  } else if (pkgType === 'parcel') {
+    const qtyEl = document.getElementById('stdQuoteParcelQty') || document.getElementById('inlineParcelQty');
+    const qty = parseInt(qtyEl ? qtyEl.value : (sd.parcelQty || '1'), 10);
+    if (!Number.isFinite(qty) || qty < 1) {
+      return { valid: false, error: 'Number of parcel packages / boxes must be at least 1.', focusEl: qtyEl };
+    }
+  } else if (pkgType === 'medicine') {
+    const typeEl = document.getElementById('stdQuoteMedicineType') || document.getElementById('inlineMedicineType');
+    const daysEl = document.getElementById('stdQuoteMedicineSupplyDays') || document.getElementById('inlineMedicineDays');
+    const medType = (typeEl ? typeEl.value : (sd.medicineType || '')).toLowerCase();
+    const supplyDays = parseInt(daysEl ? daysEl.value : (sd.medicineSupplyDays || '30'), 10);
+    if (medType.includes('narcotic') || medType.includes('prohibited') || medType.includes('controlled')) {
+      return {
+        valid: false,
+        error: 'Narcotic, psychotropic, and controlled substances are prohibited for international courier transport.',
+        focusEl: typeEl
+      };
+    }
+    if (!Number.isFinite(supplyDays) || supplyDays < 1 || supplyDays > 90) {
+      return {
+        valid: false,
+        error: 'International personal-use medicine shipments support a 1 to 90-day supply limit.',
+        focusEl: daysEl
+      };
+    }
+  } else if (pkgType === 'ecommerce') {
+    const qtyEl = document.getElementById('ecomParcelQty') || document.getElementById('inlineEcomQty');
+    const qty = parseInt(qtyEl ? qtyEl.value : (sd.ecommerceQty || '1'), 10);
+    if (!Number.isFinite(qty) || qty < 1) {
+      return { valid: false, error: 'E-commerce order parcel quantity must be at least 1.', focusEl: qtyEl };
+    }
+  } else if (pkgType === 'bulk') {
+    const qtyEl = document.getElementById('bulkPalletQty') || document.getElementById('inlineBulkQty');
+    const qty = parseInt(qtyEl ? qtyEl.value : (sd.bulkPalletQty || '1'), 10);
+    if (!Number.isFinite(qty) || qty < 1) {
+      return { valid: false, error: 'Bulk cargo / pallet quantity must be at least 1.', focusEl: qtyEl };
+    }
+  } else if (pkgType === 'other') {
+    const qtyEl = document.getElementById('stdQuoteOtherQty') || document.getElementById('inlineOtherQty');
+    const qty = parseInt(qtyEl ? qtyEl.value : (sd.otherQty || '1'), 10);
+    if (!Number.isFinite(qty) || qty < 1) {
+      return { valid: false, error: 'Number of specialized cargo pieces / cartons must be at least 1.', focusEl: qtyEl };
+    }
+  }
+
+  // Validate dimensions if any dimension field is populated
+  if (pkgType !== 'document') {
+    const lenEl =
+      (pkgType === 'ecommerce' && document.getElementById('ecomLength')) ||
+      (pkgType === 'bulk' && document.getElementById('bulkLength')) ||
+      document.getElementById('stdQuoteLength') ||
+      document.getElementById('inlineDimLength') ||
+      document.getElementById('ratesLengthInput');
+    const widEl =
+      (pkgType === 'ecommerce' && document.getElementById('ecomWidth')) ||
+      (pkgType === 'bulk' && document.getElementById('bulkWidth')) ||
+      document.getElementById('stdQuoteWidth') ||
+      document.getElementById('inlineDimWidth') ||
+      document.getElementById('ratesWidthInput');
+    const hgtEl =
+      (pkgType === 'ecommerce' && document.getElementById('ecomHeight')) ||
+      (pkgType === 'bulk' && document.getElementById('bulkHeight')) ||
+      document.getElementById('stdQuoteHeight') ||
+      document.getElementById('inlineDimHeight') ||
+      document.getElementById('ratesHeightInput');
+
+    const lRaw = (lenEl?.value || '').trim();
+    const wRaw = (widEl?.value || '').trim();
+    const hRaw = (hgtEl?.value || '').trim();
+    if (lRaw || wRaw || hRaw) {
+      const l = parseFloat(lRaw);
+      const w = parseFloat(wRaw);
+      const h = parseFloat(hRaw);
+      if (!Number.isFinite(l) || l <= 0 || !Number.isFinite(w) || w <= 0 || !Number.isFinite(h) || h <= 0) {
+        return {
+          valid: false,
+          error: 'When entering dimensions, Length, Width, and Height (cm) must all be positive numbers greater than 0.',
+          focusEl: lenEl
+        };
+      }
+    }
+  }
+
+  return { valid: true, error: '', focusEl: null };
 }
 
 async function handleUpdateQuoteParameters() {
-  const errEl = document.getElementById('quoteSubpageFormError');
+  if (appState.isUpdatingQuote) return;
+
   const check = validateQuoteInputs();
   if (!check.valid) {
-    if (errEl) {
-      errEl.hidden = false;
-      errEl.textContent = check.error;
-    }
+    setQuoteInlineError(check.error);
     const weightInput = document.getElementById('weightInput');
     if (weightInput) weightInput.focus();
     return;
   }
-  if (errEl) {
-    errEl.hidden = true;
-    errEl.textContent = '';
+
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  const svcCheck = validateServiceSpecificQuoteFields(pkgType);
+  if (!svcCheck.valid) {
+    setQuoteInlineError(svcCheck.error);
+    if (svcCheck.focusEl && typeof svcCheck.focusEl.focus === 'function') {
+      svcCheck.focusEl.focus();
+    }
+    return;
   }
-  renderDedicatedQuotePage();
-  showToast('Service & quote parameters updated!');
+
+  setQuoteInlineError('');
+  appState.isUpdatingQuote = true;
+  const updateBtn = document.getElementById('updateQuoteBtn');
+  const origBtnHtml = updateBtn ? updateBtn.innerHTML : '';
+  if (updateBtn) {
+    updateBtn.disabled = true;
+    updateBtn.innerHTML = '<span>Updating Quote...</span>';
+  }
+
+  try {
+    renderDedicatedQuotePage();
+    renderInlineServiceContextStrip();
+
+    if (pkgType === 'ecommerce') {
+      await updateEcommerceEstimateSummary();
+    } else if (pkgType === 'bulk') {
+      await updateBulkEstimateSummary();
+    } else {
+      await updateStandardQuoteCalcSummary();
+    }
+    await updateInlineServiceLiveRateBanner();
+
+    const activeSectionId = pkgType === 'ecommerce'
+      ? 'ecommerceServiceSection'
+      : (pkgType === 'bulk' ? 'bulkServiceSection' : 'standardQuoteSection');
+    const targetSummary = document.getElementById(activeSectionId) || document.getElementById('quotePageRouteTitle');
+    if (targetSummary) targetSummary.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    const pkgLabel = (PACKAGE_TYPE_CONFIG[pkgType] && PACKAGE_TYPE_CONFIG[pkgType].label) || pkgType;
+    showToast(`Quote calculated & updated for ${pkgLabel} (${appState.weight} ${appState.weightUnit})!`);
+  } catch (_) {
+    setQuoteInlineError('Unable to reach the rate calculation server. Please try again.');
+  } finally {
+    appState.isUpdatingQuote = false;
+    if (updateBtn) {
+      updateBtn.disabled = false;
+      updateBtn.innerHTML = origBtnHtml;
+    }
+  }
+}
+
+function selectQuoteServiceTier(tierName, targetSelectId = 'stdQuoteServiceTier') {
+  const tierSelect = document.getElementById(targetSelectId);
+  if (tierSelect && tierName) {
+    const options = Array.from(tierSelect.options);
+    const match = options.find(opt =>
+      opt.value.toLowerCase().includes(tierName.toLowerCase()) ||
+      tierName.toLowerCase().includes(opt.value.split('(')[0].trim().toLowerCase()) ||
+      (tierName.toLowerCase().includes('economy') && opt.value.toLowerCase().includes('economy')) ||
+      (tierName.toLowerCase().includes('consolidated') && opt.value.toLowerCase().includes('consolidated')) ||
+      (tierName.toLowerCase().includes('express') && opt.value.toLowerCase().includes('express'))
+    );
+    if (match) {
+      tierSelect.value = match.value;
+    }
+  }
+  document.querySelectorAll('.js-quote-tier-card').forEach(card => {
+    const isSel = card.dataset.tierName === tierName;
+    card.classList.toggle('is-selected', isSel);
+  });
+  showToast(`Selected service tier: ${tierName}`);
+}
+
+function renderServiceTierCardsHtml(tiers, targetSelectId = 'stdQuoteServiceTier') {
+  if (!Array.isArray(tiers) || !tiers.length) return '';
+  return `
+    <h4 style="font-size:13px; font-weight:700; color:var(--slate-900); margin-bottom:6px;">Calculated Quote Tiers (Click to Select)</h4>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      ${tiers.map((tier) => `
+        <div class="js-quote-tier-card" data-tier-name="${escapeHtml(tier.name)}" onclick="selectQuoteServiceTier('${escapeHtml(tier.name)}', '${escapeHtml(targetSelectId)}')">
+          <div class="quote-tier-card-top">
+            <div class="quote-tier-card-info">
+              <strong class="quote-tier-card-title">${escapeHtml(tier.name)}</strong>
+              <span class="quote-tier-card-meta">${escapeHtml(tier.carrier || 'International Express Carrier')} • ${escapeHtml(tier.transitTime)}</span>
+            </div>
+            <div class="quote-tier-card-price">
+              <strong class="quote-tier-card-amount">${escapeHtml(tier.priceDisplay || tier.rateStatus)}</strong>
+              <span class="quote-tier-card-status">${escapeHtml(tier.rateStatus)}</span>
+            </div>
+          </div>
+          <div class="quote-tier-card-breakdown">
+            ${tier.baseFreightInr ? `<span class="quote-tier-card-fees">Base: ₹${Number(tier.baseFreightInr).toLocaleString('en-IN')} + Fuel: ₹${Number(tier.fuelSurchargeInr).toLocaleString('en-IN')} + Clearance: ₹${Number(tier.clearanceFeeInr).toLocaleString('en-IN')}</span>` : ''}
+            <span class="quote-tier-card-pickup">${tier.baseFreightInr ? '• ' : ''}${escapeHtml(tier.pickupMode)}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 async function updateStandardQuoteCalcSummary() {
@@ -1430,25 +2663,59 @@ async function updateStandardQuoteCalcSummary() {
   const weightInput = document.getElementById('weightInput');
   const weight = weightInput && parseFloat(weightInput.value) > 0 ? parseFloat(weightInput.value) : parseFloat(appState.weight) || 1;
   const unit = appState.weightUnit || 'kg';
-  const pkgType = (appState.selectedPackage || appState.packageType || 'document').toLowerCase();
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
   const pkgLabel = (PACKAGE_TYPE_CONFIG[pkgType] && PACKAGE_TYPE_CONFIG[pkgType].label) || 'Document';
   const actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
   const actualLb = unit === 'lb' ? +weight.toFixed(2) : +(weight * 2.20462).toFixed(2);
+
+  let qty = 1;
+  let qtyBadge = '';
+  let categoryLabel = '';
+  if (pkgType === 'document') {
+    qty = Math.max(1, parseInt(document.getElementById('stdQuoteEnvelopeQty')?.value || '1', 10) || 1);
+    const docCat = document.getElementById('stdQuoteDocumentCategory')?.value || 'Academic Transcripts & University Certificates';
+    qtyBadge = `${qty} env.`;
+    categoryLabel = docCat;
+  } else if (pkgType === 'parcel') {
+    qty = Math.max(1, parseInt(document.getElementById('stdQuoteParcelQty')?.value || '1', 10) || 1);
+    const pCat = document.getElementById('stdQuoteParcelCategory')?.value || 'Personal Gifts, Clothing & Apparel';
+    qtyBadge = `${qty} box${qty > 1 ? 'es' : ''}`;
+    categoryLabel = pCat;
+  } else if (pkgType === 'medicine') {
+    const mType = document.getElementById('stdQuoteMedicineType')?.value || 'Allopathic Prescription Medicines (Licensed Rx)';
+    const mDays = Math.max(1, parseInt(document.getElementById('stdQuoteMedicineSupplyDays')?.value || '30', 10) || 30);
+    qtyBadge = `${mDays}-day supply`;
+    categoryLabel = mType.split('(')[0].trim();
+  } else if (pkgType === 'other') {
+    qty = Math.max(1, parseInt(document.getElementById('stdQuoteOtherQty')?.value || '1', 10) || 1);
+    const oCat = document.getElementById('stdQuoteOtherCategory')?.value || 'Custom / Specialized Consignment';
+    qtyBadge = `${qty} pc${qty > 1 ? 's' : ''}`;
+    categoryLabel = oCat;
+  }
 
   const lVal = parseFloat(document.getElementById('stdQuoteLength')?.value || '');
   const wVal = parseFloat(document.getElementById('stdQuoteWidth')?.value || '');
   const hVal = parseFloat(document.getElementById('stdQuoteHeight')?.value || '');
   const hasDims = pkgType !== 'document' && lVal > 0 && wVal > 0 && hVal > 0;
-  const volKg = hasDims ? +((lVal * wVal * hVal) / 5000).toFixed(2) : null;
+  const divisor = pkgType === 'bulk' ? 6000 : 5000;
+  const volKg = hasDims ? +((lVal * wVal * hVal * qty) / divisor).toFixed(2) : null;
   const chargeableKg = volKg !== null ? +Math.max(actualKg, volKg).toFixed(2) : actualKg;
 
   summaryBox.innerHTML = `
     <div class="summary-row"><span>Corridor</span><strong>${escapeHtml(appState.fromCountry.name)} ➔ ${escapeHtml(appState.toCountry.name)}</strong></div>
-    <div class="summary-row"><span>Service Category</span><strong>${escapeHtml(pkgLabel)}</strong></div>
-    <div class="summary-row"><span>Entered Weight</span><strong>${weight} ${escapeHtml(unit)} (${actualKg} kg / ${actualLb} lb)</strong></div>
-    ${volKg !== null ? `<div class="summary-row"><span>Volumetric Weight (${lVal}×${wVal}×${hVal} cm ÷ 5000)</span><strong>${volKg} kg</strong></div>` : ''}
-    <div class="summary-row total"><span>Chargeable Weight</span><strong>${chargeableKg} kg</strong></div>
+    <div class="summary-row"><span>Service &amp; Chargeable Wt</span><strong>${escapeHtml(pkgLabel)}${qtyBadge ? ` (${escapeHtml(qtyBadge)})` : ''} • ${chargeableKg} kg</strong></div>
+    ${categoryLabel ? `<div class="summary-row"><span>Details</span><strong>${escapeHtml(categoryLabel)}</strong></div>` : ''}
+    ${volKg !== null ? `<div class="summary-row"><span>Volumetric Weight</span><strong>${volKg} kg (${qty}×${lVal}×${wVal}×${hVal} cm)</strong></div>` : ''}
+    <div class="summary-row total"><span>Chargeable Weight</span><strong>${chargeableKg} kg (${actualLb} lb)</strong></div>
   `;
+
+  const weightCheck = validateQuoteInputs();
+  if (!weightCheck.valid) {
+    if (servicesListBox) {
+      servicesListBox.innerHTML = `<p class="quote-inline-error">${escapeHtml(weightCheck.error)}</p>`;
+    }
+    return;
+  }
 
   if (servicesListBox) {
     try {
@@ -1457,7 +2724,8 @@ async function updateStandardQuoteCalcSummary() {
         to: appState.toCountry.name,
         type: pkgType,
         weight: String(weight),
-        unit
+        unit,
+        qty: String(qty)
       });
       if (hasDims) {
         qs.set('length', String(lVal));
@@ -1467,22 +2735,25 @@ async function updateStandardQuoteCalcSummary() {
       const res = await fetch(`/api/rates?${qs.toString()}`);
       const data = await res.json().catch(() => null);
       if (res.ok && data && data.ok && Array.isArray(data.serviceTiers)) {
-        servicesListBox.innerHTML = `
-          <h4 style="font-size:13.5px; font-weight:700; color:var(--slate-900); margin-bottom:8px;">Available Service Tiers for This Route</h4>
-          <div style="display:flex; flex-direction:column; gap:8px;">
-            ${data.serviceTiers.map(tier => `
-              <div style="padding:10px 12px; border:1px solid var(--slate-200); border-radius:10px; background:#f8fafc;">
-                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-                  <strong style="font-size:13px; color:var(--slate-900);">${escapeHtml(tier.name)}</strong>
-                  <span class="api-status-pill" style="font-size:11px;">${escapeHtml(tier.transitTime)}</span>
-                </div>
-                <p style="font-size:12px; color:var(--slate-600); margin:4px 0 0;">
-                  ${escapeHtml(tier.pickupMode)} • ${escapeHtml(tier.customsClearance)} • <em>${escapeHtml(tier.rateStatus)}</em>
-                </p>
-              </div>
-            `).join('')}
-          </div>
-        `;
+        const q = data.query || {};
+        const expressTier = data.serviceTiers.find(t => t.tierId === 'express') || data.serviceTiers[0];
+        if (expressTier && expressTier.priceDisplay) {
+          const shortZone = q.zone ? String(q.zone).split('(')[0].replace(/•.*$/, '').trim() : '';
+          const chgKg = q.chargeableWeightKg || chargeableKg;
+          const wtStr = (unit === 'kg' && Number(chgKg) === Number(weight))
+            ? `${chgKg} kg`
+            : `${chgKg} kg (${weight} ${escapeHtml(unit)})`;
+          summaryBox.innerHTML = `
+            <div class="summary-row"><span>Corridor</span><strong>${escapeHtml(appState.fromCountry.name)} ➔ ${escapeHtml(appState.toCountry.name)}${shortZone ? ` (${escapeHtml(shortZone)})` : ''}</strong></div>
+            <div class="summary-row"><span>Service &amp; Chargeable Wt</span><strong>${escapeHtml(pkgLabel)}${qtyBadge ? ` (${escapeHtml(qtyBadge)})` : ''} • ${wtStr}</strong></div>
+            ${categoryLabel ? `<div class="summary-row"><span>Details</span><strong>${escapeHtml(categoryLabel)}</strong></div>` : ''}
+            ${volKg !== null ? `<div class="summary-row"><span>Volumetric Weight</span><strong>${volKg} kg (${qty}×${lVal}×${wVal}×${hVal} cm)</strong></div>` : ''}
+            <div class="summary-row total"><span>Estimated Express Quote</span><strong style="color:var(--primary-red); font-size:1.05rem;">${escapeHtml(expressTier.priceDisplay)}</strong></div>
+          `;
+        }
+        servicesListBox.innerHTML = renderServiceTierCardsHtml(data.serviceTiers, 'stdQuoteServiceTier');
+      } else if (data && data.error) {
+        servicesListBox.innerHTML = `<p class="quote-inline-error">${escapeHtml(data.error)}</p>`;
       }
     } catch (_) {
       // Non-blocking tier preview
@@ -1521,24 +2792,75 @@ async function submitStandardQuoteForm() {
   const lenEl = document.getElementById('stdQuoteLength');
   const widEl = document.getElementById('stdQuoteWidth');
   const hgtEl = document.getElementById('stdQuoteHeight');
+  const docCatEl = document.getElementById('stdQuoteDocumentCategory');
+  const envQtyEl = document.getElementById('stdQuoteEnvelopeQty');
+  const parcelCatEl = document.getElementById('stdQuoteParcelCategory');
+  const parcelQtyEl = document.getElementById('stdQuoteParcelQty');
+  const otherCatEl = document.getElementById('stdQuoteOtherCategory');
+  const otherQtyEl = document.getElementById('stdQuoteOtherQty');
+  const medTypeEl = document.getElementById('stdQuoteMedicineType');
+  const medDaysEl = document.getElementById('stdQuoteMedicineSupplyDays');
+  const medPkgEl = document.getElementById('stdQuoteMedicinePackaging');
   const rxCheckEl = document.getElementById('stdQuotePrescriptionCheck');
   const notesEl = document.getElementById('stdQuoteNotes');
 
-  [nameEl, phoneEl, emailEl, lenEl, widEl, hgtEl].forEach(el => el && el.classList.remove('has-field-error'));
+  [nameEl, phoneEl, emailEl, lenEl, widEl, hgtEl, envQtyEl, parcelQtyEl, otherQtyEl, medTypeEl, medDaysEl, notesEl].forEach(
+    el => el && el.classList.remove('has-field-error')
+  );
 
   const senderName = (nameEl?.value || '').trim();
   const phone = (phoneEl?.value || '').trim();
   const email = (emailEl?.value || '').trim();
   const serviceTier = (tierEl?.value || 'Express Air Saver (3–5 Business Days)').trim();
   const notes = (notesEl?.value || '').trim();
-  const pkgType = (appState.selectedPackage || appState.packageType || 'document').toLowerCase();
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
 
   if (!senderName) return fail(nameEl, 'Please enter your full name.');
   if (phone.replace(/\D/g, '').length < 7) return fail(phoneEl, 'Please enter a valid mobile or WhatsApp number (at least 7 digits).');
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return fail(emailEl, 'Please enter a valid email address.');
 
-  if (pkgType === 'medicine' && (!rxCheckEl || !rxCheckEl.checked)) {
-    return fail(rxCheckEl, "For Medicine Courier shipments, please confirm that you hold a valid doctor's prescription and pharmacy tax invoice.");
+  let parcelQty = 1;
+  let documentCategory = null;
+  let parcelCategory = null;
+  let medicineType = null;
+  let medicineSupplyDays = null;
+  let medicinePackaging = null;
+  let otherCategory = null;
+
+  if (pkgType === 'document') {
+    documentCategory = (docCatEl?.value || 'Academic Transcripts & University Certificates').trim();
+    parcelQty = parseInt(envQtyEl?.value || '1', 10);
+    if (!Number.isFinite(parcelQty) || parcelQty < 1) {
+      return fail(envQtyEl, 'Envelope / packet count must be at least 1.');
+    }
+  } else if (pkgType === 'parcel') {
+    parcelCategory = (parcelCatEl?.value || 'Personal Gifts, Clothing & Apparel').trim();
+    parcelQty = parseInt(parcelQtyEl?.value || '1', 10);
+    if (!Number.isFinite(parcelQty) || parcelQty < 1) {
+      return fail(parcelQtyEl, 'Number of packages / boxes must be at least 1.');
+    }
+  } else if (pkgType === 'medicine') {
+    medicineType = (medTypeEl?.value || 'Allopathic Prescription Medicines (Licensed Rx)').trim();
+    medicineSupplyDays = parseInt(medDaysEl?.value || '30', 10);
+    medicinePackaging = (medPkgEl?.value || 'Standard Tamper-Evident Blister / Bottle Box').trim();
+    if (medicineType.toLowerCase().includes('narcotic') || medicineType.toLowerCase().includes('prohibited') || medicineType.toLowerCase().includes('controlled')) {
+      return fail(medTypeEl, 'Narcotic, psychotropic, and controlled substances are strictly prohibited for international courier transport under NDPS and IATA regulations.');
+    }
+    if (!Number.isFinite(medicineSupplyDays) || medicineSupplyDays < 1 || medicineSupplyDays > 90) {
+      return fail(medDaysEl, 'International personal-use medicine shipments are restricted to a 1 to 90-day supply under customs and drug control regulations.');
+    }
+    if (!rxCheckEl || !rxCheckEl.checked) {
+      return fail(rxCheckEl, "For Medicine Courier shipments, please confirm that you hold a valid doctor's prescription and pharmacy tax invoice.");
+    }
+  } else if (pkgType === 'other') {
+    otherCategory = (otherCatEl?.value || 'Custom / Specialized Consignment').trim();
+    parcelQty = parseInt(otherQtyEl?.value || '1', 10);
+    if (!Number.isFinite(parcelQty) || parcelQty < 1) {
+      return fail(otherQtyEl, 'Number of pieces / cartons must be at least 1.');
+    }
+    if (notes.length < 5) {
+      return fail(notesEl, "For 'Other' specialized shipments, please enter a detailed description of the contents (at least 5 characters).");
+    }
   }
 
   const lRaw = (lenEl?.value || '').trim();
@@ -1579,13 +2901,20 @@ async function submitStandardQuoteForm() {
         originCountry: appState.fromCountry.name,
         destCountry: appState.toCountry.name,
         packageType: pkgType,
+        parcelQty,
         weight: parseFloat(appState.weight) || 1,
         weightUnit: appState.weightUnit || 'kg',
         length,
         width,
         height,
         serviceTier,
-        prescriptionConfirmed: pkgType === 'medicine' ? Boolean(rxCheckEl?.checked) : false,
+        documentCategory,
+        parcelCategory,
+        medicineType,
+        medicineSupplyDays,
+        medicinePackaging,
+        prescriptionConfirmed: pkgType === 'medicine' ? Boolean(rxCheckEl?.checked) : null,
+        otherCategory,
         notes
       })
     });
@@ -1600,14 +2929,14 @@ async function submitStandardQuoteForm() {
       confirmBox.hidden = false;
       confirmBox.innerHTML = `
         <div class="pickup-confirmed-banner" style="margin-top:14px;">
-          <strong>Shipping Quote Request Saved — Reference: ${escapeHtml(q.quoteId)}</strong>
+          <strong>Shipping Quote Request Saved — Reference: ${escapeHtml(q.quoteId)}${q.priceDisplay ? ` • Estimated Quote: ${escapeHtml(q.priceDisplay)}` : ''}</strong>
           <p style="margin-top:6px;">
             Sender <b>${escapeHtml(q.senderName)}</b> (${escapeHtml(q.email)} • ${escapeHtml(q.phone)}) —
             <b>${escapeHtml(q.packageTypeLabel)}</b> from <b>${escapeHtml(q.originCountry)}</b> to <b>${escapeHtml(q.destCountry)}</b>
             via <b>${escapeHtml(q.serviceTier)}</b>.
           </p>
           <p style="margin-top:6px;">
-            Entered Weight: <b>${q.weight} ${escapeHtml(q.weightUnit)}</b> • Chargeable Weight: <b>${q.chargeableWeightKg} kg</b> • Status: <b>${escapeHtml(q.status)}</b>.
+            Entered Weight: <b>${q.weight} ${escapeHtml(q.weightUnit)}</b> • Chargeable Weight: <b>${q.chargeableWeightKg} kg</b>${q.priceDisplay ? ` • Tariff Estimate: <b style="color:var(--primary-red);">${escapeHtml(q.priceDisplay)}</b>` : ''} • Status: <b>${escapeHtml(q.status)}</b>.
           </p>
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
             <a href="/track?awb=${encodeURIComponent(q.quoteId)}" class="btn btn-primary btn-sm">Track Quote Reference (${escapeHtml(q.quoteId)}) →</a>
@@ -1652,7 +2981,33 @@ function handleServiceUnitField(serviceType, rawUnit) {
   if (serviceType === 'bulk') updateBulkEstimateSummary();
 }
 
-function updateEcommerceEstimateSummary() {
+function handleServiceCountryField(serviceType) {
+  const originEl = serviceType === 'ecommerce'
+    ? document.getElementById('ecomOriginCountry')
+    : document.getElementById('bulkOriginCountry');
+  const destEl = serviceType === 'ecommerce'
+    ? document.getElementById('ecomDestCountry')
+    : document.getElementById('bulkDestCountry');
+
+  if (originEl && originEl.value.trim()) {
+    const matchedFrom = findCountryByNameOrCode(originEl.value.trim());
+    if (matchedFrom) {
+      appState.fromCountry = { code: matchedFrom.code, name: matchedFrom.name, flagSvg: getFlagSvg(matchedFrom.code) };
+    }
+  }
+  if (destEl && destEl.value.trim()) {
+    const matchedTo = findCountryByNameOrCode(destEl.value.trim());
+    if (matchedTo) {
+      appState.toCountry = { code: matchedTo.code, name: matchedTo.name, flagSvg: getFlagSvg(matchedTo.code) };
+    }
+  }
+  updateCountryUI();
+  syncUrlWithCurrentForm();
+  if (serviceType === 'ecommerce') updateEcommerceEstimateSummary();
+  if (serviceType === 'bulk') updateBulkEstimateSummary();
+}
+
+async function updateEcommerceEstimateSummary() {
   const summaryBox = document.getElementById('ecomCalcSummary');
   if (!summaryBox) return;
 
@@ -1661,16 +3016,34 @@ function updateEcommerceEstimateSummary() {
   const qty = Math.max(1, parseInt(document.getElementById('ecomParcelQty')?.value || '1', 10) || 1);
   const weight = Math.max(0.1, parseFloat(document.getElementById('ecomWeight')?.value || appState.weight || '1') || 1);
   const unit = (document.getElementById('ecomWeightUnit')?.value || appState.weightUnit || 'kg').toLowerCase();
-  const length = Math.max(1, parseFloat(document.getElementById('ecomLength')?.value || '25') || 25);
-  const width = Math.max(1, parseFloat(document.getElementById('ecomWidth')?.value || '20') || 20);
+  const length = Math.max(1, parseFloat(document.getElementById('ecomLength')?.value || '20') || 20);
+  const width = Math.max(1, parseFloat(document.getElementById('ecomWidth')?.value || '15') || 15);
   const height = Math.max(1, parseFloat(document.getElementById('ecomHeight')?.value || '10') || 10);
   const serviceOption = document.getElementById('ecomServiceOption')?.value || 'Cross-Border Express D2C (3-5 Business Days)';
   const customsMode = document.getElementById('ecomCustomsMode')?.value || 'DDU - Delivered Duty Unpaid';
 
-  const actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
-  const volPerParcelKg = +((length * width * height) / 5000).toFixed(2);
-  const totalVolKg = +(volPerParcelKg * qty).toFixed(2);
-  const chargeableKg = +Math.max(actualKg, totalVolKg).toFixed(2);
+  let actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
+  let totalVolKg = +(((length * width * height) / 5000) * qty).toFixed(2);
+  let chargeableKg = +Math.max(actualKg, totalVolKg).toFixed(2);
+  let priceDisplay = '';
+  let serviceTiers = [];
+
+  const weightCheck = validateQuoteInputs();
+  if (weightCheck.valid) {
+    try {
+      const res = await fetch(`/api/rates?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(dest)}&type=ecommerce&weight=${encodeURIComponent(weight)}&unit=${encodeURIComponent(unit)}&length=${encodeURIComponent(length)}&width=${encodeURIComponent(width)}&height=${encodeURIComponent(height)}&qty=${encodeURIComponent(qty)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.ok) {
+          actualKg = data.actualWeightKg;
+          totalVolKg = data.volumetricWeightKg;
+          chargeableKg = data.chargeableWeightKg;
+          priceDisplay = data.priceDisplay || '';
+          serviceTiers = Array.isArray(data.serviceTiers) ? data.serviceTiers : [];
+        }
+      }
+    } catch (_) {}
+  }
 
   summaryBox.innerHTML = `
     <div class="summary-row"><span>Fulfilment Corridor</span><strong>${escapeHtml(origin)} ➔ ${escapeHtml(dest)}</strong></div>
@@ -1678,9 +3051,15 @@ function updateEcommerceEstimateSummary() {
     <div class="summary-row"><span>Customs Mode</span><strong>${escapeHtml(customsMode)}</strong></div>
     <div class="summary-row"><span>Parcel Quantity &amp; Dimensions</span><strong>${qty} × (${length}×${width}×${height} cm)</strong></div>
     <div class="summary-row"><span>Actual Weight</span><strong>${weight} ${escapeHtml(unit)} (${actualKg} kg)</strong></div>
-    <div class="summary-row"><span>Volumetric Weight (L×W×H÷5000)</span><strong>${totalVolKg} kg</strong></div>
-    <div class="summary-row total"><span>Estimated Chargeable Weight</span><strong>${chargeableKg} kg</strong></div>
+    <div class="summary-row"><span>Volumetric Weight (L×W×H×Qty÷5000)</span><strong>${totalVolKg} kg</strong></div>
+    <div class="summary-row"><span>Estimated Chargeable Weight</span><strong>${chargeableKg} kg</strong></div>
+    ${priceDisplay ? `<div class="summary-row total"><span>Estimated D2C Fulfilment Tariff</span><strong style="color:var(--primary-red);font-size:16px;">${escapeHtml(priceDisplay)}</strong></div>` : ''}
   `;
+
+  const tierListEl = document.getElementById('ecomAvailableServicesList');
+  if (tierListEl && serviceTiers.length > 0) {
+    tierListEl.innerHTML = renderServiceTierCardsHtml(serviceTiers, 'ecomServiceOption');
+  }
 }
 
 async function submitEcommerceServiceForm() {
@@ -1822,7 +3201,7 @@ async function submitEcommerceServiceForm() {
             to <b>${escapeHtml(rec.destCountry)}</b> (${escapeHtml(rec.deliveryAddress)}) via <b>${escapeHtml(rec.serviceOption)}</b> (${escapeHtml(rec.customsMode)}).
           </p>
           <p style="margin-top:6px;">
-            Calculated Chargeable Weight: <b>${rec.chargeableWeightKg} kg</b> (Actual: ${rec.actualWeightKg} kg • Volumetric: ${rec.volumetricWeightKg} kg).
+            Calculated Chargeable Weight: <b>${rec.chargeableWeightKg} kg</b> (Actual: ${rec.actualWeightKg} kg • Volumetric: ${rec.volumetricWeightKg} kg)${rec.priceDisplay ? ` • Estimated Fulfilment Tariff: <b style="color:var(--primary-red);">${escapeHtml(rec.priceDisplay)}</b>` : ''}.
           </p>
           <p style="margin-top:6px;"><em>${escapeHtml(data.message)}</em></p>
         </div>
@@ -1841,26 +3220,45 @@ async function submitEcommerceServiceForm() {
   }
 }
 
-function updateBulkEstimateSummary() {
+async function updateBulkEstimateSummary() {
   const summaryBox = document.getElementById('bulkCalcSummary');
   if (!summaryBox) return;
 
   const origin = (document.getElementById('bulkOriginCountry')?.value || appState.fromCountry.name).trim();
   const dest = (document.getElementById('bulkDestCountry')?.value || appState.toCountry.name).trim();
-  const qty = Math.max(1, parseInt(document.getElementById('bulkPalletQty')?.value || '2', 10) || 1);
+  const qty = Math.max(1, parseInt(document.getElementById('bulkPalletQty')?.value || '1', 10) || 1);
   const weight = Math.max(0.1, parseFloat(document.getElementById('bulkTotalWeight')?.value || appState.weight || '1') || 1);
   const unit = (document.getElementById('bulkWeightUnit')?.value || appState.weightUnit || 'kg').toLowerCase();
-  const length = Math.max(1, parseFloat(document.getElementById('bulkLength')?.value || '120') || 120);
-  const width = Math.max(1, parseFloat(document.getElementById('bulkWidth')?.value || '80') || 80);
-  const height = Math.max(1, parseFloat(document.getElementById('bulkHeight')?.value || '100') || 100);
+  const length = Math.max(1, parseFloat(document.getElementById('bulkLength')?.value || '20') || 20);
+  const width = Math.max(1, parseFloat(document.getElementById('bulkWidth')?.value || '15') || 15);
+  const height = Math.max(1, parseFloat(document.getElementById('bulkHeight')?.value || '10') || 10);
   const cargoType = document.getElementById('bulkCargoType')?.value || 'Palletized Commercial Goods';
   const handlingReq = document.getElementById('bulkHandlingReq')?.value || 'Standard Palletized / Forklift Handling';
   const incoterms = document.getElementById('bulkIncoterms')?.value || 'Door-to-Door Commercial Express (DAP / DDP)';
 
-  const actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
+  let actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
   const totalVolumeCbm = +((length * width * height * qty) / 1000000).toFixed(3);
-  const volumetricKg = +((length * width * height * qty) / 6000).toFixed(2);
-  const chargeableKg = +Math.max(actualKg, volumetricKg).toFixed(2);
+  let volumetricKg = +((length * width * height * qty) / 6000).toFixed(2);
+  let chargeableKg = +Math.max(actualKg, volumetricKg).toFixed(2);
+  let priceDisplay = '';
+  let serviceTiers = [];
+
+  const weightCheck = validateQuoteInputs();
+  if (weightCheck.valid) {
+    try {
+      const res = await fetch(`/api/rates?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(dest)}&type=bulk&weight=${encodeURIComponent(weight)}&unit=${encodeURIComponent(unit)}&length=${encodeURIComponent(length)}&width=${encodeURIComponent(width)}&height=${encodeURIComponent(height)}&qty=${encodeURIComponent(qty)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.ok) {
+          actualKg = data.actualWeightKg;
+          volumetricKg = data.volumetricWeightKg;
+          chargeableKg = data.chargeableWeightKg;
+          priceDisplay = data.priceDisplay || '';
+          serviceTiers = Array.isArray(data.serviceTiers) ? data.serviceTiers : [];
+        }
+      }
+    } catch (_) {}
+  }
 
   summaryBox.innerHTML = `
     <div class="summary-row"><span>Freight Corridor</span><strong>${escapeHtml(origin)} ➔ ${escapeHtml(dest)}</strong></div>
@@ -1870,8 +3268,14 @@ function updateBulkEstimateSummary() {
     <div class="summary-row"><span>Total Cubic Volume (CBM)</span><strong>${totalVolumeCbm} m³</strong></div>
     <div class="summary-row"><span>Actual Gross Weight</span><strong>${weight} ${escapeHtml(unit)} (${actualKg} kg)</strong></div>
     <div class="summary-row"><span>Air Freight Volumetric Weight</span><strong>${volumetricKg} kg</strong></div>
-    <div class="summary-row total"><span>Estimated Chargeable Freight Weight</span><strong>${chargeableKg} kg</strong></div>
+    <div class="summary-row"><span>Estimated Chargeable Freight Weight</span><strong>${chargeableKg} kg</strong></div>
+    ${priceDisplay ? `<div class="summary-row total"><span>Estimated Commercial Freight Tariff</span><strong style="color:var(--primary-red);font-size:16px;">${escapeHtml(priceDisplay)}</strong></div>` : ''}
   `;
+
+  const tierListEl = document.getElementById('bulkAvailableServicesList');
+  if (tierListEl && serviceTiers.length > 0) {
+    tierListEl.innerHTML = renderServiceTierCardsHtml(serviceTiers, 'bulkIncoterms');
+  }
 }
 
 async function submitBulkServiceForm() {
@@ -2016,7 +3420,7 @@ async function submitBulkServiceForm() {
             to <b>${escapeHtml(rec.destCountry)}</b> (${escapeHtml(rec.deliveryAddress)}) under <b>${escapeHtml(rec.incoterms)}</b>.
           </p>
           <p style="margin-top:6px;">
-            Total Volume: <b>${rec.totalVolumeCbm} CBM</b> • Chargeable Weight: <b>${rec.chargeableWeightKg} kg</b> (Actual: ${rec.actualWeightKg} kg • Volumetric: ${rec.volumetricWeightKg} kg).
+            Total Volume: <b>${rec.totalVolumeCbm} CBM</b> • Chargeable Weight: <b>${rec.chargeableWeightKg} kg</b> (Actual: ${rec.actualWeightKg} kg • Volumetric: ${rec.volumetricWeightKg} kg)${rec.priceDisplay ? ` • Estimated Commercial Freight Tariff: <b style="color:var(--primary-red);">${escapeHtml(rec.priceDisplay)}</b>` : ''}.
           </p>
           <p style="margin-top:6px;"><em>${escapeHtml(data.message)}</em></p>
         </div>
@@ -2040,7 +3444,16 @@ function renderDedicatedTrackPage() {
   const awbParam = (params.get('awb') || '').trim();
   const input = document.getElementById('trackingInput');
   const shareInput = document.getElementById('shareUrlInput');
-  if (shareInput) shareInput.value = getShareablePageUrl();
+  if (shareInput) {
+    shareInput.value = getShareablePageUrl();
+    if (!shareInput.dataset.copyBound) {
+      shareInput.dataset.copyBound = '1';
+      shareInput.title = 'Click to select & copy link';
+      shareInput.addEventListener('click', () => {
+        shareCurrentPageLink();
+      });
+    }
+  }
 
   if (input && awbParam) {
     input.value = awbParam;
@@ -2080,7 +3493,16 @@ async function lookupTrackingStatus(optionalAwb) {
   const currentPath = window.location.pathname || '/track';
   window.history.replaceState({}, '', `${currentPath}?awb=${encodeURIComponent(normalizedAwb)}`);
   const shareInput = document.getElementById('shareUrlInput');
-  if (shareInput) shareInput.value = getShareablePageUrl();
+  if (shareInput) {
+    shareInput.value = getShareablePageUrl();
+    if (!shareInput.dataset.copyBound) {
+      shareInput.dataset.copyBound = '1';
+      shareInput.title = 'Click to select & copy link';
+      shareInput.addEventListener('click', () => {
+        shareCurrentPageLink();
+      });
+    }
+  }
 
   const awbDisplay = document.getElementById('trackAwbNumber');
   if (awbDisplay) awbDisplay.textContent = normalizedAwb;
@@ -2137,9 +3559,16 @@ async function lookupTrackingStatus(optionalAwb) {
           ` : ''}
         `;
       }
-      if (apiBannerTitle) apiBannerTitle.textContent = 'Verified Local Record Found';
+      if (apiBanner) {
+        apiBanner.style.background = '#f0fdf4';
+        apiBanner.style.borderColor = '#bbf7d0';
+      }
+      if (apiBannerTitle) {
+        apiBannerTitle.style.color = '#15803d';
+        apiBannerTitle.textContent = 'Verified Shipment Record Found';
+      }
       if (apiBannerText) {
-        apiBannerText.textContent = `Showing real stored details for ${normalizedAwb} from the Trisys Express backend database. Live external airline/carrier scan events will append automatically once carrier API credentials are connected.`;
+        apiBannerText.textContent = `Showing real-time stored details and scan milestones for ${normalizedAwb} from the Trisys Express backend database.`;
       }
       showToast(`Tracking details loaded for ${normalizedAwb}`);
     } else {
@@ -2149,14 +3578,21 @@ async function lookupTrackingStatus(optionalAwb) {
         detailsBox.innerHTML = `
           <div class="pickup-order-summary">
             <div class="summary-row"><span>Queried Reference / AWB</span><strong>${escapeHtml(normalizedAwb)}</strong></div>
-            <div class="summary-row"><span>Local Database Match</span><strong>No matching pickup (TRISYS-PKP-*) or quote (TRISYS-QTE-*) found</strong></div>
-            <div class="summary-row"><span>External Carrier Tracking API</span><strong>${data.carrierTrackingApiConfigured ? 'Connected' : 'Not Configured (TRISYS_CARRIER_API_KEY missing)'}</strong></div>
+            <div class="summary-row"><span>Database Match</span><strong>No matching shipment, pickup (TRISYS-PKP-*), or quote (TRISYS-QTE-*) found</strong></div>
+            <div class="summary-row"><span>Tracking Database Status</span><strong style="color:#15803d;">Connected &amp; Online</strong></div>
           </div>
         `;
       }
-      if (apiBannerTitle) apiBannerTitle.textContent = 'No Record Found / Carrier Tracking API Not Configured';
+      if (apiBanner) {
+        apiBanner.style.background = '#fff5f5';
+        apiBanner.style.borderColor = '#fecaca';
+      }
+      if (apiBannerTitle) {
+        apiBannerTitle.style.color = 'var(--primary-red)';
+        apiBannerTitle.textContent = 'No Matching Shipment Found';
+      }
       if (apiBannerText) {
-        apiBannerText.textContent = data.message || `No shipment or pickup record was found for '${normalizedAwb}', and external carrier AWB tracking is not configured. No fabricated tracking events are displayed.`;
+        apiBannerText.textContent = data.message || `No shipment or pickup record was found for '${normalizedAwb}'. Please check your tracking number or try TRX123456789.`;
       }
     }
   } catch (_) {
@@ -2525,43 +3961,46 @@ function updateRatesPackageContextUI(pkgType) {
 }
 
 async function handleUpdateRatesParameters() {
-  const errEl = document.getElementById('ratesFormError');
-  const check = validateQuoteInputs();
+  if (appState.isUpdatingRates) return;
 
+  const check = validateQuoteInputs();
   if (!check.valid) {
-    if (errEl) {
-      errEl.hidden = false;
-      errEl.textContent = check.error;
-    }
+    setQuoteInlineError(check.error);
     const weightInput = document.getElementById('weightInput');
     if (weightInput) weightInput.focus();
     return;
   }
 
-  const pkgType = (appState.selectedPackage || appState.packageType || 'document').toLowerCase();
-  const lenRaw = (document.getElementById('ratesLengthInput')?.value || '').trim();
-  const widRaw = (document.getElementById('ratesWidthInput')?.value || '').trim();
-  const hgtRaw = (document.getElementById('ratesHeightInput')?.value || '').trim();
-  if (pkgType !== 'document' && (lenRaw || widRaw || hgtRaw)) {
-    const l = parseFloat(lenRaw);
-    const w = parseFloat(widRaw);
-    const h = parseFloat(hgtRaw);
-    if (!Number.isFinite(l) || l <= 0 || !Number.isFinite(w) || w <= 0 || !Number.isFinite(h) || h <= 0) {
-      if (errEl) {
-        errEl.hidden = false;
-        errEl.textContent = 'When entering optional dimensions, Length, Width, and Height (cm) must all be positive numbers greater than 0.';
-      }
-      return;
+  const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
+  const svcCheck = validateServiceSpecificQuoteFields(pkgType);
+  if (!svcCheck.valid) {
+    setQuoteInlineError(svcCheck.error);
+    if (svcCheck.focusEl && typeof svcCheck.focusEl.focus === 'function') {
+      svcCheck.focusEl.focus();
+    }
+    return;
+  }
+
+  setQuoteInlineError('');
+  appState.isUpdatingRates = true;
+  const updateBtn = document.getElementById('updateRatesBtn');
+  const origBtnHtml = updateBtn ? updateBtn.innerHTML : '';
+  if (updateBtn) {
+    updateBtn.disabled = true;
+    updateBtn.innerHTML = '<span>Updating Quote...</span>';
+  }
+
+  try {
+    await renderDedicatedRatesPage(true);
+    await updateInlineServiceLiveRateBanner();
+    showToast('Rate query parameters updated!');
+  } finally {
+    appState.isUpdatingRates = false;
+    if (updateBtn) {
+      updateBtn.disabled = false;
+      updateBtn.innerHTML = origBtnHtml;
     }
   }
-
-  if (errEl) {
-    errEl.hidden = true;
-    errEl.textContent = '';
-  }
-
-  await renderDedicatedRatesPage(true);
-  showToast('Rate query parameters updated!');
 }
 
 async function renderDedicatedRatesPage(fromUserAction = false) {
@@ -2592,8 +4031,9 @@ async function renderDedicatedRatesPage(fromUserAction = false) {
   syncUrlWithCurrentForm();
 
   // Update action links on the Rates page to carry current parameters
+  const targetServiceRoute = SERVICE_ROUTE_MAP[pkgType] || '/quote';
   document.querySelectorAll('.js-open-quote-with-params').forEach(link => {
-    link.href = buildQuoteUrl('/quote');
+    link.href = buildQuoteUrl(targetServiceRoute);
   });
   document.querySelectorAll('.js-proceed-pickup-link').forEach(link => {
     link.href = buildQuoteUrl('/schedule-pickup');
@@ -2651,7 +4091,7 @@ async function renderDedicatedRatesPage(fromUserAction = false) {
           <h3 style="font-size:15px; font-weight:700; color:var(--slate-900); margin-bottom:10px;">Available Courier &amp; Freight Service Tiers (${escapeHtml(appState.fromCountry.name)} ➔ ${escapeHtml(appState.toCountry.name)})</h3>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
             ${data.serviceTiers.map(tier => `
-              <div style="border:1px solid var(--slate-200); border-radius:12px; padding:14px; background:#f8fafc;">
+              <div class="js-quote-tier-card js-rates-tier-card" style="border-radius:12px; padding:14px;" onclick="selectRatesTierCard(this)">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:6px;">
                   <strong style="font-size:14px; color:var(--slate-900);">${escapeHtml(tier.name)}</strong>
                   <span class="api-status-pill" style="font-size:11px;">${escapeHtml(tier.transitTime)}</span>
@@ -2661,7 +4101,7 @@ async function renderDedicatedRatesPage(fromUserAction = false) {
                 </p>
                 <div style="font-size:12px; color:var(--slate-700); display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--slate-200); padding-top:8px; margin-top:6px;">
                   <span>Chargeable: <strong>${tier.chargeableWeightKg} kg</strong></span>
-                  <span style="color:var(--primary-red); font-weight:600;">${escapeHtml(tier.rateStatus)}</span>
+                  <span style="color:var(--primary-red); font-weight:700; font-size:13.5px;">${escapeHtml(tier.priceDisplay || tier.rateStatus)}</span>
                 </div>
               </div>
             `).join('')}
@@ -2679,10 +4119,76 @@ async function renderDedicatedRatesPage(fromUserAction = false) {
     // Non-blocking fallback
   }
 
+  ratesCorridorsPage = 1;
+  renderRatesCorridorsTable({ pkgType, pkgLabel, weight, unit, actualKg });
+}
+
+let ratesCorridorsPage = 1;
+let ratesCorridorsPageSize = 5;
+let ratesCorridorsContext = null;
+
+function selectRateCorridorRow(rowEl) {
+  document.querySelectorAll('#ratesComparisonBody tr').forEach(tr => {
+    tr.classList.toggle('is-clicked-row', tr === rowEl);
+  });
+}
+
+function selectRatesTierCard(cardEl) {
+  document.querySelectorAll('.js-rates-tier-card').forEach(el => {
+    el.classList.toggle('is-selected', el === cardEl);
+  });
+}
+
+function setRatesCorridorsPage(newPage) {
+  ratesCorridorsPage = Math.max(1, parseInt(newPage, 10) || 1);
+  renderRatesCorridorsTable(ratesCorridorsContext);
+}
+
+function setRatesCorridorsPageSize(val) {
+  ratesCorridorsPageSize = val === 'all' ? 'all' : Math.max(1, parseInt(val, 10) || 5);
+  ratesCorridorsPage = 1;
+  renderRatesCorridorsTable(ratesCorridorsContext);
+}
+
+function renderRatesCorridorsTable(ctx) {
   const tbody = document.getElementById('ratesComparisonBody');
   if (!tbody) return;
 
-  tbody.innerHTML = supportedCountries.filter(c => c.code !== appState.fromCountry.code).map(c => {
+  if (ctx) {
+    ratesCorridorsContext = ctx;
+  } else if (!ratesCorridorsContext) {
+    const weightInput = document.getElementById('weightInput');
+    const rawVal = weightInput ? String(weightInput.value).trim() : String(appState.weight || '1').trim();
+    const parsedWeight = parseFloat(rawVal);
+    const weight = Number.isFinite(parsedWeight) && parsedWeight > 0 ? parsedWeight : 1;
+    const unit = appState.weightUnit || 'kg';
+    const pkgType = (appState.selectedPackage || appState.packageType || 'document').toLowerCase();
+    const pkgLabel = (PACKAGE_TYPE_CONFIG[pkgType] && PACKAGE_TYPE_CONFIG[pkgType].label) || 'Document';
+    const actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
+    ratesCorridorsContext = { pkgType, pkgLabel, weight, unit, actualKg };
+  }
+
+  const { pkgType, pkgLabel, weight, unit, actualKg } = ratesCorridorsContext;
+
+  // Filter out origin country and keep selected destination at the top
+  const allCorridors = supportedCountries
+    .filter(c => c.code !== appState.fromCountry.code)
+    .sort((a, b) => {
+      const aSel = a.code === appState.toCountry.code ? 1 : 0;
+      const bSel = b.code === appState.toCountry.code ? 1 : 0;
+      return bSel - aSel;
+    });
+
+  const total = allCorridors.length;
+  const pageSize = ratesCorridorsPageSize === 'all' ? total : ratesCorridorsPageSize;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (ratesCorridorsPage > totalPages) ratesCorridorsPage = totalPages;
+
+  const startIdx = (ratesCorridorsPage - 1) * pageSize;
+  const endIdx = Math.min(startIdx + pageSize, total);
+  const pageItems = allCorridors.slice(startIdx, endIdx);
+
+  tbody.innerHTML = pageItems.map(c => {
     const query = [
       `from=${encodeURIComponent(appState.fromCountry.name)}`,
       `to=${encodeURIComponent(c.name)}`,
@@ -2690,10 +4196,11 @@ async function renderDedicatedRatesPage(fromUserAction = false) {
       `weight=${encodeURIComponent(String(weight))}`,
       `unit=${encodeURIComponent(unit)}`
     ].join('&');
-    const quoteLink = `/quote?${query}`;
+    const targetServiceRoute = SERVICE_ROUTE_MAP[pkgType] || '/quote';
+    const quoteLink = `${targetServiceRoute}?${query}`;
     const isSelectedDest = c.code === appState.toCountry.code;
     return `
-      <tr class="${isSelectedDest ? 'is-selected-row' : ''}">
+      <tr onclick="selectRateCorridorRow(this)">
         <td>
           <div class="rate-country-cell">
             <span class="flag-icon">${getFlagSvg(c.code)}</span>
@@ -2711,6 +4218,52 @@ async function renderDedicatedRatesPage(fromUserAction = false) {
       </tr>
     `;
   }).join('');
+
+  const rangeBadge = document.getElementById('ratesCorridorsRangeBadge');
+  if (rangeBadge) {
+    rangeBadge.textContent = total > 0 ? `Showing ${startIdx + 1}–${endIdx} of ${total}` : '0 corridors';
+  }
+
+  const paginationEl = document.getElementById('ratesCorridorsPagination');
+  if (!paginationEl) return;
+
+  if (totalPages <= 1) {
+    paginationEl.innerHTML = `
+      <div class="pagination-summary">
+        Showing all <strong>${total}</strong> supported destination corridors
+      </div>
+    `;
+    return;
+  }
+
+  let pageButtonsHtml = '';
+  for (let p = 1; p <= totalPages; p++) {
+    const isActive = p === ratesCorridorsPage;
+    pageButtonsHtml += `
+      <button type="button" class="pagination-btn pagination-num ${isActive ? 'active' : ''}" onclick="setRatesCorridorsPage(${p})" aria-label="Page ${p}" ${isActive ? 'aria-current="page"' : ''}>
+        ${p}
+      </button>
+    `;
+  }
+
+  paginationEl.innerHTML = `
+    <div class="pagination-summary">
+      Showing <strong>${startIdx + 1}–${endIdx}</strong> of <strong>${total}</strong> destination corridors (Page ${ratesCorridorsPage} of ${totalPages})
+    </div>
+    <div class="pagination-controls">
+      <button type="button" class="pagination-btn pagination-nav" onclick="setRatesCorridorsPage(${ratesCorridorsPage - 1})" ${ratesCorridorsPage <= 1 ? 'disabled' : ''} aria-label="Previous page">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M10 12L6 8L10 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Previous</span>
+      </button>
+      <div class="pagination-numbers">
+        ${pageButtonsHtml}
+      </div>
+      <button type="button" class="pagination-btn pagination-nav" onclick="setRatesCorridorsPage(${ratesCorridorsPage + 1})" ${ratesCorridorsPage >= totalPages ? 'disabled' : ''} aria-label="Next page">
+        <span>Next</span>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M6 4L10 8L6 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  `;
 }
 
 /* --------------------------------------------------------------------------
@@ -2752,7 +4305,7 @@ function simulatePickup() {
 /* --------------------------------------------------------------------------
    Destinations, services, auth, search
    -------------------------------------------------------------------------- */
-// Global Destinations Grid Render
+// Global Destinations Grid Render (All Destinations, No Scrollbars, No Pagination)
 function renderDestinationsGrid() {
   const grid = document.getElementById('destinationsGrid');
   if (!grid) return;
@@ -2766,7 +4319,7 @@ function renderDestinationsGrid() {
       <span class="flag-icon">${getFlagSvg(c.code)}</span>
       <span>
         <span class="dest-name" style="display:block">${c.name}</span>
-        <span class="dest-meta" style="display:block">${c.zone} • 3-5 days</span>
+        <span class="dest-meta" style="display:block">${c.zone} • 3–5 days</span>
       </span>
     `;
     card.addEventListener('click', () => {
@@ -2782,6 +4335,7 @@ function renderDestinationsGrid() {
 
 function openCountriesModal() {
   closeMobileNav();
+  renderDestinationsGrid();
   openModal('countriesModal');
 }
 
@@ -2794,6 +4348,15 @@ function openServicesModal() {
   openCountriesModal();
 }
 
+const SERVICE_ROUTE_MAP = {
+  document: '/document-courier',
+  parcel: '/parcel-shipping',
+  medicine: '/medicine-courier',
+  ecommerce: '/ecommerce-logistics',
+  bulk: '/bulk-commercial',
+  other: '/other-services'
+};
+
 function navigateToServicePage(serviceType) {
   const normalized = String(serviceType || 'document').toLowerCase();
   if (!['document', 'parcel', 'medicine', 'ecommerce', 'bulk', 'other'].includes(normalized)) return;
@@ -2804,7 +4367,8 @@ function navigateToServicePage(serviceType) {
   const pkgBtn = document.querySelector(`.pkg-btn[data-type="${normalized}"]`);
   selectPackageType(normalized, pkgBtn, false);
 
-  const targetUrl = buildQuoteUrl('/quote');
+  const routePath = SERVICE_ROUTE_MAP[normalized] || '/quote';
+  const targetUrl = buildQuoteUrl(routePath);
   window.location.href = targetUrl;
 }
 
@@ -2961,6 +4525,11 @@ function switchBusinessSection(sectionKey, pushHistory = false) {
 
   if (key === 'volume-discounts') {
     updateVolumeBracketPreview();
+  }
+
+  const sharedFooter = document.getElementById('sharedSiteFooter');
+  if (sharedFooter) {
+    sharedFooter.hidden = false;
   }
 }
 

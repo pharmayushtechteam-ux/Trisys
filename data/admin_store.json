@@ -1,0 +1,1082 @@
+{
+  "shipments": [
+    {
+      "trackingNo": "TRX123456791",
+      "date": "27 Oct 2026",
+      "createdAt": "2026-10-27T09:02:39.778379+00:00",
+      "updatedAt": "2026-10-27T09:04:43.586102+00:00",
+      "customer": "Vikram Maitha",
+      "email": "",
+      "phone": "",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Mumbai, MH",
+      "toCode": "US",
+      "toCountry": "USA",
+      "toCity": "",
+      "type": "Medicine",
+      "weight": "1.5 kg",
+      "weightKg": 1.5,
+      "carrier": "DHL",
+      "amountInr": 3300,
+      "status": "Courier Assigned",
+      "timeAgo": "Just now",
+      "events": [
+        {
+          "timestamp": "2026-10-27 09:02",
+          "status": "Booked",
+          "location": "Mumbai, MH, India",
+          "description": "Shipment TRX123456791 created via Admin Portal (Medicine, 1.5 kg via DHL)."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "Courier Assigned",
+          "location": "USA",
+          "description": "Shipment status updated to Courier Assigned."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "Picked Up",
+          "location": "USA",
+          "description": "Shipment status updated to Picked Up."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "In Transit",
+          "location": "USA",
+          "description": "Shipment status updated to In Transit."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "Delivered",
+          "location": "USA",
+          "description": "Shipment status updated to Delivered."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "Pending",
+          "location": "USA",
+          "description": "Shipment status updated to Pending."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "Courier Assigned",
+          "location": "USA",
+          "description": "Shipment status updated to Courier Assigned."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456790",
+      "date": "27 Oct 2026",
+      "createdAt": "2026-10-27T07:04:38.357425+00:00",
+      "updatedAt": "2026-10-27T09:04:49.730218+00:00",
+      "customer": "gsrhbdfrb",
+      "email": "",
+      "phone": "",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Mumbai, MH",
+      "toCode": "US",
+      "toCountry": "USA",
+      "toCity": "",
+      "type": "Document",
+      "weight": "1.5 kg",
+      "weightKg": 1.5,
+      "carrier": "DHL",
+      "amountInr": 3300,
+      "status": "Courier Assigned",
+      "timeAgo": "Just now",
+      "events": [
+        {
+          "timestamp": "2026-10-27 07:04",
+          "status": "In Transit",
+          "location": "Mumbai, MH, India",
+          "description": "Shipment TRX123456790 created via Admin Portal (Document, 1.5 kg via DHL)."
+        },
+        {
+          "timestamp": "2026-10-27 07:04",
+          "status": "Delivered",
+          "location": "USA",
+          "description": "Status updated to Delivered by Admin User."
+        },
+        {
+          "timestamp": "2026-10-27 07:04",
+          "status": "Pending",
+          "location": "USA",
+          "description": "Status updated to Pending by Admin User."
+        },
+        {
+          "timestamp": "2026-10-27 07:04",
+          "status": "Booked",
+          "location": "USA",
+          "description": "Status updated to Booked by Admin User."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "Courier Assigned",
+          "location": "USA",
+          "description": "Shipment status updated to Courier Assigned."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456789",
+      "date": "13 Oct 2026",
+      "createdAt": "2026-10-13T10:12:00Z",
+      "updatedAt": "2026-10-27T09:04:55.074178+00:00",
+      "customer": "Arun DM",
+      "email": "arun.dm@example.com",
+      "phone": "+91 98201 11223",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Mumbai, MH",
+      "toCode": "US",
+      "toCountry": "USA",
+      "toCity": "New York, NY",
+      "type": "Document",
+      "weight": "1.0 kg",
+      "weightKg": 1.0,
+      "carrier": "DHL",
+      "amountInr": 3450,
+      "status": "In Transit",
+      "timeAgo": "2 min ago",
+      "events": [
+        {
+          "timestamp": "2026-10-13 10:12",
+          "status": "Booked",
+          "location": "Mumbai Hub, India",
+          "description": "Shipment booked and AWB generated (DHL Express Saver)."
+        },
+        {
+          "timestamp": "2026-10-27 06:20",
+          "status": "Pending",
+          "location": "New York, NY",
+          "description": "Admin updated shipment status to Pending."
+        },
+        {
+          "timestamp": "2026-10-27 06:20",
+          "status": "In Transit",
+          "location": "New York, NY",
+          "description": "Admin updated shipment status to In Transit."
+        },
+        {
+          "timestamp": "2026-10-27 06:20",
+          "status": "Booked",
+          "location": "New York, NY",
+          "description": "Admin updated shipment status to Booked."
+        },
+        {
+          "timestamp": "2026-10-27 09:04",
+          "status": "In Transit",
+          "location": "New York, NY",
+          "description": "Shipment status updated to In Transit."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456788",
+      "date": "13 Oct 2026",
+      "createdAt": "2026-10-13T09:58:00Z",
+      "updatedAt": "2026-10-13T10:05:00Z",
+      "customer": "John Smith",
+      "email": "john.smith@ukmail.co.uk",
+      "phone": "+44 7700 900077",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Bengaluru, KA",
+      "toCode": "GB",
+      "toCountry": "UK",
+      "toCity": "London",
+      "type": "Medicine",
+      "weight": "2.5 kg",
+      "weightKg": 2.5,
+      "carrier": "FedEx",
+      "amountInr": 6890,
+      "status": "In Transit",
+      "timeAgo": "15 min ago",
+      "events": [
+        {
+          "timestamp": "2026-10-13 08:30",
+          "status": "Booked",
+          "location": "Bengaluru, India",
+          "description": "Prescription & pharmacy invoice verified for export."
+        },
+        {
+          "timestamp": "2026-10-13 10:05",
+          "status": "In Transit",
+          "location": "Bengaluru Intl Airport (BLR)",
+          "description": "Cleared export customs; uplifted on flight to London Heathrow (LHR)."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456787",
+      "date": "12 Oct 2026",
+      "createdAt": "2026-10-12T14:20:00Z",
+      "updatedAt": "2026-10-13T09:40:00Z",
+      "customer": "Sarah Wilson",
+      "email": "sarah.wilson@auspost.au",
+      "phone": "+61 412 345 678",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Chennai, TN",
+      "toCode": "AU",
+      "toCountry": "Australia",
+      "toCity": "Sydney, NSW",
+      "type": "Parcel",
+      "weight": "3.0 kg",
+      "weightKg": 3.0,
+      "carrier": "DHL",
+      "amountInr": 7920,
+      "status": "Delivered",
+      "timeAgo": "32 min ago",
+      "events": [
+        {
+          "timestamp": "2026-10-10 11:00",
+          "status": "Booked",
+          "location": "Chennai, India",
+          "description": "Parcel picked up from sender doorstep."
+        },
+        {
+          "timestamp": "2026-10-11 04:15",
+          "status": "In Transit",
+          "location": "Singapore Transit Hub",
+          "description": "Arrived at regional sort facility."
+        },
+        {
+          "timestamp": "2026-10-12 16:40",
+          "status": "Delivered",
+          "location": "Sydney, Australia",
+          "description": "Delivered to consignee — signed by S. WILSON."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456786",
+      "date": "12 Oct 2026",
+      "createdAt": "2026-10-12T11:10:00Z",
+      "updatedAt": "2026-10-12T18:30:00Z",
+      "customer": "Adil Khan",
+      "email": "adil.khan@torontomed.ca",
+      "phone": "+1 416 555 0192",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Hyderabad, TS",
+      "toCode": "CA",
+      "toCountry": "Canada",
+      "toCity": "Toronto, ON",
+      "type": "Medicine",
+      "weight": "1.2 kg",
+      "weightKg": 1.2,
+      "carrier": "UPS",
+      "amountInr": 4950,
+      "status": "In Transit",
+      "timeAgo": "1 hour ago",
+      "events": [
+        {
+          "timestamp": "2026-10-12 11:10",
+          "status": "Booked",
+          "location": "Hyderabad, India",
+          "description": "Doorstep pickup completed; KYC & Rx validated."
+        },
+        {
+          "timestamp": "2026-10-12 18:30",
+          "status": "In Transit",
+          "location": "Hyderabad Air Cargo Complex",
+          "description": "Dispatched via UPS Worldwide Express to Toronto (YYZ)."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456785",
+      "date": "12 Oct 2026",
+      "createdAt": "2026-10-12T09:05:00Z",
+      "updatedAt": "2026-10-27T06:20:18.881931+00:00",
+      "customer": "Priya Nair",
+      "email": "priya.nair@emiratesbiz.ae",
+      "phone": "+971 50 443 9981",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Kochi, KL",
+      "toCode": "AE",
+      "toCountry": "UAE",
+      "toCity": "Dubai",
+      "type": "Document",
+      "weight": "0.8 kg",
+      "weightKg": 0.8,
+      "carrier": "Aramex",
+      "amountInr": 2180,
+      "status": "Delivered",
+      "timeAgo": "2 hours ago",
+      "events": [
+        {
+          "timestamp": "2026-10-12 09:05",
+          "status": "Pending",
+          "location": "Kochi, India",
+          "description": "Awaiting sender KYC verification prior to dispatch."
+        },
+        {
+          "timestamp": "2026-10-27 06:20",
+          "status": "Delivered",
+          "location": "Dubai",
+          "description": "Admin updated shipment status to Delivered."
+        }
+      ]
+    },
+    {
+      "trackingNo": "TRX123456784",
+      "date": "11 Oct 2026",
+      "createdAt": "2026-10-11T15:20:00Z",
+      "updatedAt": "2026-10-11T19:00:00Z",
+      "customer": "Rohan Deshmukh",
+      "email": "rohan.d@decargo.de",
+      "phone": "+91 98111 22334",
+      "fromCode": "IN",
+      "fromCountry": "India",
+      "fromCity": "Pune, MH",
+      "toCode": "DE",
+      "toCountry": "Germany",
+      "toCity": "Frankfurt",
+      "type": "Parcel",
+      "weight": "4.5 kg",
+      "weightKg": 4.5,
+      "carrier": "DHL",
+      "amountInr": 8900,
+      "status": "Cancelled",
+      "timeAgo": "1 day ago",
+      "events": [
+        {
+          "timestamp": "2026-10-11 15:20",
+          "status": "Booked",
+          "location": "Pune, India",
+          "description": "Booking created by shipper."
+        },
+        {
+          "timestamp": "2026-10-11 19:00",
+          "status": "Cancelled",
+          "location": "Pune, India",
+          "description": "Cancelled at shipper request prior to pickup."
+        }
+      ]
+    }
+  ],
+  "partners": [
+    {
+      "id": "PRT-DHL",
+      "code": "DHL",
+      "name": "DHL Express Worldwide",
+      "shipments": 340,
+      "onTimePct": 98,
+      "enabled": true,
+      "serviceZones": "North America, Europe, Asia-Pacific, Middle East",
+      "contactEmail": "india.desk@dhl.com",
+      "apiStatus": "Connected (EDI / XML)"
+    },
+    {
+      "id": "PRT-FEDEX",
+      "code": "FedEx",
+      "name": "FedEx International Priority",
+      "shipments": 280,
+      "onTimePct": 97,
+      "enabled": true,
+      "serviceZones": "USA, Canada, UK, Europe, Far East",
+      "contactEmail": "export.in@fedex.com",
+      "apiStatus": "Connected (REST v3)"
+    },
+    {
+      "id": "PRT-ARAMEX",
+      "code": "Aramex",
+      "name": "Aramex GCC & MENA Express",
+      "shipments": 190,
+      "onTimePct": 96,
+      "enabled": true,
+      "serviceZones": "UAE, Saudi Arabia, Qatar, Kuwait, Oman",
+      "contactEmail": "b2b.india@aramex.com",
+      "apiStatus": "Connected"
+    },
+    {
+      "id": "PRT-UPS",
+      "code": "UPS",
+      "name": "UPS Worldwide Expedited",
+      "shipments": 120,
+      "onTimePct": 95,
+      "enabled": true,
+      "serviceZones": "North America, EU Commercial Corridors",
+      "contactEmail": "airfreight.in@ups.com",
+      "apiStatus": "Connected"
+    },
+    {
+      "id": "PRT-OTHERS",
+      "code": "Others",
+      "name": "Regional & Postal Linehaul Partners",
+      "shipments": 60,
+      "onTimePct": 92,
+      "enabled": true,
+      "serviceZones": "Rest of World (200+ Countries)",
+      "contactEmail": "network@trisysexpress.com",
+      "apiStatus": "Manual Manifest"
+    },
+    {
+      "id": "PRT-525507",
+      "code": "thara",
+      "name": "blueoutlet",
+      "shipments": 0,
+      "onTimePct": 96,
+      "enabled": true,
+      "serviceZones": "australia",
+      "contactEmail": "desk@career.com",
+      "apiStatus": "Connected"
+    }
+  ],
+  "additionalCharges": [
+    {
+      "id": "CHG-FUEL",
+      "name": "Aviation Fuel Surcharge (FSC)",
+      "type": "Percentage",
+      "amount": "14.5%",
+      "appliesTo": "All International Air Tiers",
+      "active": true
+    },
+    {
+      "id": "CHG-MED",
+      "name": "Prescription Medicine Compliance & Cold-Pack Handling",
+      "type": "Flat Fee",
+      "amount": "₹ 450",
+      "appliesTo": "Medicine Courier (Rx)",
+      "active": true
+    },
+    {
+      "id": "CHG-REMOTE",
+      "name": "Out-of-Delivery-Area (ODA) / Remote Pin Surcharge",
+      "type": "Per Kg / Min",
+      "amount": "₹ 35/kg (Min ₹ 1,200)",
+      "appliesTo": "Remote Postal Codes",
+      "active": true
+    },
+    {
+      "id": "CHG-CSBV",
+      "name": "CSB-V Commercial Export Filing & AD Code Clearance",
+      "type": "Flat Fee",
+      "amount": "₹ 650",
+      "appliesTo": "E-commerce & Commercial Exports",
+      "active": true
+    },
+    {
+      "id": "CHG-SEC",
+      "name": "X-Ray Aviation Security & Cargo Screening",
+      "type": "Flat Fee",
+      "amount": "₹ 350",
+      "appliesTo": "All Parcel & Cargo Consignments",
+      "active": true
+    },
+    {
+      "id": "CHG-DDP",
+      "name": "Delivered Duty Paid (DDP) Customs Brokerage",
+      "type": "Flat Fee",
+      "amount": "₹ 1,250",
+      "appliesTo": "DDP Commercial & D2C Shipments",
+      "active": true
+    },
+    {
+      "id": "CHG-OVERSIZE",
+      "name": "Non-Standard / Oversize Piece Handling (> 120 cm)",
+      "type": "Flat Fee",
+      "amount": "₹ 1,800",
+      "appliesTo": "Oversized Cartons & Crates",
+      "active": true
+    },
+    {
+      "id": "CHG-BOE",
+      "name": "Commercial Shipping Bill & LUT Export Documentation",
+      "type": "Flat Fee",
+      "amount": "₹ 1,450",
+      "appliesTo": "Bulk & B2B Air Freight",
+      "active": true
+    }
+  ],
+  "ratePlans": [
+    {
+      "id": "PLAN-NFO",
+      "name": "Next Flight Out (Priority Air)",
+      "transit": "2–3 Business Days",
+      "baseInrPerKg": 2450,
+      "minWeightKg": 0.5,
+      "maxWeightKg": 70,
+      "carrier": "DHL / FedEx Priority",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-EXP",
+      "name": "Express Air Saver",
+      "transit": "3–5 Business Days",
+      "baseInrPerKg": 1650,
+      "minWeightKg": 0.5,
+      "maxWeightKg": 70,
+      "carrier": "DHL / FedEx / UPS",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-ECO",
+      "name": "Economy Air Courier",
+      "transit": "6–9 Business Days",
+      "baseInrPerKg": 1120,
+      "minWeightKg": 1.0,
+      "maxWeightKg": 70,
+      "carrier": "Aramex / UPS Economy",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-BULK",
+      "name": "Consolidated B2B Air Freight",
+      "transit": "5–8 Business Days",
+      "baseInrPerKg": 680,
+      "minWeightKg": 25.0,
+      "maxWeightKg": 5000,
+      "carrier": "Commercial Air Cargo",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-DOC",
+      "name": "Global Document Envelope Express",
+      "transit": "2–4 Business Days",
+      "baseInrPerKg": 1480,
+      "minWeightKg": 0.5,
+      "maxWeightKg": 5,
+      "carrier": "DHL Express Envelope",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-MED",
+      "name": "Rx Pharma Priority Cold-Chain",
+      "transit": "2–4 Business Days",
+      "baseInrPerKg": 1980,
+      "minWeightKg": 0.5,
+      "maxWeightKg": 70,
+      "carrier": "DHL Medical Express / FedEx",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-ECOM",
+      "name": "Cross-Border D2C CSB-V e-Packet",
+      "transit": "4–7 Business Days",
+      "baseInrPerKg": 1290,
+      "minWeightKg": 0.5,
+      "maxWeightKg": 30,
+      "carrier": "Aramex / DHL eCommerce",
+      "status": "Active"
+    },
+    {
+      "id": "PLAN-GCC",
+      "name": "GCC & Middle East Direct Linehaul",
+      "transit": "2–3 Business Days",
+      "baseInrPerKg": 1180,
+      "minWeightKg": 0.5,
+      "maxWeightKg": 70,
+      "carrier": "Aramex Direct / DHL GCC",
+      "status": "Active"
+    }
+  ],
+  "locations": {
+    "countries": [
+      {
+        "code": "US",
+        "name": "United States",
+        "zone": "Zone A — North America",
+        "transitDays": "3–4 Days",
+        "customsMode": "De Minimis $800 / Formal",
+        "serviceable": true,
+        "shipmentsCount": 350
+      },
+      {
+        "code": "GB",
+        "name": "United Kingdom",
+        "zone": "Zone B — Europe",
+        "transitDays": "3–4 Days",
+        "customsMode": "UK HMRC EORI / DDU & DDP",
+        "serviceable": true,
+        "shipmentsCount": 225
+      },
+      {
+        "code": "AU",
+        "name": "Australia",
+        "zone": "Zone D — Oceania",
+        "transitDays": "4–5 Days",
+        "customsMode": "ABF Biosecurity & GST",
+        "serviceable": true,
+        "shipmentsCount": 180
+      },
+      {
+        "code": "CA",
+        "name": "Canada",
+        "zone": "Zone A — North America",
+        "transitDays": "3–5 Days",
+        "customsMode": "CBSA Commercial / Personal",
+        "serviceable": true,
+        "shipmentsCount": 120
+      },
+      {
+        "code": "AE",
+        "name": "United Arab Emirates",
+        "zone": "Zone C — Middle East",
+        "transitDays": "2–3 Days",
+        "customsMode": "Dubai Customs Direct",
+        "serviceable": true,
+        "shipmentsCount": 98
+      },
+      {
+        "code": "DE",
+        "name": "Germany",
+        "zone": "Zone B — Europe",
+        "transitDays": "3–5 Days",
+        "customsMode": "EU ICS2 / ATLAS Clearance",
+        "serviceable": true,
+        "shipmentsCount": 86
+      },
+      {
+        "code": "SG",
+        "name": "Singapore",
+        "zone": "Zone E — Southeast Asia",
+        "transitDays": "2–3 Days",
+        "customsMode": "SG TradeNet Direct",
+        "serviceable": true,
+        "shipmentsCount": 64
+      },
+      {
+        "code": "SA",
+        "name": "Saudi Arabia",
+        "zone": "Zone A — Middle East",
+        "transitDays": "3–4 Days",
+        "customsMode": "ZATCA FASAH Clearance",
+        "serviceable": true,
+        "shipmentsCount": 58
+      },
+      {
+        "code": "FR",
+        "name": "France",
+        "zone": "Zone C — UK & Europe",
+        "transitDays": "3–5 Days",
+        "customsMode": "EU ICS2 / Delta G",
+        "serviceable": true,
+        "shipmentsCount": 49
+      },
+      {
+        "code": "JP",
+        "name": "Japan",
+        "zone": "Zone E — East Asia",
+        "transitDays": "3–5 Days",
+        "customsMode": "NACCS Express Clearance",
+        "serviceable": true,
+        "shipmentsCount": 42
+      }
+    ],
+    "regions": [
+      {
+        "code": "IN-WEST",
+        "name": "Western India Export Hub",
+        "state": "Maharashtra & Gujarat",
+        "gatewayAirport": "BOM (Mumbai CSIA)",
+        "dailyCutoff": "19:30 IST",
+        "active": true
+      },
+      {
+        "code": "IN-SOUTH",
+        "name": "Southern India Export Hub",
+        "state": "Karnataka, Tamil Nadu, Telangana, Kerala",
+        "gatewayAirport": "BLR / MAA / HYD",
+        "dailyCutoff": "19:00 IST",
+        "active": true
+      },
+      {
+        "code": "IN-NORTH",
+        "name": "Northern India Export Hub",
+        "state": "Delhi NCR, Punjab, Haryana, UP",
+        "gatewayAirport": "DEL (IGI Cargo Terminal)",
+        "dailyCutoff": "20:00 IST",
+        "active": true
+      },
+      {
+        "code": "IN-EAST",
+        "name": "Eastern India Export Hub",
+        "state": "West Bengal & Northeast",
+        "gatewayAirport": "CCU (Kolkata NSCBI)",
+        "dailyCutoff": "18:00 IST",
+        "active": true
+      },
+      {
+        "code": "IN-GUJ",
+        "name": "Gujarat Pharma & Textile Corridor",
+        "state": "Gujarat (Ahmedabad, Surat, Vadodara)",
+        "gatewayAirport": "AMD (SVPI Air Cargo)",
+        "dailyCutoff": "18:45 IST",
+        "active": true
+      },
+      {
+        "code": "IN-DECCAN",
+        "name": "Deccan Bulk & Pharma Gateway",
+        "state": "Telangana & Andhra Pradesh",
+        "gatewayAirport": "HYD (RGIA Pharma Zone)",
+        "dailyCutoff": "19:15 IST",
+        "active": true
+      },
+      {
+        "code": "IN-KERALA",
+        "name": "Malabar & GCC Direct Corridor",
+        "state": "Kerala (Kochi, Trivandrum, Calicut)",
+        "gatewayAirport": "COK (Cochin Intl Cargo)",
+        "dailyCutoff": "18:30 IST",
+        "active": true
+      },
+      {
+        "code": "IN-NORTHWEST",
+        "name": "Punjab & Rajasthan Export Zone",
+        "state": "Punjab, Chandigarh, Rajasthan",
+        "gatewayAirport": "ATQ / JAI / DEL Feeder",
+        "dailyCutoff": "17:30 IST",
+        "active": true
+      }
+    ],
+    "cities": [
+      {
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pinPrefix": "400xxx",
+        "sameDayPickup": true,
+        "hubCode": "BOM-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "pinPrefix": "560xxx",
+        "sameDayPickup": true,
+        "hubCode": "BLR-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "New Delhi / NCR",
+        "state": "Delhi / Haryana / UP",
+        "pinPrefix": "110xxx / 122xxx",
+        "sameDayPickup": true,
+        "hubCode": "DEL-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Chennai",
+        "state": "Tamil Nadu",
+        "pinPrefix": "600xxx",
+        "sameDayPickup": true,
+        "hubCode": "MAA-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "pinPrefix": "500xxx",
+        "sameDayPickup": true,
+        "hubCode": "HYD-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Ahmedabad",
+        "state": "Gujarat",
+        "pinPrefix": "380xxx",
+        "sameDayPickup": true,
+        "hubCode": "AMD-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Pune",
+        "state": "Maharashtra",
+        "pinPrefix": "411xxx",
+        "sameDayPickup": true,
+        "hubCode": "PNQ-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Kochi",
+        "state": "Kerala",
+        "pinPrefix": "682xxx",
+        "sameDayPickup": true,
+        "hubCode": "COK-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Kolkata",
+        "state": "West Bengal",
+        "pinPrefix": "700xxx",
+        "sameDayPickup": true,
+        "hubCode": "CCU-HUB-01",
+        "serviceable": true
+      },
+      {
+        "city": "Jaipur",
+        "state": "Rajasthan",
+        "pinPrefix": "302xxx",
+        "sameDayPickup": true,
+        "hubCode": "JAI-HUB-01",
+        "serviceable": true
+      }
+    ],
+    "coverageZones": [
+      {
+        "code": "ZONE-A",
+        "zone": "Zone A — Middle East & GCC",
+        "countries": "UAE, Saudi Arabia, Qatar, Kuwait, Oman, Bahrain",
+        "transit": "2–3 Business Days",
+        "customs": "GCC Direct / ZATCA / Dubai Customs",
+        "carriers": "Aramex Direct / DHL Express",
+        "coverage": "99.4% Doorstep",
+        "active": true
+      },
+      {
+        "code": "ZONE-B",
+        "zone": "Zone B — Southeast Asia",
+        "countries": "Singapore, Malaysia, Thailand, Vietnam, Indonesia",
+        "transit": "2–4 Business Days",
+        "customs": "ASEAN Express TradeNet",
+        "carriers": "DHL Express / FedEx Priority",
+        "coverage": "98.8% Doorstep",
+        "active": true
+      },
+      {
+        "code": "ZONE-C",
+        "zone": "Zone C — UK & European Union",
+        "countries": "UK, Germany, France, Netherlands, Italy, Ireland, Spain",
+        "transit": "3–5 Business Days",
+        "customs": "UK HMRC EORI / EU ICS2 ATLAS",
+        "carriers": "DHL / FedEx / UPS",
+        "coverage": "99.2% Doorstep",
+        "active": true
+      },
+      {
+        "code": "ZONE-D",
+        "zone": "Zone D — North America",
+        "countries": "United States (All 50 States), Canada (All Provinces)",
+        "transit": "3–5 Business Days",
+        "customs": "US CBP Section 321 ($800) / CBSA",
+        "carriers": "FedEx Priority / DHL / UPS",
+        "coverage": "99.6% Doorstep",
+        "active": true
+      },
+      {
+        "code": "ZONE-E",
+        "zone": "Zone E — East Asia & Pacific Rim",
+        "countries": "Japan, South Korea, Hong Kong SAR, Taiwan",
+        "transit": "3–5 Business Days",
+        "customs": "NACCS / UNIPASS Express",
+        "carriers": "DHL Express / FedEx",
+        "coverage": "98.5% Doorstep",
+        "active": true
+      },
+      {
+        "code": "ZONE-F",
+        "zone": "Zone F — Oceania",
+        "countries": "Australia, New Zealand, Fiji",
+        "transit": "4–6 Business Days",
+        "customs": "ABF Biosecurity / NZCS Direct",
+        "carriers": "DHL Express / FedEx",
+        "coverage": "98.9% Doorstep",
+        "active": true
+      },
+      {
+        "code": "ZONE-G",
+        "zone": "Zone G — Africa & Indian Ocean",
+        "countries": "South Africa, Kenya, Nigeria, Mauritius, Egypt",
+        "transit": "4–7 Business Days",
+        "customs": "Formal Commercial & DDU",
+        "carriers": "DHL Global / Emirates SkyCargo",
+        "coverage": "94.0% Metro & Regional",
+        "active": true
+      },
+      {
+        "code": "ZONE-H",
+        "zone": "Zone H — Latin America",
+        "countries": "Brazil, Mexico, Chile, Colombia, Argentina",
+        "transit": "5–8 Business Days",
+        "customs": "Formal Courier Import Regime",
+        "carriers": "DHL Express / UPS Worldwide",
+        "coverage": "92.5% Metro & Regional",
+        "active": true
+      }
+    ]
+  },
+  "cmsPages": [
+    {
+      "id": "PAGE-HOME",
+      "title": "Home — Global Shipping Made Simple",
+      "slug": "/",
+      "file": "index.html",
+      "metaTitle": "TRISYS EXPRESS - Global Shipping Made Simple",
+      "metaDescription": "Send parcels, documents and medicines from India to 200+ countries with fast, safe and reliable delivery.",
+      "status": "Draft",
+      "updatedAt": "2026-10-27"
+    },
+    {
+      "id": "PAGE-QUOTE",
+      "title": "Instant International Quote & Booking",
+      "slug": "/quote",
+      "file": "quote-result.html",
+      "metaTitle": "Get Instant International Courier Quote | TRISYS EXPRESS",
+      "metaDescription": "Calculate chargeable weight and request verified door-to-door international shipping rates.",
+      "status": "Published",
+      "updatedAt": "2026-10-27"
+    },
+    {
+      "id": "PAGE-TRACK",
+      "title": "Live AWB & Reference Shipment Tracking",
+      "slug": "/track",
+      "file": "track.html",
+      "metaTitle": "Track Your International Shipment | TRISYS EXPRESS",
+      "metaDescription": "Real-time milestone tracking for Trisys Express shipments, doorstep pickups, and quotes.",
+      "status": "Published",
+      "updatedAt": "2026-10-26"
+    },
+    {
+      "id": "PAGE-PICKUP",
+      "title": "Schedule Free Doorstep Pickup",
+      "slug": "/schedule-pickup",
+      "file": "pickup.html",
+      "metaTitle": "Schedule Doorstep Courier Pickup | TRISYS EXPRESS",
+      "metaDescription": "Book same-day doorstep collection across major Indian cities with complimentary tamper-evident packaging.",
+      "status": "Published",
+      "updatedAt": "2026-10-26"
+    },
+    {
+      "id": "PAGE-RATES",
+      "title": "International Rate Lookup & Corridors",
+      "slug": "/rates",
+      "file": "rates.html",
+      "metaTitle": "Find International Shipping Rates | TRISYS EXPRESS",
+      "metaDescription": "Compare Economy, Express Air Saver, and Next Flight Out international shipping tiers.",
+      "status": "Published",
+      "updatedAt": "2026-10-27"
+    },
+    {
+      "id": "PAGE-BIZ",
+      "title": "Enterprise & B2B Business Solutions",
+      "slug": "/business-solutions",
+      "file": "business-solutions.html",
+      "metaTitle": "Business Shipping Solutions & Corporate Accounts | TRISYS EXPRESS",
+      "metaDescription": "Volume discounts, Shopify/WooCommerce integrations, dedicated account managers, and GST monthly billing.",
+      "status": "Published",
+      "updatedAt": "2026-10-26"
+    },
+    {
+      "id": "PAGE-HELP",
+      "title": "Help Centre, FAQs & Customs KYC Guide",
+      "slug": "/help",
+      "file": "help.html",
+      "metaTitle": "Help Centre & Customs Documentation | TRISYS EXPRESS",
+      "metaDescription": "Download commercial invoices, packing lists, and KYC checklists or contact 24/7 customer support.",
+      "status": "Published",
+      "updatedAt": "2026-10-26"
+    }
+  ],
+  "blogPosts": [
+    {
+      "id": "BLOG-101",
+      "title": "How to Ship Prescription Medicines from India to USA, UK & Canada Compliantly",
+      "slug": "ship-prescription-medicines-from-india-guide",
+      "category": "Medicine Courier",
+      "tags": "Medicines, Customs, KYC, FDA, Prescription",
+      "featuredImage": "/assets/card3_medicine.png",
+      "status": "Published",
+      "author": "Compliance Desk",
+      "publishedAt": "10 Oct 2026",
+      "excerpt": "Step-by-step documentation checklist for sending up to a 90-day personal supply of prescription medicines abroad with doctor's Rx and retail pharmacy invoice."
+    },
+    {
+      "id": "BLOG-102",
+      "title": "Understanding Volumetric Weight vs Actual Weight in International Air Courier",
+      "slug": "volumetric-weight-calculation-air-courier",
+      "category": "Shipping Guides",
+      "tags": "Rates, Volumetric Weight, Packaging, Air Freight",
+      "featuredImage": "/assets/card2_parcel.png",
+      "status": "Published",
+      "author": "Operations Team",
+      "publishedAt": "06 Oct 2026",
+      "excerpt": "Learn how international carriers calculate chargeable weight using L × W × H ÷ 5000 and how right-sizing cartons reduces shipping costs by up to 22%."
+    },
+    {
+      "id": "BLOG-103",
+      "title": "Scaling D2C Cross-Border E-Commerce Exports under India's CSB-V Simplified Regime",
+      "slug": "scaling-d2c-ecommerce-exports-csb-v-india",
+      "category": "E-commerce Logistics",
+      "tags": "CSB-V, Shopify, D2C, GST LUT, Exports",
+      "featuredImage": "/assets/card4_ecommerce.png",
+      "status": "Published",
+      "author": "B2B Trade Advisory",
+      "publishedAt": "01 Oct 2026",
+      "excerpt": "Everything Indian D2C brands need to know about IEC, AD code registration, GST zero-rated LUT exports, and automated label generation."
+    }
+  ],
+  "settings": {
+    "general": {
+      "portalName": "TRISYS EXPRESS Admin Portal",
+      "timezone": "Asia/Kolkata (IST, UTC+05:30)",
+      "currency": "INR (₹)",
+      "dateFormat": "DD MMM YYYY",
+      "maintenanceMode": false
+    },
+    "company": {
+      "legalName": "Trisys Express Pvt. Ltd.",
+      "gstin": "27AABCT1234F1Z5",
+      "iecCode": "0315098765",
+      "supportPhone": "1800-000-0000",
+      "supportEmail": "support@trisysexpress.com",
+      "headOffice": "Andheri East, Cargo Complex Road, Mumbai — 400099, Maharashtra, India"
+    },
+    "branding": {
+      "primaryColor": "#EA1D25",
+      "sidebarBg": "#161B21",
+      "lightLogoPath": "/assets/trisys_logo_transparent.png",
+      "darkLogoPath": "/assets/trisys_admin_logo.png",
+      "tagline": "Global Shipping Made Simple"
+    },
+    "notifications": {
+      "emailOnNewBooking": true,
+      "emailOnQuoteRequest": true,
+      "smsOnOutForDelivery": true,
+      "whatsappLiveUpdates": true,
+      "adminAlertRecipient": "ops-alerts@trisysexpress.com"
+    },
+    "shipping": {
+      "defaultOriginCountry": "India",
+      "standardVolumetricDivisor": 5000,
+      "bulkCargoVolumetricDivisor": 6000,
+      "maxDocumentWeightKg": 5.0,
+      "maxParcelWeightKg": 70.0,
+      "maxBulkWeightKg": 5000.0,
+      "freeDoorstepPickup": true
+    },
+    "roles": [
+      {
+        "role": "Super Admin",
+        "usersCount": 2,
+        "permissions": "Full Access (Dashboard, Shipments, Rates, Partners, CMS, Settings, Security)"
+      },
+      {
+        "role": "Operations Dispatcher",
+        "usersCount": 6,
+        "permissions": "Shipments, Tracking, Bookings, Courier Partners, Customer Lookup"
+      },
+      {
+        "role": "Customs & KYC Officer",
+        "usersCount": 4,
+        "permissions": "Customs Documents, Medicine Rx Verification, Business KYC Approval"
+      },
+      {
+        "role": "Support Executive",
+        "usersCount": 8,
+        "permissions": "Support Tickets, Tracking Lookup, FAQs & Customer Communication"
+      }
+    ],
+    "security": {
+      "adminHeaderRequired": true,
+      "sessionTimeoutMinutes": 120,
+      "passwordHashIterations": 120000,
+      "auditLoggingEnabled": true
+    }
+  }
+}

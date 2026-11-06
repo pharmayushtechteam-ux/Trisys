@@ -16,7 +16,7 @@
   <!-- Preload hero artwork for a faster first paint -->
   <link rel="preload" as="image" href="assets/hero_stitch_bg.jpg">
 
-  <link rel="stylesheet" href="/styles.css?v=6">
+  <link rel="stylesheet" href="/styles.css?v=32">
 </head>
 <body>
 
@@ -72,23 +72,23 @@
             <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="dropdown-panel" id="dd-services">
-            <a href="/quote?type=document" class="dropdown-link" data-service="document">
+            <a href="/document-courier" class="dropdown-link" data-service="document">
               <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
               <span class="dd-text"><strong>Document Courier</strong><small>Certificates, contracts, passports</small></span>
             </a>
-            <a href="/quote?type=parcel" class="dropdown-link" data-service="parcel">
+            <a href="/parcel-shipping" class="dropdown-link" data-service="parcel">
               <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></span>
               <span class="dd-text"><strong>Parcel Shipping</strong><small>Personal &amp; business parcels</small></span>
             </a>
-            <a href="/quote?type=medicine" class="dropdown-link" data-service="medicine">
+            <a href="/medicine-courier" class="dropdown-link" data-service="medicine">
               <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="M8.5 8.5l7 7"/></svg></span>
               <span class="dd-text"><strong>Medicine Courier</strong><small>Compliant prescription shipping</small></span>
             </a>
-            <a href="/quote?type=ecommerce" class="dropdown-link" data-service="ecommerce">
+            <a href="/ecommerce-logistics" class="dropdown-link" data-service="ecommerce">
               <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h3l2.5 11H19l2.5-9H7"/></svg></span>
               <span class="dd-text"><strong>E-commerce Logistics</strong><small>Cross-border store fulfilment</small></span>
             </a>
-            <a href="/quote?type=bulk" class="dropdown-link" data-service="bulk">
+            <a href="/bulk-commercial" class="dropdown-link" data-service="bulk">
               <span class="dd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="12" width="6" height="6" rx="1"/><path d="M3 20h18"/></svg></span>
               <span class="dd-text"><strong>Bulk &amp; Commercial</strong><small>B2B cargo and pallets</small></span>
             </a>
@@ -359,56 +359,41 @@
 
               </div>
 
-              <!-- Package Type Selector matching Stitch -->
+              <!-- Service & Package Type Selector (All 6 Options) -->
               <div class="form-group field-package">
-                <span class="field-label" id="pkgLabel">Package Type</span>
-                <div class="package-options" role="radiogroup" aria-labelledby="pkgLabel" data-purpose="package-types-options">
-
-                  <!-- Option 1: Document (Active by default) -->
-                  <button type="button" class="pkg-btn active" role="radio" aria-checked="true" data-type="document" onclick="selectPackageType('document', this)">
+                <span class="field-label" id="pkgLabel">Service &amp; Package Type</span>
+                <input type="hidden" id="selectedPackageInput" name="packageType" value="document">
+                <div class="package-options package-options-6" role="radiogroup" aria-labelledby="pkgLabel" data-purpose="package-types-options">
+                  <button type="button" class="pkg-btn active" role="radio" aria-checked="true" data-type="document" data-route="/document-courier" onclick="selectPackageType('document', this, false)">
                     <span class="active-dot"></span>
-                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                      <line x1="16" x2="8" y1="13" y2="13"></line>
-                      <line x1="16" x2="8" y1="17" y2="17"></line>
-                    </svg>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
                     <span class="pkg-label">Document</span>
                   </button>
-
-                  <!-- Option 2: Parcel -->
-                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="parcel" onclick="selectPackageType('parcel', this)">
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="parcel" data-route="/parcel-shipping" onclick="selectPackageType('parcel', this, false)">
                     <span class="active-dot"></span>
-                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                      <line x1="12" x2="12" y1="22.08" y2="12"></line>
-                    </svg>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
                     <span class="pkg-label">Parcel</span>
                   </button>
-
-                  <!-- Option 3: Medicine -->
-                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="medicine" onclick="selectPackageType('medicine', this)">
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="medicine" data-route="/medicine-courier" onclick="selectPackageType('medicine', this, false)">
                     <span class="active-dot"></span>
-                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
-                      <line x1="8.5" x2="15.5" y1="8.5" y2="15.5"></line>
-                    </svg>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><line x1="8.5" x2="15.5" y1="8.5" y2="15.5"/></svg>
                     <span class="pkg-label">Medicine</span>
                   </button>
-
-                  <!-- Option 4: Other -->
-                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="other" onclick="selectPackageType('other', this)">
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="ecommerce" data-route="/ecommerce-logistics" onclick="selectPackageType('ecommerce', this, false)">
                     <span class="active-dot"></span>
-                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                      <rect height="7" rx="1.5" width="7" x="3" y="3"></rect>
-                      <rect height="7" rx="1.5" width="7" x="14" y="3"></rect>
-                      <rect height="7" rx="1.5" width="7" x="14" y="14"></rect>
-                      <rect height="7" rx="1.5" width="7" x="3" y="14"></rect>
-                    </svg>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h3l2.5 11H19l2.5-9H7"/></svg>
+                    <span class="pkg-label">E-commerce</span>
+                  </button>
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="bulk" data-route="/bulk-commercial" onclick="selectPackageType('bulk', this, false)">
+                    <span class="active-dot"></span>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="12" width="6" height="6" rx="1"/><path d="M3 20h18"/></svg>
+                    <span class="pkg-label">Bulk &amp; Cargo</span>
+                  </button>
+                  <button type="button" class="pkg-btn" role="radio" aria-checked="false" data-type="other" data-route="/other-services" onclick="selectPackageType('other', this, false)">
+                    <span class="active-dot"></span>
+                    <svg class="pkg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect height="7" rx="1.5" width="7" x="3" y="3"/><rect height="7" rx="1.5" width="7" x="14" y="3"/><rect height="7" rx="1.5" width="7" x="14" y="14"/><rect height="7" rx="1.5" width="7" x="3" y="14"/></svg>
                     <span class="pkg-label">Other</span>
                   </button>
-
                 </div>
               </div>
 
@@ -438,6 +423,8 @@
               </div>
 
             </form>
+            <div id="quoteServiceContextStrip" class="rates-pkg-context-bar quote-service-strip" data-purpose="inline-service-fields"></div>
+            <p id="quoteFormError" class="quote-inline-error" role="alert" aria-live="polite" hidden></p>
           </div>
 
           <!-- Tab Pane 2: Track Shipment -->
@@ -606,7 +593,7 @@
               Shipping Solutions for <span class="highlight-red">Every Need</span>
             </h2>
           </div>
-          <a href="#all-services" class="view-all-link" onclick="event.preventDefault(); openServicesModal()">
+          <a href="/quote" class="view-all-link" onclick="event.preventDefault(); openServicesModal()">
             <span>View All Services</span>
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" class="link-arrow" aria-hidden="true">
               <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -782,6 +769,152 @@
     <!-- END: Worldwide Shipping Banner -->
 
   </main>
+
+  <!-- BEGIN: Site Footer (Shared Public Footer Component) -->
+  <footer class="site-footer" id="sharedSiteFooter" role="contentinfo" aria-label="Site Footer">
+    <div class="footer-card">
+
+      <!-- Top Multi-Column Grid -->
+      <div class="footer-main">
+
+        <!-- Column 1: Brand Overview & Direct Contact -->
+        <div class="footer-brand-col">
+          <a href="/" class="footer-logo" title="TRISYS EXPRESS">
+            <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="footer-logo-img">
+          </a>
+          <p class="footer-desc">
+            Fast, safe, and compliant door-to-door international shipping from India to 200+ countries worldwide. Trusted for documents, personal parcels, prescription medicines, and commercial cargo.
+          </p>
+
+          <div class="footer-trust-badges" aria-label="Service highlights">
+            <span class="footer-trust-pill">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M8 1.5L2.5 4v4.2c0 3.4 2.3 6.5 5.5 7.3 3.2-.8 5.5-3.9 5.5-7.3V4L8 1.5Z" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 8l1.8 1.8L10.8 6.3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Customs Cleared
+            </span>
+            <span class="footer-trust-pill">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              3–5 Days Express
+            </span>
+            <span class="footer-trust-pill">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M8 1.5a5 5 0 0 0-5 5c0 3.5 5 8 5 8s5-4.5 5-8a5 5 0 0 0-5-5Z" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" stroke-width="1.4"/></svg>
+              Free Doorstep Pickup
+            </span>
+          </div>
+
+          <div class="footer-contact-row">
+            <a href="tel:+911800000000" class="footer-contact-chip">
+              <span class="footer-chip-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"><path d="M3.5 4.5A1.5 1.5 0 0 1 5 3h2.2a1 1 0 0 1 .95.68l.85 2.55a1 1 0 0 1-.27 1.04L7.3 8.7a11.05 11.05 0 0 0 4 4l1.43-1.43a1 1 0 0 1 1.04-.27l2.55.85a1 1 0 0 1 .68.95V15a1.5 1.5 0 0 1-1.5 1.5A13 13 0 0 1 3.5 4.5Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="footer-chip-text">
+                <small>24/7 Toll-Free</small>
+                <strong>1800-000-0000</strong>
+              </span>
+            </a>
+
+            <a href="mailto:support@trisysexpress.com" class="footer-contact-chip">
+              <span class="footer-chip-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"><rect x="2.5" y="4.5" width="15" height="11" rx="2" stroke-width="1.6"/><path d="M3 5.5l7 5 7-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="footer-chip-text">
+                <small>Email Support</small>
+                <strong>support@trisysexpress.com</strong>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Ship & Track -->
+        <nav class="footer-nav-col" aria-label="Ship and Track links">
+          <h3 class="footer-col-title">Ship &amp; Track</h3>
+          <ul class="footer-link-list">
+            <li><a href="/quote" class="footer-link">Get Instant Quote</a></li>
+            <li><a href="/schedule-pickup" class="footer-link">Schedule Pickup</a></li>
+            <li><a href="/track" class="footer-link">Track Shipment</a></li>
+            <li><a href="/rates" class="footer-link">Find International Rates</a></li>
+            <li><a href="#countries" class="footer-link" onclick="event.preventDefault(); openCountriesModal()">200+ Countries Served</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 3: Shipping Services -->
+        <nav class="footer-nav-col" aria-label="Shipping Services links">
+          <h3 class="footer-col-title">Our Services</h3>
+          <ul class="footer-link-list">
+            <li><a href="/document-courier" class="footer-link">Document Courier</a></li>
+            <li><a href="/parcel-shipping" class="footer-link">Parcel Shipping</a></li>
+            <li>
+              <a href="/medicine-courier" class="footer-link">
+                Medicine Courier
+                <span class="footer-mini-badge">Rx</span>
+              </a>
+            </li>
+            <li><a href="/ecommerce-logistics" class="footer-link">E-commerce Logistics</a></li>
+            <li><a href="/bulk-commercial" class="footer-link">Bulk &amp; Commercial</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 4: Business Solutions -->
+        <nav class="footer-nav-col" aria-label="Business Solutions links">
+          <h3 class="footer-col-title">For Business</h3>
+          <ul class="footer-link-list">
+            <li><a href="/business/volume-discounts" class="footer-link" data-footer-biz="volume-discounts">Volume Discounts</a></li>
+            <li><a href="/business/ecommerce-integrations" class="footer-link" data-footer-biz="ecommerce-integrations">E-commerce Integrations</a></li>
+            <li><a href="/business/account-manager" class="footer-link" data-footer-biz="account-manager">Dedicated Account Manager</a></li>
+            <li><a href="/business/credit-billing" class="footer-link" data-footer-biz="credit-billing">Credit &amp; Monthly Billing</a></li>
+            <li><a href="/business/register" class="footer-link footer-link-accent" data-footer-biz="register">Open Business Account →</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 5: Help & Support -->
+        <nav class="footer-nav-col" aria-label="Help and Support links">
+          <h3 class="footer-col-title">Help &amp; Compliance</h3>
+          <ul class="footer-link-list">
+            <li><a href="/help/faqs" class="footer-link" data-footer-help="faqs">Frequently Asked Questions</a></li>
+            <li><a href="/help/customs-documents" class="footer-link" data-footer-help="customs">Customs &amp; KYC Guide</a></li>
+            <li><a href="/help/contact-support" class="footer-link" data-footer-help="contact">24/7 Customer Support</a></li>
+            <li><a href="https://wa.me/911800000000" target="_blank" rel="noopener" class="footer-link">WhatsApp Live Desk</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <!-- Middle Strip: Popular Shipping Corridors -->
+      <div class="footer-corridors">
+        <span class="footer-corridors-label">Popular Shipping Corridors from India:</span>
+        <div class="footer-corridors-tags">
+          <a href="/quote?to=United%20States" class="corridor-tag">United States</a>
+          <a href="/quote?to=United%20Kingdom" class="corridor-tag">United Kingdom</a>
+          <a href="/quote?to=Canada" class="corridor-tag">Canada</a>
+          <a href="/quote?to=United%20Arab%20Emirates" class="corridor-tag">UAE (Dubai)</a>
+          <a href="/quote?to=Australia" class="corridor-tag">Australia</a>
+          <a href="/quote?to=Germany" class="corridor-tag">Germany</a>
+          <a href="/quote?to=Singapore" class="corridor-tag">Singapore</a>
+          <button type="button" class="corridor-tag corridor-tag-more" onclick="openCountriesModal()">View All 200+ →</button>
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Copyright, Trust Note & Quick Legal Links -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footerCurrentYear">2026</span> <strong>Trisys Express</strong>. All rights reserved. Door-to-door international courier from India.
+        </p>
+        <div class="footer-bottom-links">
+          <a href="/help/customs-documents" class="footer-bottom-link" data-footer-help="customs">Customs &amp; Restricted Items</a>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="/help/faqs" class="footer-bottom-link" data-footer-help="faqs">Terms of Carriage</a>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="/help/contact-support" class="footer-bottom-link" data-footer-help="contact">Privacy &amp; KYC Policy</a>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="#top" class="footer-back-top" onclick="event.preventDefault(); scrollToTopSmoothly();" aria-label="Back to top">
+            Back to Top
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" aria-hidden="true"><path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+  <!-- END: Site Footer -->
 
   <!-- Toast notification (replaces browser alerts) -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -985,6 +1118,6 @@
     </div>
   </div>
 
-  <script src="/script.js?v=6"></script>
+  <script src="/script.js?v=21"></script>
 </body>
 </html>
