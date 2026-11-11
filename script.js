@@ -6,6 +6,30 @@
 
 document.documentElement.classList.add('js');
 
+// 2-Way Real-time Customer -> Admin Live Broadcast Engine
+function broadcastCustomerActivity(detail) {
+  try {
+    const payload = {
+      type: 'CUSTOMER_ACTIVITY',
+      timestamp: Date.now(),
+      iso: new Date().toISOString(),
+      ...detail
+    };
+    if (typeof window !== 'undefined') {
+      if ('BroadcastChannel' in window) {
+        try {
+          const bc = new BroadcastChannel('trisys_sync_channel');
+          bc.postMessage(payload);
+          bc.close();
+        } catch (_) {}
+      }
+      try {
+        localStorage.setItem('trisys_last_customer_event', JSON.stringify(payload));
+      } catch (_) {}
+    }
+  } catch (_) {}
+}
+
 // SVG Flag Helper — accurate, lightweight inline flags (3:2 canvas, 24 x 16)
 const FLAG_UNION_JACK = (x, y, w, h) => `
   <svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 60 30" preserveAspectRatio="none">
@@ -2947,6 +2971,13 @@ async function submitStandardQuoteForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Quote request ${q.quoteId} saved!`);
+    broadcastCustomerActivity({
+      action: 'quote_requested',
+      ref: q.quoteId,
+      customer: q.senderName,
+      route: `${q.originCountry} ➔ ${q.destCountry}`,
+      details: `${q.packageTypeLabel} (${q.chargeableWeightKg} kg)`
+    });
   } catch (_) {
     fail(null, 'Unable to reach the backend server to save your quote request. Please try again.');
   } finally {
@@ -3209,6 +3240,13 @@ async function submitEcommerceServiceForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`E-commerce enquiry ${rec.enquiryId} saved!`);
+    broadcastCustomerActivity({
+      action: 'service_enquiry',
+      ref: rec.enquiryId,
+      customer: rec.contactName || rec.storeName,
+      route: `${rec.originCountry} ➔ ${rec.destCountry}`,
+      details: `E-commerce Logistics (${rec.parcelQty} parcels)`
+    });
   } catch (err) {
     failValidation(null, 'Unable to reach the server to submit your E-commerce Logistics enquiry. Your entered details have been preserved—please try again.');
   } finally {
@@ -3428,6 +3466,13 @@ async function submitBulkServiceForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Bulk freight enquiry ${rec.enquiryId} saved!`);
+    broadcastCustomerActivity({
+      action: 'service_enquiry',
+      ref: rec.enquiryId,
+      customer: rec.contactPerson || rec.companyName,
+      route: `${rec.originCountry} ➔ ${rec.destCountry}`,
+      details: `Bulk Cargo Freight (${rec.chargeableWeightKg} kg)`
+    });
   } catch (err) {
     failValidation(null, 'Unable to reach the server to submit your Bulk & Commercial quotation request. Your entered details have been preserved—please try again.');
   } finally {
@@ -3850,6 +3895,13 @@ async function submitDedicatedPickupForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Pickup request ${pkp.pickupRef} scheduled!`);
+    broadcastCustomerActivity({
+      action: 'pickup_booked',
+      ref: pkp.pickupRef,
+      customer: pkp.senderName,
+      route: `${pkp.originCountry} ➔ ${pkp.destCountry}`,
+      details: `${pkp.packageTypeLabel} (${pkp.weight} ${pkp.weightUnit})`
+    });
   } catch (_) {
     fail(null, 'Unable to reach the backend server to schedule your pickup. Please try again.');
   } finally {
@@ -4645,6 +4697,12 @@ async function submitVolumeDiscountForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Volume pricing request ${rec.referenceId} saved!`);
+    broadcastCustomerActivity({
+      action: 'business_submission',
+      ref: rec.referenceId,
+      customer: rec.companyName,
+      details: `Volume Discounts (${rec.volumeBracket || 'Tier'})`
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your entered volume details have been preserved—please try again.');
   } finally {
@@ -4742,6 +4800,12 @@ async function submitIntegrationRequestForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Integration request ${rec.referenceId} saved!`);
+    broadcastCustomerActivity({
+      action: 'business_submission',
+      ref: rec.referenceId,
+      customer: rec.storeName || rec.contactName,
+      details: `E-commerce Integration (${rec.ecommercePlatform || 'Platform'})`
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your store integration details have been preserved—please try again.');
   } finally {
@@ -4840,6 +4904,12 @@ async function submitAccountManagerForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Account manager request ${rec.referenceId} saved!`);
+    broadcastCustomerActivity({
+      action: 'business_submission',
+      ref: rec.referenceId,
+      customer: rec.companyName || rec.contactName,
+      details: 'Dedicated Account Manager Request'
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your entered details have been preserved—please try again.');
   } finally {
@@ -4942,6 +5012,12 @@ async function submitCreditBillingForm() {
     if (lookupRef) lookupRef.value = rec.referenceId;
     if (lookupEmail) lookupEmail.value = rec.email;
     showToast(`Credit application ${rec.referenceId} submitted!`);
+    broadcastCustomerActivity({
+      action: 'business_submission',
+      ref: rec.referenceId,
+      customer: rec.companyName || rec.contactName,
+      details: `Credit Application (${rec.billingCycle || 'Monthly'})`
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your application details have been preserved—please try again.');
   } finally {
@@ -5126,6 +5202,12 @@ async function submitBusinessRegistrationForm() {
       confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Business account application ${acc.referenceId} submitted!`);
+    broadcastCustomerActivity({
+      action: 'business_submission',
+      ref: acc.referenceId,
+      customer: acc.companyName,
+      details: `Business Account Registration (${acc.businessType})`
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your entered business details have been preserved—please try again.');
   } finally {
@@ -6066,6 +6148,12 @@ async function submitCustomsDocumentForm() {
       successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     showToast(`Customs document ${rec.documentRefId} submitted!`);
+    broadcastCustomerActivity({
+      action: 'support_submission',
+      ref: rec.documentRefId,
+      customer: rec.senderName,
+      details: `Customs Pre-Check (${rec.documentType})`
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your entered details have been preserved—please try again.');
   } finally {
@@ -6183,6 +6271,12 @@ async function submitSupportEnquiryForm() {
     if (lookupEmailEl) lookupEmailEl.value = t.email;
 
     showToast(`Support ticket ${t.ticketId} submitted!`);
+    broadcastCustomerActivity({
+      action: 'support_submission',
+      ref: t.ticketId,
+      customer: t.customerName,
+      details: `Support Ticket (${t.category})`
+    });
   } catch (err) {
     fail(null, 'Unable to reach the server. Your entered message has been preserved—please try again.');
   } finally {

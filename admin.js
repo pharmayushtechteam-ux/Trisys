@@ -94,6 +94,7 @@ const ADMIN_ROUTES = {
 
   // 12. Settings
   '/admin/settings/general': { section: 'settings', subView: 'general', parent: 'settings', title: 'General Settings', sub: 'Portal title, timezone, currency, and operational preferences' },
+  '/admin/settings/customer-sync': { section: 'settings', subView: 'customerSync', parent: 'settings', title: 'Customer Live Sync & Auto-Registration Settings', sub: 'Link customer website actions directly with Admin — manage automatic booking registrations, customer profiling, live sync channels, and instant alert chimes' },
   '/admin/settings/company': { section: 'settings', subView: 'company', parent: 'settings', title: 'Company Information', sub: 'Legal entity details, GSTIN, IEC code, and 24/7 support contacts' },
   '/admin/settings/branding': { section: 'settings', subView: 'branding', parent: 'settings', title: 'Branding and Logo', sub: 'Brand colors, light/dark logos, and portal identity' },
   '/admin/settings/notifications': { section: 'settings', subView: 'notifications', parent: 'settings', title: 'Email and Notifications', sub: 'Configure booking alerts, AWB dispatch emails, and WhatsApp notifications' },
@@ -225,11 +226,58 @@ async function fetchAdminBackendData() {
       admState.businessRecords = data.businessRecords || [];
       admState.supportEnquiries = data.supportEnquiries || [];
       admState.customsDocuments = data.customsDocuments || [];
+      updateDashboardKpiCards();
       renderCurrentRouteView();
     }
   } catch (_) {
     // Fallback to initial state if offline
   }
+}
+
+function updateDashboardKpiCards() {
+  const shipments = admState.store.shipments || [];
+  const pickups = admState.pickups || [];
+  const existingRefs = new Set(shipments.map(s => String(s.trackingNo || '').toUpperCase()));
+  const unlinkedPickups = pickups.filter(p => !existingRefs.has(String(p.pickupRef || '').toUpperCase()));
+
+  const inTransitCount = shipments.filter(s => s.status === 'In Transit').length;
+  const deliveredCount = shipments.filter(s => s.status === 'Delivered').length;
+  const pendingCount = shipments.filter(s => s.status === 'Pending' || s.status === 'Booked' || (s.status || '').includes('Scheduled')).length +
+                       unlinkedPickups.filter(p => (p.status || '').includes('Pending') || (p.status || '').includes('Scheduled')).length;
+
+  const baseTotal = 1240;
+  const totalCount = baseTotal + shipments.length + unlinkedPickups.length;
+  const inTransitTotal = 338 + inTransitCount;
+  const deliveredTotal = 828 + deliveredCount;
+  const pendingTotal = 74 + pendingCount;
+
+  const inTransitPct = ((inTransitTotal / totalCount) * 100).toFixed(1);
+  const deliveredPct = ((deliveredTotal / totalCount) * 100).toFixed(1);
+  const pendingPct = ((pendingTotal / totalCount) * 100).toFixed(1);
+
+  const elTotal = document.getElementById('kpiTotalShipments');
+  const elInTransit = document.getElementById('kpiInTransit');
+  const elDelivered = document.getElementById('kpiDelivered');
+  const elPending = document.getElementById('kpiPending');
+  const elInTransitPct = document.getElementById('kpiInTransitPct');
+  const elDeliveredPct = document.getElementById('kpiDeliveredPct');
+  const elPendingPct = document.getElementById('kpiPendingPct');
+  const elInTransitBar = document.getElementById('kpiInTransitBar');
+  const elDeliveredBar = document.getElementById('kpiDeliveredBar');
+  const elPendingBar = document.getElementById('kpiPendingBar');
+
+  if (elTotal) elTotal.textContent = totalCount.toLocaleString('en-IN');
+  if (elInTransit) elInTransit.textContent = inTransitTotal.toLocaleString('en-IN');
+  if (elDelivered) elDelivered.textContent = deliveredTotal.toLocaleString('en-IN');
+  if (elPending) elPending.textContent = pendingTotal.toLocaleString('en-IN');
+
+  if (elInTransitPct) elInTransitPct.textContent = `${inTransitPct}%`;
+  if (elDeliveredPct) elDeliveredPct.textContent = `${deliveredPct}%`;
+  if (elPendingPct) elPendingPct.textContent = `${pendingPct}%`;
+
+  if (elInTransitBar) elInTransitBar.style.width = `${inTransitPct}%`;
+  if (elDeliveredBar) elDeliveredBar.style.width = `${deliveredPct}%`;
+  if (elPendingBar) elPendingBar.style.width = `${pendingPct}%`;
 }
 
 async function postAdminAction(payload) {
@@ -423,7 +471,25 @@ function renderRecentBookings(filterText = '') {
   if (!container) return;
   const q = filterText.trim().toLowerCase();
   const shipments = admState.store.shipments || [];
-  const filtered = shipments.filter(item =>
+  const existingRefs = new Set(shipments.map(s => String(s.trackingNo || '').toUpperCase()));
+
+  const pickupsAsRows = (admState.pickups || []).filter(p => !existingRefs.has(String(p.pickupRef || '').toUpperCase())).map(p => ({
+    trackingNo: p.pickupRef,
+    customer: p.senderName,
+    toCountry: p.destCountry,
+    toCode: (p.destCountry || '').toLowerCase().includes('king') ? 'GB' :
+            (p.destCountry || '').toLowerCase().includes('stat') ? 'US' :
+            (p.destCountry || '').toLowerCase().includes('emir') ? 'AE' :
+            (p.destCountry || '').toLowerCase().includes('aust') ? 'AU' :
+            (p.destCountry || '').toLowerCase().includes('cana') ? 'CA' :
+            (p.destCountry || '').toLowerCase().includes('germ') ? 'DE' : 'US',
+    type: p.packageTypeLabel || p.packageType || 'Parcel',
+    status: p.status || 'Pending Pickup',
+    timeAgo: 'Doorstep Pickup'
+  }));
+
+  const combined = [...shipments, ...pickupsAsRows];
+  const filtered = combined.filter(item =>
     !q ||
     (item.trackingNo || '').toLowerCase().includes(q) ||
     (item.customer || '').toLowerCase().includes(q) ||
@@ -1475,6 +1541,42 @@ function renderCustomersSection(container) {
     }
   });
 
+  (admState.quotes || []).forEach(q => {
+    const key = (q.email || q.senderName || q.quoteId).toLowerCase();
+    if (!customerMap.has(key)) {
+      customerMap.set(key, {
+        id: q.quoteId,
+        name: q.senderName,
+        company: 'Online Quote Prospect',
+        email: q.email || '—',
+        phone: q.phone || '—',
+        gstin: 'Prospective Shipper',
+        type: `${q.packageTypeLabel || q.packageType || 'General'} Quote`,
+        status: q.status || 'Pending Follow-up',
+        shipmentsCount: 0,
+        lastRoute: `${q.originCountry || 'India'} ➔ ${q.destCountry}`
+      });
+    }
+  });
+
+  (admState.serviceEnquiries || []).forEach(e => {
+    const key = (e.email || e.contactName || e.storeName || e.companyName || e.enquiryId).toLowerCase();
+    if (!customerMap.has(key)) {
+      customerMap.set(key, {
+        id: e.enquiryId,
+        name: e.contactName || e.storeName || e.companyName || 'Corporate Client',
+        company: e.companyName || e.storeName || 'Commercial Account',
+        email: e.email || '—',
+        phone: e.phone || '—',
+        gstin: e.gstin || 'Commercial Lead',
+        type: e.serviceType === 'ecommerce' ? 'E-Commerce Logistics' : 'Bulk Cargo & Freight',
+        status: e.status || 'Pending Review',
+        shipmentsCount: 0,
+        lastRoute: `${e.originCountry || 'India'} ➔ ${e.destCountry}`
+      });
+    }
+  });
+
   let customers = Array.from(customerMap.values());
   const allCustomers = customers;
   if (admState.filterText) {
@@ -1788,10 +1890,10 @@ function renderRatesSection(container, subView) {
                   <td>${esc(c.appliesTo)}</td>
                   <td><span class="adm-status-pill ${statusPillClass(st)}">${esc(st)}</span></td>
                   <td>
-                    <div style="display:inline-flex; gap:6px; align-items:center;">
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editAdditionalCharge('${esc(c.id)}')">Edit</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleAdditionalChargeStatus('${esc(c.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; color:#DC2626; border-color:#FECACA; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="deleteAdditionalChargeItem('${esc(c.id)}')">Delete</button>
+                    <div class="adm-action-stack">
+                      <button type="button" class="adm-action-btn edit" onclick="editAdditionalCharge('${esc(c.id)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" onclick="toggleAdditionalChargeStatus('${esc(c.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
+                      <button type="button" class="adm-action-btn delete" onclick="deleteAdditionalChargeItem('${esc(c.id)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -1963,10 +2065,10 @@ function renderRatesSection(container, subView) {
                 <td>${esc(p.carrier)}</td>
                 <td><span class="adm-status-pill ${statusPillClass(st)}">${esc(st)}</span></td>
                 <td>
-                  <div style="display:inline-flex; gap:6px; align-items:center;">
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editRatePlanItem('${esc(p.id)}')">Edit</button>
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleRatePlanStatus('${esc(p.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; color:#DC2626; border-color:#FECACA; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="deleteRatePlanItem('${esc(p.id)}')">Delete</button>
+                  <div class="adm-action-stack">
+                    <button type="button" class="adm-action-btn edit" onclick="editRatePlanItem('${esc(p.id)}')">Edit</button>
+                    <button type="button" class="adm-action-btn pause" onclick="toggleRatePlanStatus('${esc(p.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
+                    <button type="button" class="adm-action-btn delete" onclick="deleteRatePlanItem('${esc(p.id)}')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -2526,10 +2628,10 @@ function renderLocationsSection(container, subView) {
                   <td><strong>${esc(r.dailyCutoff)}</strong></td>
                   <td><span class="adm-status-pill ${isActive ? 'delivered' : 'pending'}">${isActive ? 'Active' : 'Paused'}</span></td>
                   <td>
-                    <div style="display:inline-flex; gap:6px; align-items:center;">
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editGatewayRegion('${esc(r.code)}')">Edit</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleLocationService('regions', '${esc(r.code)}')">${isActive ? 'Pause' : 'Activate'}</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; color:#DC2626; border-color:#FECACA; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="deleteGatewayRegionItem('${esc(r.code)}')">Delete</button>
+                    <div class="adm-action-stack">
+                      <button type="button" class="adm-action-btn edit" onclick="editGatewayRegion('${esc(r.code)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('regions', '${esc(r.code)}')">${isActive ? 'Pause' : 'Activate'}</button>
+                      <button type="button" class="adm-action-btn delete" onclick="deleteGatewayRegionItem('${esc(r.code)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -2622,10 +2724,10 @@ function renderLocationsSection(container, subView) {
                   <td>${c.sameDayPickup ? 'Available (Same-Day)' : 'Scheduled (Next-Day)'}</td>
                   <td><span class="adm-status-pill ${c.serviceable ? 'delivered' : 'pending'}">${c.serviceable ? 'Serviceable' : 'Paused'}</span></td>
                   <td>
-                    <div style="display:inline-flex; gap:6px; align-items:center;">
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editPickupCity('${esc(c.city)}')">Edit</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleLocationService('cities', '${esc(c.city)}')">${c.serviceable ? 'Pause' : 'Enable'}</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; color:#DC2626; border-color:#FECACA; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="deletePickupCityItem('${esc(c.city)}')">Delete</button>
+                    <div class="adm-action-stack">
+                      <button type="button" class="adm-action-btn edit" onclick="editPickupCity('${esc(c.city)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('cities', '${esc(c.city)}')">${c.serviceable ? 'Pause' : 'Enable'}</button>
+                      <button type="button" class="adm-action-btn delete" onclick="deletePickupCityItem('${esc(c.city)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -2741,10 +2843,10 @@ function renderLocationsSection(container, subView) {
                   <td><strong>${esc(z.coverage)}</strong></td>
                   <td><span class="adm-status-pill ${isAct ? 'delivered' : 'pending'}">${isAct ? 'Active Zone' : 'Suspended'}</span></td>
                   <td>
-                    <div style="display:inline-flex; gap:6px; align-items:center;">
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editCoverageZone('${esc(zCode)}')">Edit</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleLocationService('coverageZones', '${esc(zCode)}')">${isAct ? 'Suspend' : 'Activate'}</button>
-                      <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; color:#DC2626; border-color:#FECACA; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="deleteCoverageZoneItem('${esc(zCode)}')">Delete</button>
+                    <div class="adm-action-stack">
+                      <button type="button" class="adm-action-btn edit" onclick="editCoverageZone('${esc(zCode)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('coverageZones', '${esc(zCode)}')">${isAct ? 'Suspend' : 'Activate'}</button>
+                      <button type="button" class="adm-action-btn delete" onclick="deleteCoverageZoneItem('${esc(zCode)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -2872,10 +2974,10 @@ function renderLocationsSection(container, subView) {
                 <td><strong>${c.shipmentsCount || 0}</strong></td>
                 <td><span class="adm-status-pill ${c.serviceable ? 'delivered' : 'pending'}">${c.serviceable ? 'Active Coverage' : 'Suspended'}</span></td>
                 <td>
-                  <div style="display:inline-flex; gap:6px; align-items:center;">
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editDestinationCountry('${esc(c.code)}')">Edit</button>
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleLocationService('countries', '${esc(c.code)}')">${c.serviceable ? 'Suspend' : 'Activate'}</button>
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; color:#DC2626; border-color:#FECACA; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="deleteDestinationCountryItem('${esc(c.code)}')">Delete</button>
+                  <div class="adm-action-stack">
+                    <button type="button" class="adm-action-btn edit" onclick="editDestinationCountry('${esc(c.code)}')">Edit</button>
+                    <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('countries', '${esc(c.code)}')">${c.serviceable ? 'Suspend' : 'Activate'}</button>
+                    <button type="button" class="adm-action-btn delete" onclick="deleteDestinationCountryItem('${esc(c.code)}')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -3382,9 +3484,9 @@ function renderCmsSection(container) {
                 <td>${esc(p.updatedAt)}</td>
                 <td><span class="adm-status-pill ${statusPillClass(p.status)}">${esc(p.status)}</span></td>
                 <td>
-                  <div style="display:flex; gap:8px;">
-                    <a href="${esc(p.slug)}" target="_blank" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0;">View Live ↗</a>
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0;" onclick="toggleCmsPagePublish('${esc(p.id)}')">
+                  <div class="adm-action-stack">
+                    <a href="${esc(p.slug)}" target="_blank" class="adm-action-btn edit">View Live ↗</a>
+                    <button type="button" class="adm-action-btn pause" onclick="toggleCmsPagePublish('${esc(p.id)}')">
                       ${p.status === 'Published' ? 'Unpublish' : 'Publish'}
                     </button>
                   </div>
@@ -3491,9 +3593,11 @@ function renderBlogSection(container) {
                 <td>${esc(b.publishedAt)}</td>
                 <td><span class="adm-status-pill ${statusPillClass(b.status)}">${esc(b.status)}</span></td>
                 <td>
-                  <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleBlogPostStatus('${esc(b.id)}')">
-                    ${b.status === 'Published' ? 'Unpublish' : 'Publish'}
-                  </button>
+                  <div class="adm-action-stack">
+                    <button type="button" class="adm-action-btn pause" onclick="toggleBlogPostStatus('${esc(b.id)}')">
+                      ${b.status === 'Published' ? 'Unpublish' : 'Publish'}
+                    </button>
+                  </div>
                 </td>
               </tr>
             `).join('')}
@@ -3583,6 +3687,7 @@ async function submitBlogPostForm() {
 function renderSettingsSection(container, subView) {
   const subTabs = [
     { key: 'general', label: 'General Settings', path: '/admin/settings/general' },
+    { key: 'customerSync', label: 'Customer Live Sync & Auto-Reg', path: '/admin/settings/customer-sync' },
     { key: 'company', label: 'Company Information', path: '/admin/settings/company' },
     { key: 'branding', label: 'Branding & Logo', path: '/admin/settings/branding' },
     { key: 'notifications', label: 'Email & Notifications', path: '/admin/settings/notifications' },
@@ -3600,6 +3705,213 @@ function renderSettingsSection(container, subView) {
   `;
 
   const s = admState.store.settings || {};
+
+  if (subView === 'customerSync') {
+    const cs = s.customerSync || {
+      autoRegisterShipments: true,
+      autoRegisterCustomers: true,
+      autoRegisterQuotes: true,
+      liveSyncEnabled: true,
+      pollingIntervalSeconds: 3,
+      enableAudioAlerts: true,
+      defaultCarrier: 'Trisys Express Direct',
+      defaultStatus: 'Pending'
+    };
+
+    container.innerHTML = `
+      ${tabsHtml}
+      <div class="adm-card" style="margin-bottom:24px;">
+        <div class="adm-card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid #F1F5F9; padding-bottom:16px; margin-bottom:20px;">
+          <div>
+            <h2 class="adm-card-title" style="font-size:18px; font-weight:700; color:#0F172A; display:flex; align-items:center; gap:8px;">
+              <span>Customer Live Sync &amp; Auto-Registration Settings</span>
+            </h2>
+            <p style="font-size:13px; color:#64748B; margin-top:3px;">Automatically link and synchronize actions on the customer website directly to the Admin Dashboard in real time.</p>
+          </div>
+          <div style="display:inline-flex; align-items:center; gap:8px; background:#ECFDF5; border:1px solid #A7F3D0; color:#065F46; padding:7px 14px; border-radius:24px; font-size:12px; font-weight:700; box-shadow:0 1px 2px rgba(16,185,129,0.08);">
+            <span style="width:8px; height:8px; border-radius:50%; background:#10B981; display:inline-block; box-shadow:0 0 0 3px rgba(16,185,129,0.25);"></span>
+            <span>2-Way Customer Link Active</span>
+          </div>
+        </div>
+
+        <!-- Metric Counter Cards -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:14px; margin-bottom:26px;">
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Customer Pickups Synced</div>
+              <div id="statPickupsSynced" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.pickups || []).length} Bookings</div>
+            </div>
+            <div style="width:40px; height:40px; border-radius:10px; background:#EFF6FF; color:#2563EB; display:flex; align-items:center; justify-content:center; font-size:18px;">📦</div>
+          </div>
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Customer Quotes Logged</div>
+              <div id="statQuotesLogged" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.quotes || []).length} Inquiries</div>
+            </div>
+            <div style="width:40px; height:40px; border-radius:10px; background:#FEF3C7; color:#D97706; display:flex; align-items:center; justify-content:center; font-size:18px;">💬</div>
+          </div>
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Service Enquiries</div>
+              <div id="statServiceEnquiries" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.serviceEnquiries || []).length} Submissions</div>
+            </div>
+            <div style="width:40px; height:40px; border-radius:10px; background:#F0FDF4; color:#16A34A; display:flex; align-items:center; justify-content:center; font-size:18px;">📋</div>
+          </div>
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Auto-Profiled Customers</div>
+              <div id="statProfiledCustomers" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.store.shipments || []).length + (admState.pickups || []).length} Registered</div>
+            </div>
+            <div style="width:40px; height:40px; border-radius:10px; background:#FAF5FF; color:#9333EA; display:flex; align-items:center; justify-content:center; font-size:18px;">👥</div>
+          </div>
+        </div>
+
+        <form id="customerSyncForm" onsubmit="event.preventDefault(); saveCustomerSyncSettings(document.getElementById('btnSaveCustomerSync'));" style="display:flex; flex-direction:column; gap:20px;">
+          <!-- Section 1: Ingestion & Auto-Registration -->
+          <div style="padding:20px; background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #F1F5F9;">
+              <span style="font-size:17px; line-height:1;">🔄</span>
+              <div>
+                <h3 style="font-size:14px; font-weight:700; color:#0F172A; margin:0;">Automated Customer Ingestion Rules</h3>
+                <p style="font-size:12px; color:#64748B; margin:2px 0 0 0;">Define how customer booking forms and online quotes create internal administrative records.</p>
+              </div>
+            </div>
+
+            <div class="adm-form-grid">
+              <div class="adm-field">
+                <label style="font-weight:600; color:#1E293B;">Auto-Register Pickups into Shipments</label>
+                <select data-setting-key="autoRegisterShipments" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="true" ${cs.autoRegisterShipments !== false ? 'selected' : ''}>Enabled (Create Consignment &amp; AWB Automatically)</option>
+                  <option value="false" ${cs.autoRegisterShipments === false ? 'selected' : ''}>Disabled (Pickups stay isolated in pickups store)</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Automatically places customer doorstep pickup bookings into Admin Shipments &amp; Recent Bookings.</span>
+              </div>
+
+              <div class="adm-field">
+                <label style="font-weight:600; color:#1E293B;">Auto-Register Customers in Directory</label>
+                <select data-setting-key="autoRegisterCustomers" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="true" ${cs.autoRegisterCustomers !== false ? 'selected' : ''}>Enabled (Auto-profile sender &amp; business leads)</option>
+                  <option value="false" ${cs.autoRegisterCustomers === false ? 'selected' : ''}>Disabled</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Automatically records names, phone numbers, emails, and routes in Customer Directory.</span>
+              </div>
+
+              <div class="adm-field full">
+                <label style="font-weight:600; color:#1E293B;">Auto-Sync Quotes to Sales Bookings</label>
+                <select data-setting-key="autoRegisterQuotes" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="true" ${cs.autoRegisterQuotes !== false ? 'selected' : ''}>Enabled (Register online quotes in Unified Bookings view)</option>
+                  <option value="false" ${cs.autoRegisterQuotes === false ? 'selected' : ''}>Disabled</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Displays customer price estimate submissions under Unified Bookings for team follow-up.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Real-Time Sync & Audio Alerts -->
+          <div style="padding:20px; background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #F1F5F9;">
+              <span style="font-size:17px; line-height:1;">⚡</span>
+              <div>
+                <h3 style="font-size:14px; font-weight:700; color:#0F172A; margin:0;">Real-Time Synchronization &amp; Live Alerts</h3>
+                <p style="font-size:12px; color:#64748B; margin:2px 0 0 0;">Manage browser broadcast events, polling intervals, and operator audio signals.</p>
+              </div>
+            </div>
+
+            <div class="adm-form-grid">
+              <div class="adm-field">
+                <label style="font-weight:600; color:#1E293B;">Cross-Tab Live Broadcast Channel</label>
+                <select data-setting-key="liveSyncEnabled" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="true" ${cs.liveSyncEnabled !== false ? 'selected' : ''}>Enabled (BroadcastChannel &amp; Storage Event Link)</option>
+                  <option value="false" ${cs.liveSyncEnabled === false ? 'selected' : ''}>Disabled</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Zero-latency push: updates Admin tab instantaneously when customer submits in another tab.</span>
+              </div>
+
+              <div class="adm-field">
+                <label style="font-weight:600; color:#1E293B;">Background Polling Frequency</label>
+                <select data-setting-key="pollingIntervalSeconds" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="3" ${Number(cs.pollingIntervalSeconds) === 3 ? 'selected' : ''}>Every 3 seconds (Recommended for Live Ops)</option>
+                  <option value="5" ${Number(cs.pollingIntervalSeconds) === 5 ? 'selected' : ''}>Every 5 seconds</option>
+                  <option value="10" ${Number(cs.pollingIntervalSeconds) === 10 ? 'selected' : ''}>Every 10 seconds</option>
+                  <option value="30" ${Number(cs.pollingIntervalSeconds) === 30 ? 'selected' : ''}>Every 30 seconds</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Ensures multi-device / remote customer submissions automatically appear on screen.</span>
+              </div>
+
+              <div class="adm-field full">
+                <label style="font-weight:600; color:#1E293B;">Audio Alert Chime on Customer Submissions</label>
+                <select data-setting-key="enableAudioAlerts" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="true" ${cs.enableAudioAlerts !== false ? 'selected' : ''}>Enabled (Pleasant chime sound on incoming bookings)</option>
+                  <option value="false" ${cs.enableAudioAlerts === false ? 'selected' : ''}>Disabled (Silent toast only)</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Alerts operators immediately when new shipments or bookings arrive.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Default Workflow Routing -->
+          <div style="padding:20px; background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #F1F5F9;">
+              <span style="font-size:17px; line-height:1;">🚚</span>
+              <div>
+                <h3 style="font-size:14px; font-weight:700; color:#0F172A; margin:0;">Default Consignment Routing &amp; Status</h3>
+                <p style="font-size:12px; color:#64748B; margin:2px 0 0 0;">Assign the primary courier partner and initial tracking status for auto-registered customer consignments.</p>
+              </div>
+            </div>
+
+            <div class="adm-form-grid">
+              <div class="adm-field">
+                <label style="font-weight:600; color:#1E293B;">Default Assigned Courier Partner</label>
+                <select data-setting-key="defaultCarrier" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="Trisys Express Direct" ${cs.defaultCarrier === 'Trisys Express Direct' ? 'selected' : ''}>Trisys Express Direct</option>
+                  <option value="DHL Express" ${cs.defaultCarrier === 'DHL Express' ? 'selected' : ''}>DHL Express</option>
+                  <option value="FedEx" ${cs.defaultCarrier === 'FedEx' ? 'selected' : ''}>FedEx</option>
+                  <option value="UPS" ${cs.defaultCarrier === 'UPS' ? 'selected' : ''}>UPS</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Default carrier assigned to auto-registered customer shipments.</span>
+              </div>
+
+              <div class="adm-field">
+                <label style="font-weight:600; color:#1E293B;">Default Status for Auto-Registered Consignments</label>
+                <select data-setting-key="defaultStatus" style="height:38px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:13px; background:#fff;">
+                  <option value="Pending" ${cs.defaultStatus === 'Pending' ? 'selected' : ''}>Pending (Awaiting Ops Verification)</option>
+                  <option value="Scheduled — Pending Courier Assignment" ${cs.defaultStatus === 'Scheduled — Pending Courier Assignment' ? 'selected' : ''}>Scheduled — Pending Courier Assignment</option>
+                  <option value="Booked" ${cs.defaultStatus === 'Booked' ? 'selected' : ''}>Booked (Direct Confirmation)</option>
+                </select>
+                <span style="font-size:11.5px; color:#64748B; margin-top:3px;">Initial operational status in the shipments workflow.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inline Real-Time Result Notification Banner -->
+          <div id="customerSyncFeedbackBox" style="display:none; padding:14px 18px; border-radius:8px; font-size:13px; font-weight:600; line-height:1.45; box-shadow:0 1px 3px rgba(0,0,0,0.04);"></div>
+
+          <!-- Bottom Action Toolbar -->
+          <div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:18px 4px 6px 4px; border-top:1px solid #E2E8F0;">
+            <div style="display:flex; flex-direction:row; align-items:center; gap:12px; flex-wrap:wrap;">
+              <button id="btnSaveCustomerSync" type="button" onclick="saveCustomerSyncSettings(this)" class="adm-btn-new" style="display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 22px; font-weight:700; font-size:13px; cursor:pointer; transition:all 0.2s ease;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                <span>Save Customer Sync Settings</span>
+              </button>
+              <button id="btnTestCustomerBooking" type="button" onclick="sendTestCustomerBooking(this)" class="adm-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 16px; font-weight:600; font-size:13px; border-radius:8px; border:1px solid #CBD5E1; background:#FFFFFF; color:#1E293B; cursor:pointer; transition:all 0.15s ease;">
+                <span style="font-size:15px;">⚡</span>
+                <span>Send Test Customer Booking</span>
+              </button>
+              <button id="btnTestAlertChime" type="button" onclick="playAdminNotificationChime(this)" class="adm-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 16px; font-weight:600; font-size:13px; border-radius:8px; border:1px solid #CBD5E1; background:#FFFFFF; color:#1E293B; cursor:pointer; transition:all 0.15s ease;">
+                <span style="font-size:15px;">🔔</span>
+                <span>Test Alert Chime</span>
+              </button>
+            </div>
+            <div style="font-size:12px; color:#64748B; display:inline-flex; align-items:center; gap:6px;">
+              <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#10B981;"></span>
+              <span>Changes sync across all active browser tabs immediately</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    `;
+    return;
+  }
 
   if (subView === 'roles') {
     const roles = s.roles || [];
@@ -3666,7 +3978,11 @@ async function saveCurrentSettingsSection(section) {
   const res = await postAdminAction({ action: 'save_settings', section, values });
   if (res && res.ok) {
     admState.store = res.store;
+    if (section === 'customerSync') {
+      startAdminAutoPoll();
+    }
     showAdminToast(`Saved ${section} settings!`);
+    renderCurrentRouteView();
   }
 }
 
@@ -4333,10 +4649,401 @@ function unlockAdminSession() {
   showAdminToast(`Welcome back, ${admTopbarState.profile.name}! Session unlocked.`);
 }
 
+/* ==========================================================================
+   14. CUSTOMER LIVE SYNC & 2-WAY LINKING ENGINE
+   ========================================================================== */
+let adminAutoPollTimer = null;
+let lastKnownDataFingerprint = '';
+let lastHandledCustomerRef = '';
+
+function showCustomerSyncFeedback(type, html) {
+  const box = document.getElementById('customerSyncFeedbackBox');
+  if (!box) return;
+  box.style.display = 'block';
+  if (type === 'success') {
+    box.style.background = '#ECFDF5';
+    box.style.border = '1px solid #A7F3D0';
+    box.style.color = '#065F46';
+  } else if (type === 'alert') {
+    box.style.background = '#EFF6FF';
+    box.style.border = '1px solid #BFDBFE';
+    box.style.color = '#1E40AF';
+  } else {
+    box.style.background = '#FEF2F2';
+    box.style.border = '1px solid #FECACA';
+    box.style.color = '#991B1B';
+  }
+  box.innerHTML = html;
+}
+
+async function playAdminNotificationChime(btn) {
+  const chimeBtn = btn || document.getElementById('btnTestAlertChime');
+  const origHtml = chimeBtn ? chimeBtn.innerHTML : '';
+  if (chimeBtn) {
+    chimeBtn.disabled = true;
+    chimeBtn.innerHTML = '<span>🔔</span> <strong>Playing Chime...</strong>';
+    chimeBtn.style.borderColor = '#2563EB';
+    chimeBtn.style.color = '#1E40AF';
+    setTimeout(() => {
+      chimeBtn.innerHTML = origHtml;
+      chimeBtn.style.borderColor = '';
+      chimeBtn.style.color = '';
+      chimeBtn.disabled = false;
+    }, 1800);
+  }
+
+  showAdminToast('🔔 Playing notification chime test sound...');
+  showCustomerSyncFeedback('alert', '🔔 <strong>Alert Chime Test:</strong> 2-tone melodic chime triggered. If you don\'t hear it, ensure your computer speakers or browser tab sound are unmuted.');
+
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    if (ctx.state === 'suspended') {
+      await ctx.resume();
+    }
+    const now = ctx.currentTime;
+
+    // First note: D5 (587.33 Hz)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(587.33, now);
+    gain1.gain.setValueAtTime(0.35, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.35);
+
+    // Second note: A5 (880 Hz)
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(880, now + 0.12);
+    gain2.gain.setValueAtTime(0.40, now + 0.12);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(now + 0.12);
+    osc2.stop(now + 0.55);
+  } catch (e) {
+    console.warn('Audio chime playback error:', e);
+  }
+}
+
+async function saveCustomerSyncSettings(btn) {
+  const saveBtn = btn || document.getElementById('btnSaveCustomerSync');
+  const origHtml = saveBtn ? saveBtn.innerHTML : '';
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="adm-spin" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="12"></circle></svg>
+      <span>Saving Settings...</span>
+    `;
+  }
+
+  const values = {};
+  document.querySelectorAll('[data-setting-key]').forEach(inp => {
+    const k = inp.getAttribute('data-setting-key');
+    let v = inp.value.trim();
+    if (v === 'true') v = true;
+    else if (v === 'false') v = false;
+    else if (!isNaN(v) && v !== '') v = Number(v);
+    values[k] = v;
+  });
+
+  try {
+    const res = await postAdminAction({ action: 'save_settings', section: 'customerSync', values });
+    if (res && res.ok) {
+      admState.store = res.store;
+      startAdminAutoPoll();
+      showAdminToast('✅ Customer Live Sync settings saved & active across all tabs!');
+      showCustomerSyncFeedback('success', '✅ <strong>Saved!</strong> Customer Live Sync &amp; Auto-Registration settings have been updated and are active immediately across all tabs.');
+      if (saveBtn) {
+        saveBtn.style.background = '#10B981';
+        saveBtn.innerHTML = `<span>✓</span> <span>Saved Successfully!</span>`;
+        setTimeout(() => {
+          saveBtn.style.background = '';
+          saveBtn.innerHTML = origHtml;
+          saveBtn.disabled = false;
+        }, 2500);
+      }
+    } else {
+      throw new Error(res?.error || 'Failed to save settings');
+    }
+  } catch (err) {
+    showAdminToast('❌ Error saving settings: ' + err.message);
+    showCustomerSyncFeedback('error', '❌ Could not save settings: ' + err.message);
+    if (saveBtn) {
+      saveBtn.innerHTML = origHtml;
+      saveBtn.disabled = false;
+    }
+  }
+}
+
+async function handleIncomingCustomerActivity(data) {
+  if (!data || !data.ref || data.ref === lastHandledCustomerRef) return;
+  lastHandledCustomerRef = data.ref;
+
+  await fetchAdminBackendData();
+
+  const notifTitle = data.action === 'pickup_booked' ? `New Doorstep Pickup: ${data.ref}` :
+                     data.action === 'quote_requested' ? `New Instant Quote: ${data.ref}` :
+                     data.action === 'service_enquiry' ? `New Service Enquiry: ${data.ref}` :
+                     `Customer Activity: ${data.ref}`;
+  const notifDesc = `${data.customer || 'Customer'} — ${data.route || ''} (${data.details || ''})`;
+
+  admTopbarState.notifications.unshift({
+    id: `notif-${Date.now()}`,
+    title: notifTitle,
+    desc: notifDesc,
+    time: 'Just now',
+    route: '/admin/bookings',
+    unread: true
+  });
+  admTopbarState.bellViewed = false;
+  renderAdminNotifications();
+
+  const syncSettings = admState.store.settings?.customerSync || {};
+  if (syncSettings.enableAudioAlerts !== false) {
+    playAdminNotificationChime();
+  }
+
+  showAdminToast(`🔔 ${notifTitle} from ${data.customer || 'Customer'} auto-registered!`);
+  renderCurrentRouteView();
+}
+
+function startAdminAutoPoll() {
+  if (adminAutoPollTimer) clearInterval(adminAutoPollTimer);
+  const syncSettings = admState.store.settings?.customerSync || {};
+  if (syncSettings.liveSyncEnabled === false) return;
+  const intervalSec = Math.max(2, parseInt(syncSettings.pollingIntervalSeconds, 10) || 3);
+
+  adminAutoPollTimer = setInterval(async () => {
+    try {
+      const res = await fetch('/api/admin/overview', {
+        headers: { 'X-Admin-Key': ADMIN_API_KEY }
+      });
+      const data = await res.json();
+      if (res.ok && data && data.ok) {
+        const fp = `${(data.store?.shipments || []).length}_${(data.pickups || []).length}_${(data.quotes || []).length}_${(data.serviceEnquiries || []).length}_${data.store?.shipments?.[0]?.trackingNo || ''}_${data.pickups?.[0]?.pickupRef || ''}`;
+        if (fp !== lastKnownDataFingerprint) {
+          const isInitial = !lastKnownDataFingerprint;
+          lastKnownDataFingerprint = fp;
+
+          if (!isInitial) {
+            const latestPickup = data.pickups?.[0];
+            const latestShp = data.store?.shipments?.[0];
+            const newestRef = latestPickup?.pickupRef || latestShp?.trackingNo;
+            if (newestRef && newestRef !== lastHandledCustomerRef) {
+              lastHandledCustomerRef = newestRef;
+              const notifTitle = `New Customer Activity (${newestRef})`;
+              const notifDesc = `${latestPickup?.senderName || latestShp?.customer || 'Customer'} — ${latestPickup?.destCountry || latestShp?.toCountry || ''}`;
+              admTopbarState.notifications.unshift({
+                id: `notif-${Date.now()}`,
+                title: notifTitle,
+                desc: notifDesc,
+                time: 'Just now',
+                route: '/admin/bookings',
+                unread: true
+              });
+              admTopbarState.bellViewed = false;
+              renderAdminNotifications();
+              if (syncSettings.enableAudioAlerts !== false) {
+                playAdminNotificationChime();
+              }
+              showAdminToast(`🔔 ${notifTitle} auto-registered!`);
+            }
+          }
+
+          if (data.store) admState.store = data.store;
+          if (data.packageRules) admState.packageRules = data.packageRules;
+          admState.pickups = data.pickups || [];
+          admState.quotes = data.quotes || [];
+          admState.serviceEnquiries = data.serviceEnquiries || [];
+          admState.businessAccounts = data.businessAccounts || [];
+          admState.businessRecords = data.businessRecords || [];
+          admState.supportEnquiries = data.supportEnquiries || [];
+          admState.customsDocuments = data.customsDocuments || [];
+          updateDashboardKpiCards();
+          renderCurrentRouteView();
+        }
+      }
+    } catch (_) {}
+  }, intervalSec * 1000);
+}
+
+function initAdminCustomerLiveLink() {
+  if ('BroadcastChannel' in window) {
+    try {
+      const bc = new BroadcastChannel('trisys_sync_channel');
+      bc.onmessage = (event) => {
+        if (event.data && event.data.type === 'CUSTOMER_ACTIVITY') {
+          handleIncomingCustomerActivity(event.data);
+        }
+      };
+    } catch (_) {}
+  }
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'trisys_last_customer_event' && e.newValue) {
+      try {
+        const payload = JSON.parse(e.newValue);
+        if (payload && payload.type === 'CUSTOMER_ACTIVITY') {
+          handleIncomingCustomerActivity(payload);
+        }
+      } catch (_) {}
+    }
+  });
+
+  startAdminAutoPoll();
+}
+
+async function sendTestCustomerBooking(btn) {
+  const testBtn = btn || document.getElementById('btnTestCustomerBooking');
+  const origHtml = testBtn ? testBtn.innerHTML : '';
+  if (testBtn) {
+    testBtn.disabled = true;
+    testBtn.innerHTML = '<span>⏳</span> <span>Creating Test Booking...</span>';
+  }
+
+  const shortNum = Math.floor(1000 + Math.random() * 9000);
+  const payload = {
+    senderName: `Live Test Shipper #${shortNum}`,
+    senderPhone: '+91 98200 99881',
+    senderEmail: `test-${shortNum}@example.com`,
+    originCountry: 'India',
+    destCountry: 'United Kingdom',
+    pickupAddress: '42 Express Way, Andheri East, Mumbai 400069',
+    pickupDate: new Date().toISOString().slice(0, 10),
+    pickupTimeSlot: '10:00 AM – 01:00 PM',
+    packageType: 'parcel',
+    weight: 2.5,
+    weightUnit: 'kg',
+    specialInstructions: 'Automated 2-way live sync validation consignment'
+  };
+
+  showAdminToast('⚡ Submitting live test customer booking...');
+
+  try {
+    const res = await fetch('/api/pickups', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok && data.ok && data.pickup) {
+      const p = data.pickup;
+
+      // Update local state immediately
+      admState.pickups = [p, ...(admState.pickups || [])];
+
+      // Check customerSync settings to auto-register into shipments
+      const syncSettings = admState.store.settings?.customerSync || {};
+      if (syncSettings.autoRegisterShipments !== false) {
+        const autoShipment = {
+          trackingNo: p.pickupRef,
+          customer: p.senderName,
+          email: p.senderEmail,
+          phone: p.senderPhone,
+          fromCountry: p.originCountry,
+          fromCode: 'IN',
+          fromCity: p.pickupAddress,
+          toCountry: p.destCountry,
+          toCode: 'GB',
+          toCity: 'London',
+          type: p.packageTypeLabel || 'Parcel',
+          weightKg: p.weight || 2.5,
+          carrier: syncSettings.defaultCarrier || 'Trisys Express Direct',
+          status: syncSettings.defaultStatus || 'Pending',
+          paymentStatus: 'Pending Verification',
+          estimatedDelivery: p.estimatedDelivery || '3–5 Business Days',
+          events: p.events || []
+        };
+        const exists = (admState.store.shipments || []).some(s => s.trackingNo === p.pickupRef);
+        if (!exists) {
+          admState.store.shipments = [autoShipment, ...(admState.store.shipments || [])];
+        }
+      }
+
+      // Add to topbar notifications
+      admTopbarState.notifications.unshift({
+        id: `notif-${Date.now()}`,
+        title: `⚡ Test Booking Auto-Registered (${p.pickupRef})`,
+        desc: `${p.senderName} — ${p.originCountry} ➔ ${p.destCountry}`,
+        time: 'Just now',
+        route: '/admin/bookings',
+        unread: true
+      });
+      admTopbarState.bellViewed = false;
+      renderAdminNotifications();
+
+      // Broadcast to other open tabs
+      if ('BroadcastChannel' in window) {
+        try {
+          const bc = new BroadcastChannel('trisys_sync_channel');
+          bc.postMessage({
+            type: 'CUSTOMER_ACTIVITY',
+            action: 'pickup_booked',
+            ref: p.pickupRef,
+            customer: p.senderName,
+            route: `${p.originCountry} ➔ ${p.destCountry}`,
+            details: `${p.packageTypeLabel || 'Parcel'} (${p.weight} ${p.weightUnit})`
+          });
+          bc.close();
+        } catch (_) {}
+      }
+
+      // Play alert chime
+      playAdminNotificationChime();
+
+      // Show user feedback
+      showAdminToast(`✅ Test Booking ${p.pickupRef} created & auto-registered!`);
+      showCustomerSyncFeedback('success', `⚡ <strong>Test Customer Booking Created:</strong> <span style="font-family:monospace; background:#E2E8F0; padding:2px 6px; border-radius:4px; font-weight:700;">${p.pickupRef}</span> for <strong>${p.senderName}</strong> (${p.originCountry} ➔ ${p.destCountry}). Auto-registered into Admin Shipments &amp; Directory!`);
+
+      // Update counters in DOM without destroying the whole view
+      const pkpCountEl = document.getElementById('statPickupsSynced');
+      if (pkpCountEl) pkpCountEl.textContent = `${admState.pickups.length} Bookings`;
+      const custCountEl = document.getElementById('statProfiledCustomers');
+      if (custCountEl) custCountEl.textContent = `${(admState.store.shipments || []).length + admState.pickups.length} Registered`;
+      updateDashboardKpiCards();
+
+      if (testBtn) {
+        testBtn.style.borderColor = '#10B981';
+        testBtn.style.color = '#065F46';
+        testBtn.innerHTML = '<span>✅</span> <span>Booking Created!</span>';
+        setTimeout(() => {
+          testBtn.style.borderColor = '';
+          testBtn.style.color = '';
+          testBtn.innerHTML = origHtml;
+          testBtn.disabled = false;
+        }, 3000);
+      }
+    } else {
+      throw new Error(data?.error || 'Server error creating test booking');
+    }
+  } catch (err) {
+    showAdminToast('❌ Failed test booking: ' + err.message);
+    showCustomerSyncFeedback('error', '❌ Could not create test booking: ' + err.message);
+    if (testBtn) {
+      testBtn.innerHTML = origHtml;
+      testBtn.disabled = false;
+    }
+  }
+}
+
+// Expose handlers globally
+window.saveCustomerSyncSettings = saveCustomerSyncSettings;
+window.sendTestCustomerBooking = sendTestCustomerBooking;
+window.playAdminNotificationChime = playAdminNotificationChime;
+window.showCustomerSyncFeedback = showCustomerSyncFeedback;
+
 document.addEventListener('DOMContentLoaded', () => {
   populateStaticFlags();
   renderAdminNotifications();
   syncAdminProfileUI();
+  initAdminCustomerLiveLink();
 
   // Close topbar popovers when clicking anywhere outside
   document.addEventListener('click', () => {

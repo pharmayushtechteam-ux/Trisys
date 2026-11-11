@@ -1706,6 +1706,76 @@
       height: 15px;
     }
 
+    .adm-action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: fit-content;
+      min-width: 74px;
+    }
+
+    .adm-action-btn {
+      height: 24px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 5px;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      width: 100%;
+      box-sizing: border-box;
+      line-height: 1;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .adm-action-btn:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+    }
+
+    .adm-action-btn.edit {
+      color: #1D4ED8;
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+    }
+
+    .adm-action-btn.edit:hover {
+      background: #DBEAFE;
+      border-color: #93C5FD;
+      color: #1E40AF;
+    }
+
+    .adm-action-btn.pause {
+      color: #475569;
+      background: #F8FAFC;
+      border-color: #E2E8F0;
+    }
+
+    .adm-action-btn.pause:hover {
+      background: #F1F5F9;
+      border-color: #CBD5E1;
+      color: #1E293B;
+    }
+
+    .adm-action-btn.delete {
+      color: #DC2626;
+      background: #FEF2F2;
+      border-color: #FECACA;
+    }
+
+    .adm-action-btn.delete:hover {
+      background: #FEE2E2;
+      border-color: #F87171;
+      color: #B91C1C;
+    }
+
     /* ==========================================================================
        ROW 4: 4 BOTTOM CARDS
        ========================================================================== */
@@ -2486,6 +2556,7 @@
           </button>
           <ul class="adm-submenu" id="submenu-settings" hidden>
             <li><a href="/admin/settings/general" class="adm-submenu-link" data-route="/admin/settings/general">General Settings</a></li>
+            <li><a href="/admin/settings/customer-sync" class="adm-submenu-link" data-route="/admin/settings/customer-sync">Customer Live Sync &amp; Auto-Reg</a></li>
             <li><a href="/admin/settings/company" class="adm-submenu-link" data-route="/admin/settings/company">Company Information</a></li>
             <li><a href="/admin/settings/branding" class="adm-submenu-link" data-route="/admin/settings/branding">Branding and Logo</a></li>
             <li><a href="/admin/settings/notifications" class="adm-submenu-link" data-route="/admin/settings/notifications">Email and Notifications</a></li>
@@ -2677,11 +2748,11 @@
             <div class="adm-kpi-body">
               <div class="adm-kpi-label">In Transit</div>
               <div class="adm-kpi-main-row">
-                <span class="adm-kpi-value">342</span>
-                <span class="adm-kpi-pct blue">27.4%</span>
+                <span class="adm-kpi-value" id="kpiInTransit">342</span>
+                <span class="adm-kpi-pct blue" id="kpiInTransitPct">27.4%</span>
               </div>
               <div class="adm-kpi-progress">
-                <div class="adm-kpi-progress-bar red"></div>
+                <div class="adm-kpi-progress-bar red" id="kpiInTransitBar"></div>
               </div>
             </div>
           </div>
@@ -2697,11 +2768,11 @@
             <div class="adm-kpi-body">
               <div class="adm-kpi-label">Delivered</div>
               <div class="adm-kpi-main-row">
-                <span class="adm-kpi-value">832</span>
-                <span class="adm-kpi-pct green">66.7%</span>
+                <span class="adm-kpi-value" id="kpiDelivered">832</span>
+                <span class="adm-kpi-pct green" id="kpiDeliveredPct">66.7%</span>
               </div>
               <div class="adm-kpi-progress">
-                <div class="adm-kpi-progress-bar dark"></div>
+                <div class="adm-kpi-progress-bar dark" id="kpiDeliveredBar"></div>
               </div>
             </div>
           </div>
@@ -2715,13 +2786,13 @@
               </svg>
             </div>
             <div class="adm-kpi-body">
-              <div class="adm-kpi-label">Pending</div>
+              <div class="adm-kpi-label">Pending / Scheduled</div>
               <div class="adm-kpi-main-row">
-                <span class="adm-kpi-value">74</span>
-                <span class="adm-kpi-pct orange">5.9%</span>
+                <span class="adm-kpi-value" id="kpiPending">74</span>
+                <span class="adm-kpi-pct orange" id="kpiPendingPct">5.9%</span>
               </div>
               <div class="adm-kpi-progress">
-                <div class="adm-kpi-progress-bar orange"></div>
+                <div class="adm-kpi-progress-bar orange" id="kpiPendingBar"></div>
               </div>
             </div>
           </div>
@@ -3324,6 +3395,6 @@
   </div>
 
   <div id="admToast" class="adm-toast" role="status" aria-live="polite"></div>
-  <script src="/admin.js?v=16"></script>
+  <script src="/admin.js?v=17"></script>
 </body>
 </html>

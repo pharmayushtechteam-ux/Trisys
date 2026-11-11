@@ -65,6 +65,40 @@ ADMIN_PASSCODE = os.environ.get("TRISYS_ADMIN_PASSCODE", "TRISYS-ADMIN-2026")
 PUBLIC_BASE_URL = os.environ.get("TRISYS_PUBLIC_BASE_URL", "").strip().rstrip("/")
 CARRIER_API_KEY = os.environ.get("TRISYS_CARRIER_API_KEY", "TRISYS-LIVE-CARRIER-2026").strip()
 SMTP_HOST = os.environ.get("TRISYS_SMTP_HOST", "").strip()
+
+COUNTRY_CODE_MAP = {
+    "india": "IN",
+    "united states": "US",
+    "usa": "US",
+    "united kingdom": "GB",
+    "uk": "GB",
+    "australia": "AU",
+    "canada": "CA",
+    "united arab emirates": "AE",
+    "uae": "AE",
+    "germany": "DE",
+    "france": "FR",
+    "singapore": "SG",
+    "saudi arabia": "SA",
+    "qatar": "QA",
+    "oman": "OM",
+    "kuwait": "KW",
+    "japan": "JP",
+    "netherlands": "NL",
+    "italy": "IT",
+    "ireland": "IE",
+    "new zealand": "NZ",
+    "malaysia": "MY",
+    "spain": "ES",
+    "switzerland": "CH",
+}
+
+
+def get_country_code(name: str) -> str:
+    if not name:
+        return "GL"
+    cleaned = name.strip().lower()
+    return COUNTRY_CODE_MAP.get(cleaned, "US")
 ALLOWED_STATUSES = (
     "Pending",
     "Under Review",
@@ -679,6 +713,16 @@ DEFAULT_ADMIN_STORE = {
             "sessionTimeoutMinutes": 120,
             "passwordHashIterations": 120000,
             "auditLoggingEnabled": True
+        },
+        "customerSync": {
+            "autoRegisterShipments": True,
+            "autoRegisterCustomers": True,
+            "autoRegisterQuotes": True,
+            "liveSyncEnabled": True,
+            "pollingIntervalSeconds": 3,
+            "enableAudioAlerts": True,
+            "defaultCarrier": "Trisys Express Direct",
+            "defaultStatus": "Pending"
         }
     }
 }
@@ -698,6 +742,16 @@ def load_admin_store():
             for k, v in DEFAULT_ADMIN_STORE.items():
                 if k not in data:
                     data[k] = json.loads(json.dumps(v))
+            # Merge any new default settings sections
+            settings = data.setdefault("settings", {})
+            def_settings = DEFAULT_ADMIN_STORE.get("settings", {})
+            for set_k, set_v in def_settings.items():
+                if set_k not in settings or not isinstance(settings[set_k], dict):
+                    settings[set_k] = json.loads(json.dumps(set_v))
+                else:
+                    for sub_k, sub_v in set_v.items():
+                        if sub_k not in settings[set_k]:
+                            settings[set_k][sub_k] = sub_v
             # Merge any new default additionalCharges or ratePlans by id
             for list_key in ("additionalCharges", "ratePlans"):
                 existing_list = data.get(list_key)
@@ -2640,6 +2694,57 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             "events": [initial_event],
         }
         save_pickup(record)
+
+        # Automatic Registration into Admin Shipments if configured in settings
+        store = load_admin_store()
+        sync_cfg = store.get("settings", {}).get("customerSync", {})
+        if sync_cfg.get("autoRegisterShipments", True):
+            zone_label, service_tiers = calculate_corridor_service_tiers(dest_country, pkg_type, chargeable_kg)
+            est_inr = service_tiers[1]["estimatedInr"] if service_tiers else round(chargeable_kg * 1800)
+            from_code = get_country_code(origin_country)
+            to_code = get_country_code(dest_country)
+            city_guess = pickup_address.split(",")[0].strip() if "," in pickup_address else "Pickup Point"
+            default_carrier = sync_cfg.get("defaultCarrier", "Trisys Express Direct")
+            default_status = sync_cfg.get("defaultStatus", "Pending")
+
+            shp_record = {
+                "trackingNo": pickup_ref,
+                "date": datetime.datetime.now().strftime("%d %b %Y"),
+                "createdAt": now_iso,
+                "updatedAt": now_iso,
+                "customer": sender_name,
+                "email": sender_email,
+                "phone": sender_phone,
+                "fromCode": from_code,
+                "fromCountry": origin_country,
+                "fromCity": city_guess,
+                "toCode": to_code,
+                "toCountry": dest_country,
+                "toCity": dest_country,
+                "type": rule["label"],
+                "weight": f"{weight:g} {weight_unit}",
+                "weightKg": actual_kg,
+                "carrier": default_carrier,
+                "amountInr": est_inr,
+                "status": default_status,
+                "timeAgo": "Just now",
+                "source": "Customer Doorstep Pickup Portal",
+                "pickupAddress": pickup_address,
+                "pickupDate": pickup_date,
+                "pickupTimeSlot": pickup_time_slot,
+                "events": [
+                    {
+                        "timestamp": now_iso[:16].replace("T", " "),
+                        "status": "Scheduled — Pending Courier Assignment",
+                        "location": pickup_address,
+                        "description": f"Customer scheduled doorstep pickup for {pickup_date} ({pickup_time_slot}). Auto-registered in Admin."
+                    }
+                ]
+            }
+            # Prepend to shipments list so it appears at the very top of Recent Bookings, Latest Shipments, etc.
+            store.setdefault("shipments", []).insert(0, shp_record)
+            save_admin_store(store)
+
         return self._send_json(200, {
             "ok": True,
             "pickup": record,
@@ -2740,6 +2845,24 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 })
                 p["events"] = events
                 _save_json_list(PICKUPS_FILE, pickups_list)
+
+                # Keep admin_store.json shipments in sync
+                store = load_admin_store()
+                for shp in store.get("shipments", []):
+                    if str(shp.get("trackingNo", "")).upper() == ref_id:
+                        shp["status"] = new_status
+                        shp["updatedAt"] = now_iso
+                        ev_list = shp.get("events") if isinstance(shp.get("events"), list) else []
+                        ev_list.append({
+                            "timestamp": now_iso[:16].replace("T", " "),
+                            "status": new_status,
+                            "location": shp.get("toCity") or shp.get("toCountry") or "Transit Hub",
+                            "description": admin_notes or f"Status updated to {new_status}."
+                        })
+                        shp["events"] = ev_list
+                        save_admin_store(store)
+                        break
+
                 return self._send_json(200, {"ok": True, "updated": p})
 
         # 7. Check quotes.json
@@ -2768,6 +2891,25 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 })
                 shp["events"] = ev_list
                 save_admin_store(store)
+
+                # Also sync into pickups.json if this is a pickup
+                if ref_id.startswith("TRISYS-PKP-"):
+                    pickups_list = load_pickups()
+                    for p in pickups_list:
+                        if p.get("pickupRef", "").upper() == ref_id:
+                            p["status"] = new_status
+                            p["updatedAt"] = now_iso
+                            evs = p.get("events") if isinstance(p.get("events"), list) else []
+                            evs.append({
+                                "timestamp": now_iso,
+                                "status": new_status,
+                                "location": p.get("pickupAddress") or "Transit Hub",
+                                "description": admin_notes or f"Status updated to {new_status}."
+                            })
+                            p["events"] = evs
+                            _save_json_list(PICKUPS_FILE, pickups_list)
+                            break
+
                 return self._send_json(200, {"ok": True, "updated": shp})
 
         return self._send_json(404, {"ok": False, "error": f"Submission '{ref_id}' not found."})
@@ -2857,6 +2999,26 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     })
                     shp["events"] = ev_list
                     save_admin_store(store)
+
+                    # If this is a customer pickup ref, keep pickups.json in sync
+                    if trk.startswith("TRISYS-PKP-"):
+                        pickups_list = load_pickups()
+                        for p in pickups_list:
+                            if p.get("pickupRef", "").upper() == trk:
+                                if new_status:
+                                    p["status"] = new_status
+                                p["updatedAt"] = now_iso
+                                evs = p.get("events") if isinstance(p.get("events"), list) else []
+                                evs.append({
+                                    "timestamp": now_iso,
+                                    "status": new_status or p.get("status", "In Transit"),
+                                    "location": location or p.get("pickupAddress") or "Transit Hub",
+                                    "description": description or f"Shipment status updated to {new_status or p.get('status')}."
+                                })
+                                p["events"] = evs
+                                _save_json_list(PICKUPS_FILE, pickups_list)
+                                break
+
                     return self._send_json(200, {"ok": True, "shipment": shp, "store": store})
             return self._send_json(404, {"ok": False, "error": f"Shipment {trk} not found."})
 
