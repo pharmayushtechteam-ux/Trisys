@@ -55,6 +55,7 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 ENQUIRIES_FILE = os.path.join(DATA_DIR, "service_enquiries.json")
 BUSINESS_RECORDS_FILE = os.path.join(DATA_DIR, "business_records.json")
 BUSINESS_ACCOUNTS_FILE = os.path.join(DATA_DIR, "business_accounts.json")
+USER_ACCOUNTS_FILE = os.path.join(DATA_DIR, "user_accounts.json")
 SUPPORT_ENQUIRIES_FILE = os.path.join(DATA_DIR, "support_enquiries.json")
 CUSTOMS_DOCS_FILE = os.path.join(DATA_DIR, "customs_documents.json")
 PICKUPS_FILE = os.path.join(DATA_DIR, "pickups.json")
@@ -326,6 +327,11 @@ ROUTE_MAP = {
     "/customs": "/help.html?section=customs",
     "/help/contact-support": "/help.html?section=contact",
     "/contact-support": "/help.html?section=contact",
+    "/login": "/auth.html",
+    "/signin": "/auth.html",
+    "/signup": "/auth.html?mode=signup",
+    "/register": "/auth.html?mode=signup",
+    "/account": "/auth.html",
     "/support": "/help.html?section=contact",
     "/contact": "/help.html?section=contact",
 }
@@ -376,6 +382,16 @@ def save_business_account(account):
     accounts = load_business_accounts()
     accounts.append(account)
     _save_json_list(BUSINESS_ACCOUNTS_FILE, accounts)
+
+
+def load_user_accounts():
+    return _load_json_list(USER_ACCOUNTS_FILE)
+
+
+def save_user_account(user):
+    users = load_user_accounts()
+    users.append(user)
+    _save_json_list(USER_ACCOUNTS_FILE, users)
 
 
 def load_support_enquiries():
@@ -1738,6 +1754,12 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if clean_path == "/api/business/login":
             return self._handle_business_login(payload)
 
+        if clean_path == "/api/auth/signup":
+            return self._handle_auth_signup(payload, now_iso, short_id)
+
+        if clean_path == "/api/auth/login":
+            return self._handle_auth_login(payload)
+
         if clean_path == "/api/help/support-enquiry":
             return self._handle_support_enquiry(payload, now_iso, short_id)
 
@@ -2365,6 +2387,105 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         return self._send_json(401, {
             "ok": False,
             "error": "Invalid business email or password. Need a business account? Apply via Open Business Account.",
+        })
+
+    def _handle_auth_signup(self, payload, now_iso, short_id):
+        name = str(payload.get("name") or "").strip()
+        email = str(payload.get("email") or "").strip().lower()
+        phone = str(payload.get("phone") or "").strip()
+        password = str(payload.get("password") or "")
+        confirm_password = payload.get("confirmPassword")
+
+        if len(name) < 2:
+            return self._send_json(400, {"ok": False, "error": "Please enter your full name (at least 2 characters)."})
+        if not is_valid_email(email):
+            return self._send_json(400, {"ok": False, "error": "Please enter a valid email address."})
+        if len(password) < 6:
+            return self._send_json(400, {"ok": False, "error": "Password must be at least 6 characters long."})
+        if confirm_password is not None and str(confirm_password) != password:
+            return self._send_json(400, {"ok": False, "error": "Passwords do not match. Please re-enter your password."})
+
+        for existing in load_user_accounts():
+            if existing.get("email", "").lower() == email:
+                return self._send_json(409, {"ok": False, "error": "An account with this email already exists. Please log in instead."})
+
+        salt_hex, hash_hex = hash_password(password)
+        user_id = f"TRISYS-USR-{short_id}"
+        user_record = {
+            "id": user_id,
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "accountType": "Customer",
+            "passwordSalt": salt_hex,
+            "passwordHash": hash_hex,
+            "createdAt": now_iso,
+        }
+        save_user_account(user_record)
+        public_user = {
+            "id": user_id,
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "accountType": "Customer",
+            "createdAt": now_iso,
+        }
+        return self._send_json(201, {
+            "ok": True,
+            "user": public_user,
+            "message": f"Account created! Welcome to Trisys Express, {name}.",
+        })
+
+    def _handle_auth_login(self, payload):
+        email = str(payload.get("email") or "").strip().lower()
+        password = str(payload.get("password") or "")
+
+        if not is_valid_email(email) or not password:
+            return self._send_json(400, {"ok": False, "error": "Please enter both your email address and password."})
+
+        # 1. Check standard customer accounts
+        for user in load_user_accounts():
+            if user.get("email", "").lower() == email:
+                if verify_password(password, user.get("passwordSalt", ""), user.get("passwordHash", "")):
+                    public_user = {
+                        "id": user.get("id", ""),
+                        "name": user.get("name", ""),
+                        "email": user.get("email", ""),
+                        "accountType": user.get("accountType", "Customer"),
+                        "createdAt": user.get("createdAt", ""),
+                    }
+                    return self._send_json(200, {
+                        "ok": True,
+                        "user": public_user,
+                        "message": f"Welcome back, {public_user['name']}!",
+                    })
+                return self._send_json(401, {"ok": False, "error": "Incorrect password. Please try again."})
+
+        # 2. Check registered business accounts
+        for acc in load_business_accounts():
+            if acc.get("email", "").lower() == email:
+                if verify_password(password, acc.get("passwordSalt", ""), acc.get("passwordHash", "")):
+                    public_acc = sanitize_account_for_public(acc)
+                    public_user = {
+                        "id": public_acc.get("referenceId", ""),
+                        "name": public_acc.get("contactName") or public_acc.get("companyName") or email,
+                        "companyName": public_acc.get("companyName", ""),
+                        "email": public_acc.get("email", email),
+                        "accountType": "Business",
+                        "status": public_acc.get("status", "Pending"),
+                        "gstin": public_acc.get("gstin", ""),
+                    }
+                    return self._send_json(200, {
+                        "ok": True,
+                        "user": public_user,
+                        "account": public_acc,
+                        "message": f"Signed in as {public_user['companyName']} ({public_user['id']}).",
+                    })
+                return self._send_json(401, {"ok": False, "error": "Incorrect password. Please try again."})
+
+        return self._send_json(401, {
+            "ok": False,
+            "error": "No account found for this email. Click Sign Up to create an account.",
         })
 
     def _handle_support_enquiry(self, payload, now_iso, short_id):

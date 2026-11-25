@@ -289,6 +289,7 @@ const supportedCountries = [
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
   initSharedSiteFooter();
+  initAuthSession();
   applyUrlParamsToState();
   updateCountryUI();
   renderCountryDropdownList();
@@ -482,14 +483,15 @@ function getSharedSiteFooterCardHtml() {
 }
 
 function initSharedSiteFooter() {
-  const path = (window.location.pathname || '/').replace(/\/+$/, '') || '/';
-  const isInternalAdminView =
-    path === '/admin' ||
-    path.startsWith('/admin/');
+  const path = (window.location.pathname || '/').replace(/\/+$/, '').toLowerCase() || '/';
+  const isHomePage = path === '/' || path === '/index.html';
 
   const existingFooters = Array.from(document.querySelectorAll('footer.site-footer'));
-  if (isInternalAdminView) {
-    existingFooters.forEach(f => { f.hidden = true; });
+  if (!isHomePage) {
+    existingFooters.forEach(f => {
+      f.hidden = true;
+      f.innerHTML = '';
+    });
     return;
   }
 
@@ -5413,19 +5415,423 @@ async function updateAdminSubmissionStatus(refId) {
   }
 }
 
-function openAuthModal(type) {
-  if (type === 'signup') {
-    navigateBusinessSolution('register');
-    return;
+const AUTH_STORAGE_KEY = 'trisys_auth_user_v1';
+let currentAuthMode = 'login';
+
+function getStoredAuthUser() {
+  try {
+    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.email ? parsed : null;
+  } catch (e) {
+    return null;
   }
-  const errEl = document.getElementById('authModalError');
-  const statusBox = document.getElementById('authModalStatusBox');
-  if (errEl) { errEl.hidden = true; errEl.textContent = ''; }
-  if (statusBox) { statusBox.hidden = true; statusBox.innerHTML = ''; }
-  document.getElementById('authModalTitle').textContent = 'Sign in to Trisys Express Business Portal';
-  document.getElementById('nameFieldGroup').hidden = true;
-  document.getElementById('authSubmitBtn').textContent = 'Login';
-  openModal('authModal');
+}
+
+function saveAuthUser(user) {
+  try {
+    if (user) {
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
+  } catch (e) {
+    // Ignore storage quota / privacy mode errors
+  }
+  renderAuthNavbarState();
+}
+
+function isPublicGuestRoute(pathname) {
+  const clean = String(pathname || '/').replace(/\/+$/, '').toLowerCase() || '/';
+  if (clean === '/' || clean === '/index.html') return true;
+  if (clean === '/admin' || clean.startsWith('/admin/')) return true;
+  return ['/login', '/signin', '/signup', '/register', '/account', '/auth.html'].includes(clean);
+}
+
+function redirectToLoginForGate(targetUrl) {
+  const safeTarget = (targetUrl && targetUrl.startsWith('/') && !targetUrl.startsWith('//')) ? targetUrl : '/';
+  const nextParam = (safeTarget && safeTarget !== '/') ? `next=${encodeURIComponent(safeTarget)}&` : '';
+  window.location.href = `/login?${nextParam}reason=login_required`;
+}
+
+function enforceCustomerAuthGate() {
+  if (getStoredAuthUser()) return true;
+  if (isPublicGuestRoute(window.location.pathname)) return true;
+  const requested = `${window.location.pathname || '/'}${window.location.search || ''}`;
+  redirectToLoginForGate(requested);
+  return false;
+}
+
+// Enforce immediately on script load so protected inner pages redirect right away
+enforceCustomerAuthGate();
+
+function logoutAuthUser() {
+  saveAuthUser(null);
+  showToast('You have been logged out.');
+  if (!isPublicGuestRoute(window.location.pathname)) {
+    setTimeout(() => { window.location.href = '/'; }, 350);
+  }
+}
+
+function initAuthSession() {
+  if (!enforceCustomerAuthGate()) return;
+  renderAuthNavbarState();
+  setupNavbarAuthGateListener();
+  if (document.body?.dataset?.page === 'auth') {
+    initAuthPage();
+  }
+}
+
+let navbarAuthGateBound = false;
+function setupNavbarAuthGateListener() {
+  if (navbarAuthGateBound) return;
+  const navMenu = document.getElementById('navMenu');
+  if (!navMenu) return;
+  navbarAuthGateBound = true;
+
+  navMenu.addEventListener('click', (e) => {
+    if (getStoredAuthUser()) return;
+    const clickedNav = e.target.closest('.nav-item, .nav-dropdown, .dropdown-link, .dd-footer-link');
+    if (!clickedNav) return;
+
+    // Allow Home link without login
+    if (clickedNav.matches('[data-nav="home"]') || clickedNav.getAttribute('href') === '/' || clickedNav.getAttribute('href') === '#home') {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    const href = clickedNav.getAttribute('href');
+    const targetUrl = (href && href.startsWith('/')) ? href : '/';
+    showToast('Please sign in to access this section.');
+    setTimeout(() => redirectToLoginForGate(targetUrl), 350);
+  }, true);
+}
+
+function applyNavbarAuthLockState(isLoggedIn) {
+  const navMenu = document.getElementById('navMenu');
+  if (!navMenu) return;
+
+  const navTargets = navMenu.querySelectorAll(':scope > .nav-item, :scope > .nav-dropdown');
+  navTargets.forEach(el => {
+    const isHome = el.getAttribute('data-nav') === 'home' || el.getAttribute('href') === '/' || el.getAttribute('href') === '#home';
+    if (isHome) {
+      el.classList.remove('nav-locked');
+      el.removeAttribute('data-locked');
+      return;
+    }
+    if (isLoggedIn) {
+      el.classList.remove('nav-locked');
+      el.removeAttribute('data-locked');
+      el.removeAttribute('title');
+    } else {
+      el.classList.add('nav-locked');
+      el.setAttribute('data-locked', 'true');
+      el.setAttribute('title', 'Sign in to unlock navigation');
+      el.classList.remove('open');
+    }
+  });
+}
+
+function renderAuthNavbarState() {
+  const user = getStoredAuthUser();
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions) return;
+
+  const loginBtn = navActions.querySelector('[data-auth-nav="login"], button[onclick*="openAuthModal(\'login\')"]');
+  const signupBtn = navActions.querySelector('[data-auth-nav="signup"], button[onclick*="openAuthModal(\'signup\')"], button[onclick*="navigateBusinessSolution(\'register\')"]');
+  const existingPill = navActions.querySelector('.nav-user-pill');
+  const existingLogout = navActions.querySelector('.nav-logout-btn');
+
+  if (user) {
+    if (loginBtn) loginBtn.hidden = true;
+    if (signupBtn) signupBtn.hidden = true;
+
+    const displayName = user.name || user.companyName || user.email.split('@')[0];
+    const initials = displayName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(part => part[0].toUpperCase())
+      .join('') || 'U';
+
+    if (existingPill) {
+      const av = existingPill.querySelector('.nav-user-avatar');
+      const nm = existingPill.querySelector('.nav-user-name');
+      if (av) av.textContent = initials;
+      if (nm) nm.textContent = displayName;
+    } else {
+      const mobileToggle = navActions.querySelector('.mobile-toggle');
+      const pill = document.createElement('a');
+      pill.href = '/account';
+      pill.className = 'nav-user-pill';
+      pill.title = `${displayName} (${user.email}) — View Account`;
+      pill.innerHTML = `<span class="nav-user-avatar">${escapeHtml(initials)}</span><span class="nav-user-name">${escapeHtml(displayName)}</span>`;
+
+      const logoutBtn = document.createElement('button');
+      logoutBtn.type = 'button';
+      logoutBtn.className = 'btn btn-outline nav-logout-btn';
+      logoutBtn.textContent = 'Logout';
+      logoutBtn.onclick = logoutAuthUser;
+
+      if (mobileToggle) {
+        navActions.insertBefore(pill, mobileToggle);
+        navActions.insertBefore(logoutBtn, mobileToggle);
+      } else {
+        navActions.appendChild(pill);
+        navActions.appendChild(logoutBtn);
+      }
+    }
+  } else {
+    if (loginBtn) loginBtn.hidden = false;
+    if (signupBtn) signupBtn.hidden = false;
+    if (existingPill) existingPill.remove();
+    if (existingLogout) existingLogout.remove();
+  }
+  applyNavbarAuthLockState(Boolean(user));
+}
+
+function initAuthPage() {
+  const signedInView = document.getElementById('authSignedInView');
+  const formsWrapper = document.getElementById('authFormsWrapper');
+  const tabLogin = document.getElementById('tabBtnLogin');
+  const tabSignup = document.getElementById('tabBtnSignup');
+  const loginForm = document.getElementById('loginFormPanel');
+  const signupForm = document.getElementById('signupFormPanel');
+  const switchToSignupBtn = document.getElementById('switchToSignupBtn');
+  const switchToLoginBtn = document.getElementById('switchToLoginBtn');
+  const pageLogoutBtn = document.getElementById('authPageLogoutBtn');
+
+  function getPostAuthRedirectUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const next = (params.get('next') || '').trim();
+    if (next && next.startsWith('/') && !next.startsWith('//') && !/^\/(login|signin|signup|register|account)/i.test(next)) {
+      return next;
+    }
+    return '/';
+  }
+
+  function renderSignedInCard() {
+    const user = getStoredAuthUser();
+    if (user && signedInView && formsWrapper) {
+      signedInView.hidden = false;
+      formsWrapper.hidden = true;
+      const displayName = user.name || user.companyName || user.email.split('@')[0];
+      const initials = displayName.split(/\s+/).filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('') || 'U';
+      const avEl = document.getElementById('authAccountAvatar');
+      const nameEl = document.getElementById('authAccountName');
+      const emailEl = document.getElementById('authAccountEmail');
+      const metaEl = document.getElementById('authAccountMeta');
+      if (avEl) avEl.textContent = initials;
+      if (nameEl) nameEl.textContent = displayName;
+      if (emailEl) emailEl.textContent = user.email;
+      if (metaEl) {
+        const badges = [
+          `<span class="auth-meta-pill">${escapeHtml(user.accountType || 'Customer')} Account</span>`,
+          user.id ? `<span class="auth-meta-pill">ID: ${escapeHtml(user.id)}</span>` : '',
+          user.phone ? `<span class="auth-meta-pill">${escapeHtml(user.phone)}</span>` : ''
+        ].filter(Boolean).join('');
+        metaEl.innerHTML = badges;
+      }
+      return true;
+    }
+    if (signedInView) signedInView.hidden = true;
+    if (formsWrapper) formsWrapper.hidden = false;
+    return false;
+  }
+
+  function setAuthTab(mode, updateHistory = true) {
+    const isSignup = mode === 'signup';
+    if (tabLogin) {
+      tabLogin.classList.toggle('active', !isSignup);
+      tabLogin.setAttribute('aria-selected', String(!isSignup));
+    }
+    if (tabSignup) {
+      tabSignup.classList.toggle('active', isSignup);
+      tabSignup.setAttribute('aria-selected', String(isSignup));
+    }
+    if (loginForm) loginForm.hidden = isSignup;
+    if (signupForm) signupForm.hidden = !isSignup;
+
+    if (updateHistory) {
+      const params = new URLSearchParams(window.location.search);
+      const next = params.get('next');
+      const nextQuery = next ? `?next=${encodeURIComponent(next)}` : '';
+      const targetPath = isSignup ? `/signup${nextQuery}` : `/login${nextQuery}`;
+      if (`${window.location.pathname}${window.location.search}` !== targetPath) {
+        window.history.replaceState({ authMode: mode }, '', targetPath);
+      }
+    }
+  }
+
+  // Wire Show/Hide password toggles
+  document.querySelectorAll('[data-toggle-pass]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.togglePass);
+      if (!input) return;
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      btn.textContent = showing ? 'Show' : 'Hide';
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+  });
+
+  if (tabLogin) tabLogin.addEventListener('click', () => setAuthTab('login'));
+  if (tabSignup) tabSignup.addEventListener('click', () => setAuthTab('signup'));
+  if (switchToSignupBtn) switchToSignupBtn.addEventListener('click', () => setAuthTab('signup'));
+  if (switchToLoginBtn) switchToLoginBtn.addEventListener('click', () => setAuthTab('login'));
+  if (pageLogoutBtn) {
+    pageLogoutBtn.addEventListener('click', () => {
+      logoutAuthUser();
+      renderSignedInCard();
+      setAuthTab('login', false);
+    });
+  }
+
+  // Handle Login submit
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = (document.getElementById('pageLoginEmail')?.value || '').trim();
+      const password = document.getElementById('pageLoginPassword')?.value || '';
+      const errEl = document.getElementById('pageLoginError');
+      const okEl = document.getElementById('pageLoginSuccess');
+      const btn = document.getElementById('pageLoginSubmit');
+
+      if (errEl) { errEl.hidden = true; errEl.textContent = ''; }
+      if (okEl) { okEl.hidden = true; okEl.textContent = ''; }
+
+      if (!email || !email.includes('@')) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter a valid email address.'; }
+        return;
+      }
+      if (!password) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter your password.'; }
+        return;
+      }
+
+      if (btn) { btn.disabled = true; btn.textContent = 'Signing In...'; }
+      try {
+        const resp = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await resp.json().catch(() => null);
+        if (!resp.ok || !data || !data.ok) {
+          if (errEl) {
+            errEl.hidden = false;
+            errEl.textContent = (data && data.error) || 'Invalid email or password.';
+          }
+          return;
+        }
+        saveAuthUser(data.user || data.account);
+        if (okEl) {
+          okEl.hidden = false;
+          okEl.textContent = data.message || 'Signed in successfully! Redirecting...';
+        }
+        showToast(data.message || 'Signed in successfully!');
+        setTimeout(() => { window.location.href = getPostAuthRedirectUrl(); }, 700);
+      } catch (err) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Unable to connect right now. Please try again.'; }
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; }
+      }
+    });
+  }
+
+  // Handle Sign Up submit
+  if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('pageSignupName')?.value || '').trim();
+      const email = (document.getElementById('pageSignupEmail')?.value || '').trim();
+      const phone = (document.getElementById('pageSignupPhone')?.value || '').trim();
+      const password = document.getElementById('pageSignupPassword')?.value || '';
+      const confirmPassword = document.getElementById('pageSignupConfirm')?.value || '';
+      const errEl = document.getElementById('pageSignupError');
+      const okEl = document.getElementById('pageSignupSuccess');
+      const btn = document.getElementById('pageSignupSubmit');
+
+      if (errEl) { errEl.hidden = true; errEl.textContent = ''; }
+      if (okEl) { okEl.hidden = true; okEl.textContent = ''; }
+
+      if (name.length < 2) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter your full name (at least 2 characters).'; }
+        return;
+      }
+      if (!email || !email.includes('@')) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter a valid email address.'; }
+        return;
+      }
+      if (password.length < 6) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Password must be at least 6 characters long.'; }
+        return;
+      }
+      if (password !== confirmPassword) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Passwords do not match. Please check and try again.'; }
+        return;
+      }
+
+      if (btn) { btn.disabled = true; btn.textContent = 'Creating Account...'; }
+      try {
+        const resp = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password, confirmPassword })
+        });
+        const data = await resp.json().catch(() => null);
+        if (!resp.ok || !data || !data.ok) {
+          if (errEl) {
+            errEl.hidden = false;
+            errEl.textContent = (data && data.error) || 'Unable to create account.';
+          }
+          return;
+        }
+        saveAuthUser(data.user);
+        if (okEl) {
+          okEl.hidden = false;
+          okEl.textContent = data.message || 'Account created! Redirecting...';
+        }
+        showToast(data.message || 'Account created successfully!');
+        setTimeout(() => { window.location.href = getPostAuthRedirectUrl(); }, 700);
+      } catch (err) {
+        if (errEl) { errEl.hidden = false; errEl.textContent = 'Unable to connect right now. Please try again.'; }
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+      }
+    });
+  }
+
+  // Initial state
+  if (!renderSignedInCard()) {
+    const path = (window.location.pathname || '').toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reason') === 'login_required' && formsWrapper && !document.getElementById('authGateNotice')) {
+      const notice = document.createElement('div');
+      notice.id = 'authGateNotice';
+      notice.className = 'auth-gate-notice';
+      notice.textContent = 'Please sign in or create an account to access Ship, Track, Rates, Services, and all portal features.';
+      formsWrapper.insertBefore(notice, formsWrapper.firstChild);
+    }
+    const initialMode = (path.includes('signup') || path.includes('register') || params.get('mode') === 'signup')
+      ? 'signup'
+      : 'login';
+    setAuthTab(initialMode, false);
+  }
+}
+
+function openAuthModal(type = 'login') {
+  const isSignup = type === 'signup';
+  const currentPath = `${window.location.pathname || '/'}${window.location.search || ''}`;
+  const isAlreadyAuthPage = /^\/(login|signin|signup|register|account)/i.test(window.location.pathname || '');
+  const nextQuery = (!isAlreadyAuthPage && currentPath && currentPath !== '/')
+    ? `?next=${encodeURIComponent(currentPath)}`
+    : '';
+  window.location.href = (isSignup ? '/signup' : '/login') + nextQuery;
 }
 
 function closeAuthModal() {
@@ -5433,52 +5839,92 @@ function closeAuthModal() {
 }
 
 async function handleAuthSubmit() {
+  const nameEl = document.getElementById('authName');
   const emailEl = document.getElementById('authEmail');
   const passEl = document.getElementById('authPassword');
   const errEl = document.getElementById('authModalError');
   const statusBox = document.getElementById('authModalStatusBox');
   const submitBtn = document.getElementById('authSubmitBtn');
 
+  const isSignup = currentAuthMode === 'signup';
+  const name = (nameEl?.value || '').trim();
   const email = (emailEl?.value || '').trim();
   const password = passEl?.value || '';
 
   if (errEl) { errEl.hidden = true; errEl.textContent = ''; }
   if (statusBox) { statusBox.hidden = true; statusBox.innerHTML = ''; }
 
-  if (submitBtn) submitBtn.disabled = true;
+  if (isSignup && name.length < 2) {
+    if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter your full name.'; }
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter a valid email address.'; }
+    return;
+  }
+  if (isSignup && password.length < 6) {
+    if (errEl) { errEl.hidden = false; errEl.textContent = 'Password must be at least 6 characters long.'; }
+    return;
+  }
+  if (!password) {
+    if (errEl) { errEl.hidden = false; errEl.textContent = 'Please enter your password.'; }
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = isSignup ? 'Creating Account...' : 'Signing in...';
+  }
+
   try {
-    const resp = await fetch('/api/business/login', {
+    const endpoint = isSignup ? '/api/auth/signup' : '/api/auth/login';
+    const bodyPayload = isSignup ? { name, email, password } : { email, password };
+
+    const resp = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify(bodyPayload)
     });
     const data = await resp.json().catch(() => null);
     if (!resp.ok || !data || !data.ok) {
       if (errEl) {
         errEl.hidden = false;
-        errEl.textContent = (data && data.error) || 'Invalid email or password.';
+        errEl.textContent = (data && data.error) || (isSignup ? 'Unable to create account.' : 'Invalid email or password.');
       }
       return;
     }
 
-    const acc = data.account;
+    const user = data.user || data.account;
+    if (user) {
+      saveAuthUser(user);
+    }
+
     if (statusBox) {
       statusBox.hidden = false;
+      const label = user?.companyName ? `${user.companyName} (${user.id})` : (user?.name || email);
+      const subText = user?.accountType === 'Business'
+        ? `Business Account • Status: <b>${escapeHtml(user.status || 'Active')}</b>`
+        : `Signed in as <b>${escapeHtml(user?.email || email)}</b>`;
       statusBox.innerHTML = `
-        <div class="pickup-confirmed-banner" style="margin-top:8px;">
-          <strong>Signed in: ${escapeHtml(acc.companyName)} (${escapeHtml(acc.referenceId)})</strong>
-          <p style="margin-top:4px; font-size:12.5px;">Application Status: <b>${escapeHtml(acc.status)}</b> • GSTIN: <b>${escapeHtml(acc.gstin)}</b></p>
+        <div class="pickup-confirmed-banner" style="margin-top:4px;">
+          <strong>${isSignup ? 'Account Created' : 'Signed In'}: ${escapeHtml(label)}</strong>
+          <p style="margin-top:4px; font-size:12.5px;">${subText}</p>
         </div>
       `;
     }
-    showToast(data.message);
+
+    showToast(data.message || (isSignup ? 'Account created successfully!' : 'Signed in successfully!'));
+    setTimeout(() => closeModal('authModal'), 1100);
   } catch (err) {
     if (errEl) {
       errEl.hidden = false;
-      errEl.textContent = 'Unable to sign in right now. Please try again.';
+      errEl.textContent = 'Unable to connect right now. Please try again.';
     }
   } finally {
-    if (submitBtn) submitBtn.disabled = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = isSignup ? 'Create Account' : 'Login';
+    }
   }
 }
 
