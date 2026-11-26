@@ -340,113 +340,111 @@ function getSharedSiteFooterCardHtml() {
   return `
     <div class="footer-card">
 
-      <!-- Top Multi-Column Grid -->
+      <!-- Band 1: Ruby Red Worldwide Shipping Banner -->
+      <div class="footer-promo-band" role="region" aria-label="Worldwide Shipping Promotion">
+        <div class="footer-promo-left">
+          <div class="footer-promo-globe" aria-hidden="true">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9.5"></circle>
+              <line stroke-linecap="round" x1="2.5" x2="21.5" y1="12" y2="12"></line>
+              <ellipse cx="12" cy="12" rx="4.5" ry="9.5"></ellipse>
+              <path d="M4.5 7.2C6.8 8.6 9.3 9.3 12 9.3C14.7 9.3 17.2 8.6 19.5 7.2" stroke-linecap="round"></path>
+              <path d="M4.5 16.8C6.8 15.4 9.3 14.7 12 14.7C14.7 14.7 17.2 15.4 19.5 16.8" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <span class="footer-promo-divider" aria-hidden="true"></span>
+          <div class="footer-promo-text">
+            <h2 class="footer-promo-title">Ship to 200+ Countries Worldwide</h2>
+            <p class="footer-promo-sub">
+              <span>Competitive rates</span>
+              <span aria-hidden="true">•</span>
+              <span>Door-to-Door Delivery</span>
+              <span aria-hidden="true">•</span>
+              <span>Customs Support</span>
+            </p>
+          </div>
+        </div>
+        <button type="button" class="footer-promo-btn" onclick="openCountriesModal()">
+          <span>View Countries</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <!-- Band 2: Clean White 5-Column Navigation Grid -->
       <div class="footer-main">
 
-        <!-- Column 1: Brand Overview & Direct Contact -->
+        <!-- Column 1: Brand Overview & Direct Support -->
         <div class="footer-brand-col">
           <a href="/" class="footer-logo" title="TRISYS EXPRESS">
             <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="footer-logo-img">
           </a>
           <p class="footer-desc">
-            Fast, safe, and compliant door-to-door international shipping from India to 200+ countries worldwide. Trusted for documents, personal parcels, prescription medicines, and commercial cargo.
+            International courier services from India for documents, parcels, medicines and commercial cargo.
           </p>
 
-          <div class="footer-trust-badges" aria-label="Service highlights">
-            <span class="footer-trust-pill">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M8 1.5L2.5 4v4.2c0 3.4 2.3 6.5 5.5 7.3 3.2-.8 5.5-3.9 5.5-7.3V4L8 1.5Z" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 8l1.8 1.8L10.8 6.3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Customs Cleared
-            </span>
-            <span class="footer-trust-pill">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              3–5 Days Express
-            </span>
-            <span class="footer-trust-pill">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M8 1.5a5 5 0 0 0-5 5c0 3.5 5 8 5 8s5-4.5 5-8a5 5 0 0 0-5-5Z" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" stroke-width="1.4"/></svg>
-              Free Doorstep Pickup
-            </span>
-          </div>
-
-          <div class="footer-contact-row">
-            <a href="tel:+911800000000" class="footer-contact-chip">
-              <span class="footer-chip-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"><path d="M3.5 4.5A1.5 1.5 0 0 1 5 3h2.2a1 1 0 0 1 .95.68l.85 2.55a1 1 0 0 1-.27 1.04L7.3 8.7a11.05 11.05 0 0 0 4 4l1.43-1.43a1 1 0 0 1 1.04-.27l2.55.85a1 1 0 0 1 .68.95V15a1.5 1.5 0 0 1-1.5 1.5A13 13 0 0 1 3.5 4.5Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <span class="footer-chip-text">
-                <small>24/7 Toll-Free</small>
-                <strong>1800-000-0000</strong>
-              </span>
+          <div class="footer-contact-inline">
+            <a href="tel:+911800000000" class="footer-inline-action">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3.5 4.5A1.5 1.5 0 0 1 5 3h2.2a1 1 0 0 1 .95.68l.85 2.55a1 1 0 0 1-.27 1.04L7.3 8.7a11.05 11.05 0 0 0 4 4l1.43-1.43a1 1 0 0 1 1.04-.27l2.55.85a1 1 0 0 1 .68.95V15a1.5 1.5 0 0 1-1.5 1.5A13 13 0 0 1 3.5 4.5Z"/></svg>
+              <span>Call Support</span>
             </a>
-
-            <a href="mailto:support@trisysexpress.com" class="footer-contact-chip">
-              <span class="footer-chip-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"><rect x="2.5" y="4.5" width="15" height="11" rx="2" stroke-width="1.6"/><path d="M3 5.5l7 5 7-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <span class="footer-chip-text">
-                <small>Email Support</small>
-                <strong>support@trisysexpress.com</strong>
-              </span>
+            <span class="footer-inline-sep" aria-hidden="true"></span>
+            <a href="mailto:support@trisysexpress.com" class="footer-inline-action">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M3 5.5l7 5 7-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Email Support</span>
             </a>
           </div>
         </div>
 
         <!-- Column 2: Ship & Track -->
         <nav class="footer-nav-col" aria-label="Ship and Track links">
-          <h3 class="footer-col-title">Ship &amp; Track</h3>
+          <h3 class="footer-col-title">SHIP &amp; TRACK</h3>
           <ul class="footer-link-list">
             <li><a href="/quote" class="footer-link">Get Instant Quote</a></li>
             <li><a href="/schedule-pickup" class="footer-link">Schedule Pickup</a></li>
-            <li><a href="/track" class="footer-link">Track Shipment</a></li>
-            <li><a href="/rates" class="footer-link">Find International Rates</a></li>
-            <li><a href="#countries" class="footer-link" onclick="event.preventDefault(); openCountriesModal()">200+ Countries Served</a></li>
+            <li><a href="/track" class="footer-link footer-link-accent">Track Shipment</a></li>
+            <li><a href="/rates" class="footer-link">International Rates</a></li>
           </ul>
         </nav>
 
-        <!-- Column 3: Shipping Services -->
+        <!-- Column 3: Our Services -->
         <nav class="footer-nav-col" aria-label="Shipping Services links">
-          <h3 class="footer-col-title">Our Services</h3>
+          <h3 class="footer-col-title">OUR SERVICES</h3>
           <ul class="footer-link-list">
             <li><a href="/document-courier" class="footer-link">Document Courier</a></li>
             <li><a href="/parcel-shipping" class="footer-link">Parcel Shipping</a></li>
-            <li>
-              <a href="/medicine-courier" class="footer-link">
-                Medicine Courier
-                <span class="footer-mini-badge">Rx</span>
-              </a>
-            </li>
+            <li><a href="/medicine-courier" class="footer-link">Medicine Courier</a></li>
             <li><a href="/ecommerce-logistics" class="footer-link">E-commerce Logistics</a></li>
             <li><a href="/bulk-commercial" class="footer-link">Bulk &amp; Commercial</a></li>
           </ul>
         </nav>
 
-        <!-- Column 4: Business Solutions -->
+        <!-- Column 4: For Business -->
         <nav class="footer-nav-col" aria-label="Business Solutions links">
-          <h3 class="footer-col-title">For Business</h3>
+          <h3 class="footer-col-title">FOR BUSINESS</h3>
           <ul class="footer-link-list">
             <li><a href="/business/volume-discounts" class="footer-link" data-footer-biz="volume-discounts">Volume Discounts</a></li>
             <li><a href="/business/ecommerce-integrations" class="footer-link" data-footer-biz="ecommerce-integrations">E-commerce Integrations</a></li>
             <li><a href="/business/account-manager" class="footer-link" data-footer-biz="account-manager">Dedicated Account Manager</a></li>
-            <li><a href="/business/credit-billing" class="footer-link" data-footer-biz="credit-billing">Credit &amp; Monthly Billing</a></li>
             <li><a href="/business/register" class="footer-link footer-link-accent" data-footer-biz="register">Open Business Account →</a></li>
           </ul>
         </nav>
 
-        <!-- Column 5: Help & Support -->
+        <!-- Column 5: Help & Compliance -->
         <nav class="footer-nav-col" aria-label="Help and Support links">
-          <h3 class="footer-col-title">Help &amp; Compliance</h3>
+          <h3 class="footer-col-title">HELP &amp; COMPLIANCE</h3>
           <ul class="footer-link-list">
             <li><a href="/help/faqs" class="footer-link" data-footer-help="faqs">Frequently Asked Questions</a></li>
             <li><a href="/help/customs-documents" class="footer-link" data-footer-help="customs">Customs &amp; KYC Guide</a></li>
-            <li><a href="/help/contact-support" class="footer-link" data-footer-help="contact">24/7 Customer Support</a></li>
+            <li><a href="/help/contact-support" class="footer-link" data-footer-help="contact">Customer Support</a></li>
             <li><a href="https://wa.me/911800000000" target="_blank" rel="noopener" class="footer-link">WhatsApp Live Desk</a></li>
           </ul>
         </nav>
 
       </div>
 
-      <!-- Middle Strip: Popular Shipping Corridors -->
+      <!-- Band 3: Popular Shipping Destinations -->
       <div class="footer-corridors">
-        <span class="footer-corridors-label">Popular Shipping Corridors from India:</span>
+        <span class="footer-corridors-label">Popular Shipping Destinations</span>
         <div class="footer-corridors-tags">
           <a href="/quote?to=United%20States" class="corridor-tag">United States</a>
           <a href="/quote?to=United%20Kingdom" class="corridor-tag">United Kingdom</a>
@@ -455,25 +453,21 @@ function getSharedSiteFooterCardHtml() {
           <a href="/quote?to=Australia" class="corridor-tag">Australia</a>
           <a href="/quote?to=Germany" class="corridor-tag">Germany</a>
           <a href="/quote?to=Singapore" class="corridor-tag">Singapore</a>
-          <button type="button" class="corridor-tag corridor-tag-more" onclick="openCountriesModal()">View All 200+ →</button>
         </div>
       </div>
 
-      <!-- Bottom Bar: Copyright, Trust Note & Quick Legal Links -->
+      <!-- Band 4: Dark Charcoal Copyright & Legal Bar -->
       <div class="footer-bottom">
         <p class="footer-copy">
-          &copy; <span id="footerCurrentYear">${currentYear}</span> <strong>Trisys Express</strong>. All rights reserved. Door-to-door international courier from India.
+          &copy; <span id="footerCurrentYear">${currentYear}</span> <strong>Trisys Express</strong>
         </p>
         <div class="footer-bottom-links">
-          <a href="/help/customs-documents" class="footer-bottom-link" data-footer-help="customs">Customs &amp; Restricted Items</a>
-          <span class="footer-dot" aria-hidden="true">•</span>
           <a href="/help/faqs" class="footer-bottom-link" data-footer-help="faqs">Terms of Carriage</a>
           <span class="footer-dot" aria-hidden="true">•</span>
           <a href="/help/contact-support" class="footer-bottom-link" data-footer-help="contact">Privacy &amp; KYC Policy</a>
           <span class="footer-dot" aria-hidden="true">•</span>
           <a href="#top" class="footer-back-top" onclick="event.preventDefault(); scrollToTopSmoothly();" aria-label="Back to top">
-            Back to Top
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" aria-hidden="true"><path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back to Top ↑
           </a>
         </div>
       </div>
