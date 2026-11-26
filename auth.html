@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in or create your Trisys Express account to manage international quotes, doorstep pickups, and live shipment tracking.">
+  <meta name="theme-color" content="#9B111E">
+  <title>Login &amp; Sign Up | TRISYS EXPRESS</title>
+  <link rel="icon" type="image/png" href="/assets/trisys_logo_transparent.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=42">
+</head>
+<body data-page="auth">
+
+  <a href="#authMain" class="skip-link">Skip to content</a>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-logo" title="TRISYS EXPRESS">
+        <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS" class="logo-img">
+      </a>
+
+      <nav class="nav-menu" id="navMenu" aria-label="Main navigation">
+        <a href="/" class="nav-item" data-nav="home">Home</a>
+        <a href="/quote" class="nav-item" data-nav="quote">Quote</a>
+        <a href="/track" class="nav-item" data-nav="track">Track</a>
+        <a href="/rates" class="nav-item" data-nav="rates">Rates</a>
+        <a href="/schedule-pickup" class="nav-item" data-nav="pickup">Pickup</a>
+        <a href="/business-solutions" class="nav-item" data-nav="business">Business Solutions</a>
+        <a href="/help" class="nav-item" data-nav="help">Help</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="/login" class="btn btn-outline" data-auth-nav="login">Login</a>
+        <a href="/signup" class="btn btn-primary" data-auth-nav="signup">Sign Up</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrapper" id="authMain">
+    <section class="auth-page-shell" aria-label="Account Authentication">
+      <div class="auth-page-card">
+
+        <!-- Left Brand Info Column -->
+        <aside class="auth-brand-panel">
+          <div class="auth-brand-top">
+            <a href="/" class="auth-panel-logo">
+              <img src="/assets/trisys_logo_transparent.png" alt="TRISYS EXPRESS">
+            </a>
+            <span class="auth-panel-badge">Customer &amp; Business Portal</span>
+            <h1 class="auth-panel-title">Global Shipping,<br>All in One Place</h1>
+            <p class="auth-panel-desc">
+              Sign in or create a free Trisys Express account to book international couriers, track shipments live, and manage pickups faster.
+            </p>
+          </div>
+
+          <ul class="auth-benefit-list">
+            <li>
+              <span class="auth-benefit-icon" aria-hidden="true">✓</span>
+              <span>Save &amp; compare instant rates to 200+ countries</span>
+            </li>
+            <li>
+              <span class="auth-benefit-icon" aria-hidden="true">✓</span>
+              <span>One-click doorstep pickup scheduling across India</span>
+            </li>
+            <li>
+              <span class="auth-benefit-icon" aria-hidden="true">✓</span>
+              <span>Real-time AWB tracking &amp; customs status updates</span>
+            </li>
+            <li>
+              <span class="auth-benefit-icon" aria-hidden="true">✓</span>
+              <span>24/7 dedicated support via Phone, Email &amp; WhatsApp</span>
+            </li>
+          </ul>
+
+          <div class="auth-brand-footer">
+            Need GST billing &amp; corporate rates?
+            <a href="/business/register">Apply for a Business Account →</a>
+          </div>
+        </aside>
+
+        <!-- Right Interactive Form Column -->
+        <div class="auth-form-panel">
+
+          <!-- Already Signed In View -->
+          <div id="authSignedInView" class="auth-signedin-view" hidden>
+            <div class="auth-signedin-avatar" id="authAccountAvatar">U</div>
+            <h2 id="authAccountName">Welcome back</h2>
+            <p class="auth-signedin-email" id="authAccountEmail"></p>
+            <div class="auth-signedin-meta" id="authAccountMeta"></div>
+
+            <div class="auth-signedin-actions">
+              <a href="/quote" class="btn btn-primary">Get a Shipping Quote</a>
+              <a href="/track" class="btn btn-outline">Track Shipment</a>
+              <a href="/schedule-pickup" class="btn btn-outline">Schedule Pickup</a>
+            </div>
+
+            <div class="auth-signedin-logout">
+              <button type="button" class="btn btn-outline" id="authPageLogoutBtn">Log Out of Account</button>
+            </div>
+          </div>
+
+          <!-- Login / Sign Up Forms Container -->
+          <div id="authFormsWrapper">
+            <div class="auth-mode-tabs" role="tablist" aria-label="Authentication mode">
+              <button type="button" class="auth-mode-tab active" id="tabBtnLogin" role="tab" aria-selected="true" aria-controls="loginFormPanel">
+                Login
+              </button>
+              <button type="button" class="auth-mode-tab" id="tabBtnSignup" role="tab" aria-selected="false" aria-controls="signupFormPanel">
+                Sign Up
+              </button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginFormPanel" class="auth-page-form" novalidate>
+              <div class="auth-form-header">
+                <h2>Welcome back</h2>
+                <p>Enter your registered email and password to sign in.</p>
+              </div>
+
+              <div class="input-field">
+                <label for="pageLoginEmail">Email Address</label>
+                <input type="email" id="pageLoginEmail" class="standard-input" required autocomplete="email" placeholder="you@example.com">
+              </div>
+
+              <div class="input-field">
+                <label for="pageLoginPassword">Password</label>
+                <div class="auth-password-wrap">
+                  <input type="password" id="pageLoginPassword" class="standard-input" required autocomplete="current-password" placeholder="Enter your password">
+                  <button type="button" class="auth-eye-btn" data-toggle-pass="pageLoginPassword" aria-label="Show password">Show</button>
+                </div>
+              </div>
+
+              <p id="pageLoginError" class="quote-inline-error" role="alert" hidden></p>
+              <div id="pageLoginSuccess" class="auth-success-banner" hidden></div>
+
+              <button type="submit" class="btn btn-primary btn-block auth-submit-lg" id="pageLoginSubmit">
+                Sign In
+              </button>
+
+              <p class="auth-bottom-switch">
+                Don't have an account yet?
+                <button type="button" class="auth-switch-btn" id="switchToSignupBtn">Create one now</button>
+              </p>
+            </form>
+
+            <!-- SIGN UP FORM -->
+            <form id="signupFormPanel" class="auth-page-form" novalidate hidden>
+              <div class="auth-form-header">
+                <h2>Create your account</h2>
+                <p>Start shipping internationally from India in under a minute.</p>
+              </div>
+
+              <div class="input-field">
+                <label for="pageSignupName">Full Name</label>
+                <input type="text" id="pageSignupName" class="standard-input" required autocomplete="name" placeholder="Your full name">
+              </div>
+
+              <div class="auth-field-grid">
+                <div class="input-field">
+                  <label for="pageSignupEmail">Email Address</label>
+                  <input type="email" id="pageSignupEmail" class="standard-input" required autocomplete="email" placeholder="you@example.com">
+                </div>
+                <div class="input-field">
+                  <label for="pageSignupPhone">Phone Number (Optional)</label>
+                  <input type="tel" id="pageSignupPhone" class="standard-input" autocomplete="tel" placeholder="+91 98765 43210">
+                </div>
+              </div>
+
+              <div class="auth-field-grid">
+                <div class="input-field">
+                  <label for="pageSignupPassword">Password</label>
+                  <div class="auth-password-wrap">
+                    <input type="password" id="pageSignupPassword" class="standard-input" required autocomplete="new-password" minlength="6" placeholder="Min. 6 characters">
+                    <button type="button" class="auth-eye-btn" data-toggle-pass="pageSignupPassword" aria-label="Show password">Show</button>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label for="pageSignupConfirm">Confirm Password</label>
+                  <div class="auth-password-wrap">
+                    <input type="password" id="pageSignupConfirm" class="standard-input" required autocomplete="new-password" minlength="6" placeholder="Re-enter password">
+                    <button type="button" class="auth-eye-btn" data-toggle-pass="pageSignupConfirm" aria-label="Show password">Show</button>
+                  </div>
+                </div>
+              </div>
+
+              <p id="pageSignupError" class="quote-inline-error" role="alert" hidden></p>
+              <div id="pageSignupSuccess" class="auth-success-banner" hidden></div>
+
+              <button type="submit" class="btn btn-primary btn-block auth-submit-lg" id="pageSignupSubmit">
+                Create Account
+              </button>
+
+              <p class="auth-bottom-switch">
+                Already have an account?
+                <button type="button" class="auth-switch-btn" id="switchToLoginBtn">Sign in here</button>
+              </p>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="sharedSiteFooter" role="contentinfo" aria-label="Site Footer"></footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/script.js?v=25"></script>
+</body>
+</html>

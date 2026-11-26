@@ -55,6 +55,7 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 ENQUIRIES_FILE = os.path.join(DATA_DIR, "service_enquiries.json")
 BUSINESS_RECORDS_FILE = os.path.join(DATA_DIR, "business_records.json")
 BUSINESS_ACCOUNTS_FILE = os.path.join(DATA_DIR, "business_accounts.json")
+USER_ACCOUNTS_FILE = os.path.join(DATA_DIR, "user_accounts.json")
 SUPPORT_ENQUIRIES_FILE = os.path.join(DATA_DIR, "support_enquiries.json")
 CUSTOMS_DOCS_FILE = os.path.join(DATA_DIR, "customs_documents.json")
 PICKUPS_FILE = os.path.join(DATA_DIR, "pickups.json")
@@ -163,7 +164,17 @@ def normalize_package_type(raw_type: str) -> str:
     return val
 
 
-def calculate_corridor_service_tiers(destination: str, pkg_type: str, chargeable_kg: float):
+def compute_medicine_handling_fee(medicine_type: str = "", medicine_packaging: str = "") -> int:
+    m_type = (medicine_type or "").lower()
+    m_pkg = (medicine_packaging or "").lower()
+    if any(k in m_type for k in ("cold-chain", "2°c", "biologics")) or any(k in m_pkg for k in ("cold-pack", "thermal", "gel")):
+        return 850
+    if any(k in m_pkg for k in ("shock-proof", "glass", "vial")):
+        return 350
+    return 0
+
+
+def calculate_corridor_service_tiers(destination: str, pkg_type: str, chargeable_kg: float, special_handling_inr: int = 0):
     dest_lower = (destination or "").lower()
     if any(k in dest_lower for k in ("arab emirates", "uae", "saudi", "qatar", "kuwait", "oman")):
         zone_label = "Zone A (Middle East)"
@@ -193,17 +204,19 @@ def calculate_corridor_service_tiers(destination: str, pkg_type: str, chargeable
         "other": (1.05, 500),
     }
     cat_mult, clearance_fee_inr = cat_adjustments.get(pkg_type, (1.00, 350))
+    handling_fee = max(0, int(special_handling_inr or 0))
 
     def build_tier_pricing(base_inr_per_kg: float) -> dict:
         rate_per_kg = round(base_inr_per_kg * zone_mult * cat_mult)
         base_freight = round(chargeable_kg * rate_per_kg)
         fuel_surcharge = round(base_freight * 0.145)
-        total_inr = base_freight + fuel_surcharge + clearance_fee_inr
+        total_inr = base_freight + fuel_surcharge + clearance_fee_inr + handling_fee
         return {
             "ratePerKgInr": rate_per_kg,
             "baseFreightInr": base_freight,
             "fuelSurchargeInr": fuel_surcharge,
             "clearanceFeeInr": clearance_fee_inr,
+            "specialHandlingInr": handling_fee,
             "estimatedInr": total_inr,
         }
 
@@ -326,6 +339,11 @@ ROUTE_MAP = {
     "/customs": "/help.html?section=customs",
     "/help/contact-support": "/help.html?section=contact",
     "/contact-support": "/help.html?section=contact",
+    "/login": "/auth.html",
+    "/signin": "/auth.html",
+    "/signup": "/auth.html?mode=signup",
+    "/register": "/auth.html?mode=signup",
+    "/account": "/auth.html",
     "/support": "/help.html?section=contact",
     "/contact": "/help.html?section=contact",
 }
@@ -376,6 +394,16 @@ def save_business_account(account):
     accounts = load_business_accounts()
     accounts.append(account)
     _save_json_list(BUSINESS_ACCOUNTS_FILE, accounts)
+
+
+def load_user_accounts():
+    return _load_json_list(USER_ACCOUNTS_FILE)
+
+
+def save_user_account(user):
+    users = load_user_accounts()
+    users.append(user)
+    _save_json_list(USER_ACCOUNTS_FILE, users)
 
 
 def load_support_enquiries():
@@ -998,20 +1026,23 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 })
 
             rule = PACKAGE_RULES[pkg_type]
-            actual_kg = round(weight_val * 0.453592, 2) if unit == "lb" else round(weight_val, 2)
-            actual_lb = round(weight_val, 2) if unit == "lb" else round(weight_val * 2.20462, 2)
+            per_unit_kg = round(weight_val * 0.453592, 2) if unit == "lb" else round(weight_val, 2)
+            per_unit_lb = round(weight_val, 2) if unit == "lb" else round(weight_val * 2.20462, 2)
             max_kg = rule["maxWeightKg"]
             max_lb = round(max_kg * 2.20462, 1)
 
-            if actual_kg > max_kg:
+            if per_unit_kg > max_kg:
                 return self._send_json(400, {
                     "ok": False,
                     "error": (
-                        f"{rule['label']} shipments support up to {max_kg:g} kg ({max_lb:g} lb). "
-                        f"Your entered weight ({weight_val:g} {unit} / {actual_kg:g} kg) exceeds this limit. "
+                        f"{rule['label']} shipments support up to {max_kg:g} kg ({max_lb:g} lb) per piece. "
+                        f"Your entered weight ({weight_val:g} {unit} / {per_unit_kg:g} kg) exceeds this limit. "
                         f"{'Please select Parcel or Bulk & Cargo for heavier consignments.' if pkg_type == 'document' else 'Please select Bulk & Cargo for heavier freight.'}"
                     ),
                 })
+
+            actual_kg = round(per_unit_kg * qty_val, 2)
+            actual_lb = round(per_unit_lb * qty_val, 2)
 
             volumetric_kg = None
             dimensions_cm = None
@@ -1030,7 +1061,23 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             chargeable_kg = round(max(actual_kg, volumetric_kg), 2) if volumetric_kg is not None else actual_kg
             chargeable_lb = round(chargeable_kg * 2.20462, 2)
 
-            zone_label, service_tiers = calculate_corridor_service_tiers(destination, pkg_type, chargeable_kg)
+            medicine_type_q = (query_params.get("medicineType", [""])[0] or "").strip()
+            medicine_pkg_q = (query_params.get("medicinePackaging", [""])[0] or "").strip()
+            medicine_days_q = parse_positive_int((query_params.get("medicineSupplyDays", [""])[0] or "").strip())
+            if pkg_type == "medicine":
+                if any(term in medicine_type_q.lower() for term in ("narcotic", "psychotropic", "prohibited", "banned", "controlled")):
+                    return self._send_json(400, {
+                        "ok": False,
+                        "error": "Narcotic, psychotropic, and controlled substances are strictly prohibited for international courier transport under NDPS and IATA regulations.",
+                    })
+                if medicine_days_q is not None and medicine_days_q > 90:
+                    return self._send_json(400, {
+                        "ok": False,
+                        "error": "International personal-use medicine shipments are restricted to a maximum 90-day supply under customs and drug control regulations.",
+                    })
+
+            special_handling_inr = compute_medicine_handling_fee(medicine_type_q, medicine_pkg_q) if pkg_type == "medicine" else 0
+            zone_label, service_tiers = calculate_corridor_service_tiers(destination, pkg_type, chargeable_kg, special_handling_inr)
             default_tier = service_tiers[1] if len(service_tiers) > 1 else service_tiers[0]
 
             return self._send_json(200, {
@@ -1738,6 +1785,12 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if clean_path == "/api/business/login":
             return self._handle_business_login(payload)
 
+        if clean_path == "/api/auth/signup":
+            return self._handle_auth_signup(payload, now_iso, short_id)
+
+        if clean_path == "/api/auth/login":
+            return self._handle_auth_login(payload)
+
         if clean_path == "/api/help/support-enquiry":
             return self._handle_support_enquiry(payload, now_iso, short_id)
 
@@ -2367,6 +2420,105 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             "error": "Invalid business email or password. Need a business account? Apply via Open Business Account.",
         })
 
+    def _handle_auth_signup(self, payload, now_iso, short_id):
+        name = str(payload.get("name") or "").strip()
+        email = str(payload.get("email") or "").strip().lower()
+        phone = str(payload.get("phone") or "").strip()
+        password = str(payload.get("password") or "")
+        confirm_password = payload.get("confirmPassword")
+
+        if len(name) < 2:
+            return self._send_json(400, {"ok": False, "error": "Please enter your full name (at least 2 characters)."})
+        if not is_valid_email(email):
+            return self._send_json(400, {"ok": False, "error": "Please enter a valid email address."})
+        if len(password) < 6:
+            return self._send_json(400, {"ok": False, "error": "Password must be at least 6 characters long."})
+        if confirm_password is not None and str(confirm_password) != password:
+            return self._send_json(400, {"ok": False, "error": "Passwords do not match. Please re-enter your password."})
+
+        for existing in load_user_accounts():
+            if existing.get("email", "").lower() == email:
+                return self._send_json(409, {"ok": False, "error": "An account with this email already exists. Please log in instead."})
+
+        salt_hex, hash_hex = hash_password(password)
+        user_id = f"TRISYS-USR-{short_id}"
+        user_record = {
+            "id": user_id,
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "accountType": "Customer",
+            "passwordSalt": salt_hex,
+            "passwordHash": hash_hex,
+            "createdAt": now_iso,
+        }
+        save_user_account(user_record)
+        public_user = {
+            "id": user_id,
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "accountType": "Customer",
+            "createdAt": now_iso,
+        }
+        return self._send_json(201, {
+            "ok": True,
+            "user": public_user,
+            "message": f"Account created! Welcome to Trisys Express, {name}.",
+        })
+
+    def _handle_auth_login(self, payload):
+        email = str(payload.get("email") or "").strip().lower()
+        password = str(payload.get("password") or "")
+
+        if not is_valid_email(email) or not password:
+            return self._send_json(400, {"ok": False, "error": "Please enter both your email address and password."})
+
+        # 1. Check standard customer accounts
+        for user in load_user_accounts():
+            if user.get("email", "").lower() == email:
+                if verify_password(password, user.get("passwordSalt", ""), user.get("passwordHash", "")):
+                    public_user = {
+                        "id": user.get("id", ""),
+                        "name": user.get("name", ""),
+                        "email": user.get("email", ""),
+                        "accountType": user.get("accountType", "Customer"),
+                        "createdAt": user.get("createdAt", ""),
+                    }
+                    return self._send_json(200, {
+                        "ok": True,
+                        "user": public_user,
+                        "message": f"Welcome back, {public_user['name']}!",
+                    })
+                return self._send_json(401, {"ok": False, "error": "Incorrect password. Please try again."})
+
+        # 2. Check registered business accounts
+        for acc in load_business_accounts():
+            if acc.get("email", "").lower() == email:
+                if verify_password(password, acc.get("passwordSalt", ""), acc.get("passwordHash", "")):
+                    public_acc = sanitize_account_for_public(acc)
+                    public_user = {
+                        "id": public_acc.get("referenceId", ""),
+                        "name": public_acc.get("contactName") or public_acc.get("companyName") or email,
+                        "companyName": public_acc.get("companyName", ""),
+                        "email": public_acc.get("email", email),
+                        "accountType": "Business",
+                        "status": public_acc.get("status", "Pending"),
+                        "gstin": public_acc.get("gstin", ""),
+                    }
+                    return self._send_json(200, {
+                        "ok": True,
+                        "user": public_user,
+                        "account": public_acc,
+                        "message": f"Signed in as {public_user['companyName']} ({public_user['id']}).",
+                    })
+                return self._send_json(401, {"ok": False, "error": "Incorrect password. Please try again."})
+
+        return self._send_json(401, {
+            "ok": False,
+            "error": "No account found for this email. Click Sign Up to create an account.",
+        })
+
     def _handle_support_enquiry(self, payload, now_iso, short_id):
         customer_name = str(payload.get("customerName") or "").strip()
         company_name = str(payload.get("companyName") or "").strip()
@@ -2511,12 +2663,13 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             return self._send_json(400, {"ok": False, "error": "Weight unit must be 'kg' or 'lb'."})
 
         rule = PACKAGE_RULES[pkg_type]
-        actual_kg = round(weight * 0.453592, 2) if weight_unit == "lb" else round(weight, 2)
-        if actual_kg > rule["maxWeightKg"]:
+        per_unit_kg = round(weight * 0.453592, 2) if weight_unit == "lb" else round(weight, 2)
+        if per_unit_kg > rule["maxWeightKg"]:
             return self._send_json(400, {
                 "ok": False,
-                "error": f"{rule['label']} shipments support up to {rule['maxWeightKg']:g} kg. Your entered weight ({actual_kg:g} kg) exceeds this limit.",
+                "error": f"{rule['label']} shipments support up to {rule['maxWeightKg']:g} kg per piece. Your entered weight ({per_unit_kg:g} kg) exceeds this limit.",
             })
+        actual_kg = round(per_unit_kg * parcel_qty, 2)
 
         if pkg_type == "medicine":
             if any(term in medicine_type.lower() for term in ("narcotic", "psychotropic", "prohibited", "banned", "controlled")):
@@ -2549,7 +2702,8 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             volumetric_kg = round((length * width * height * parcel_qty) / rule["volumetricDivisor"], 2)
 
         chargeable_kg = round(max(actual_kg, volumetric_kg), 2) if volumetric_kg is not None else actual_kg
-        zone_label, service_tiers = calculate_corridor_service_tiers(dest_country, pkg_type, chargeable_kg)
+        special_handling_inr = compute_medicine_handling_fee(medicine_type, medicine_packaging) if pkg_type == "medicine" else 0
+        zone_label, service_tiers = calculate_corridor_service_tiers(dest_country, pkg_type, chargeable_kg, special_handling_inr)
         matched_tier = next(
             (t for t in service_tiers if ("economy" in service_tier.lower() and t["tierId"] == "economy") or ("next flight" in service_tier.lower() and t["tierId"] == "nfo")),
             service_tiers[1],
@@ -2616,6 +2770,7 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         length = parse_positive_float(payload.get("length"))
         width = parse_positive_float(payload.get("width"))
         height = parse_positive_float(payload.get("height"))
+        parcel_qty = parse_positive_int(payload.get("parcelQty") or payload.get("envelopeCount") or 1) or 1
         special_instructions = str(payload.get("specialInstructions") or "").strip()
 
         if not sender_name:
@@ -2642,12 +2797,13 @@ class CleanRouteHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             return self._send_json(400, {"ok": False, "error": "Weight unit must be 'kg' or 'lb'."})
 
         rule = PACKAGE_RULES[pkg_type]
-        actual_kg = round(weight * 0.453592, 2) if weight_unit == "lb" else round(weight, 2)
-        if actual_kg > rule["maxWeightKg"]:
+        per_unit_kg = round(weight * 0.453592, 2) if weight_unit == "lb" else round(weight, 2)
+        if per_unit_kg > rule["maxWeightKg"]:
             return self._send_json(400, {
                 "ok": False,
-                "error": f"{rule['label']} shipments support up to {rule['maxWeightKg']:g} kg. Your entered weight ({actual_kg:g} kg) exceeds this limit.",
+                "error": f"{rule['label']} shipments support up to {rule['maxWeightKg']:g} kg per piece. Your entered weight ({per_unit_kg:g} kg) exceeds this limit.",
             })
+        actual_kg = round(per_unit_kg * parcel_qty, 2)
 
         volumetric_kg = None
         dimensions_cm = None

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=32">
+  <link rel="stylesheet" href="/styles.css?v=40">
 </head>
 <body class="subpage-body" data-page="quote">
 
@@ -732,7 +732,7 @@
                 </div>
                 <div class="form-field">
                   <label class="field-label" for="stdQuoteServiceTier">Preferred Courier Service Tier *</label>
-                  <select id="stdQuoteServiceTier" class="standard-input" required>
+                  <select id="stdQuoteServiceTier" class="standard-input" onchange="updateStandardQuoteCalcSummary()" required>
                     <option value="Express Air Saver (3–5 Business Days)">Express Air Saver (3–5 Business Days)</option>
                     <option value="Next Flight Out (2–3 Business Days)">Next Flight Out — Priority Air (2–3 Business Days)</option>
                     <option value="Economy Air Courier (6–9 Business Days)">Economy Air Courier (6–9 Business Days)</option>
@@ -1202,6 +1202,6 @@
     </div>
   </div>
 
-  <script src="/script.js?v=21"></script>
+  <script src="/script.js?v=27"></script>
 </body>
 </html>
