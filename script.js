@@ -2632,6 +2632,21 @@ async function handleUpdateQuoteParameters() {
   }
 }
 
+function matchSelectedServiceTier(tiers, selectedTierText) {
+  if (!Array.isArray(tiers) || !tiers.length) return null;
+  const sel = String(selectedTierText || '').toLowerCase();
+  if (sel.includes('economy')) {
+    return tiers.find(t => t.tierId === 'economy' || String(t.name || '').toLowerCase().includes('economy')) || tiers[0];
+  }
+  if (sel.includes('next flight') || sel.includes('priority') || sel.includes('nfo')) {
+    return tiers.find(t => t.tierId === 'nfo' || String(t.name || '').toLowerCase().includes('next flight')) || tiers[0];
+  }
+  if (sel.includes('express')) {
+    return tiers.find(t => t.tierId === 'express' || String(t.name || '').toLowerCase().includes('express')) || tiers[0];
+  }
+  return tiers.find(t => t.tierId === 'express') || tiers[0];
+}
+
 function selectQuoteServiceTier(tierName, targetSelectId = 'stdQuoteServiceTier') {
   const tierSelect = document.getElementById(targetSelectId);
   if (tierSelect && tierName) {
@@ -2640,6 +2655,7 @@ function selectQuoteServiceTier(tierName, targetSelectId = 'stdQuoteServiceTier'
       opt.value.toLowerCase().includes(tierName.toLowerCase()) ||
       tierName.toLowerCase().includes(opt.value.split('(')[0].trim().toLowerCase()) ||
       (tierName.toLowerCase().includes('economy') && opt.value.toLowerCase().includes('economy')) ||
+      (tierName.toLowerCase().includes('next flight') && opt.value.toLowerCase().includes('next flight')) ||
       (tierName.toLowerCase().includes('consolidated') && opt.value.toLowerCase().includes('consolidated')) ||
       (tierName.toLowerCase().includes('express') && opt.value.toLowerCase().includes('express'))
     );
@@ -2651,16 +2667,23 @@ function selectQuoteServiceTier(tierName, targetSelectId = 'stdQuoteServiceTier'
     const isSel = card.dataset.tierName === tierName;
     card.classList.toggle('is-selected', isSel);
   });
+  if (targetSelectId === 'stdQuoteServiceTier' && typeof updateStandardQuoteCalcSummary === 'function') {
+    updateStandardQuoteCalcSummary();
+  }
   showToast(`Selected service tier: ${tierName}`);
 }
 
-function renderServiceTierCardsHtml(tiers, targetSelectId = 'stdQuoteServiceTier') {
+function renderServiceTierCardsHtml(tiers, targetSelectId = 'stdQuoteServiceTier', selectedTierName = '') {
   if (!Array.isArray(tiers) || !tiers.length) return '';
+  const selectedMatch = selectedTierName
+    ? tiers.find(t => t.name === selectedTierName)
+    : matchSelectedServiceTier(tiers, document.getElementById(targetSelectId)?.value || '');
+  const activeName = selectedMatch ? selectedMatch.name : '';
   return `
     <h4 style="font-size:13px; font-weight:700; color:var(--slate-900); margin-bottom:6px;">Calculated Quote Tiers (Click to Select)</h4>
     <div style="display:flex; flex-direction:column; gap:8px;">
       ${tiers.map((tier) => `
-        <div class="js-quote-tier-card" data-tier-name="${escapeHtml(tier.name)}" onclick="selectQuoteServiceTier('${escapeHtml(tier.name)}', '${escapeHtml(targetSelectId)}')">
+        <div class="js-quote-tier-card${tier.name === activeName ? ' is-selected' : ''}" data-tier-name="${escapeHtml(tier.name)}" onclick="selectQuoteServiceTier('${escapeHtml(tier.name)}', '${escapeHtml(targetSelectId)}')">
           <div class="quote-tier-card-top">
             <div class="quote-tier-card-info">
               <strong class="quote-tier-card-title">${escapeHtml(tier.name)}</strong>
@@ -2672,7 +2695,7 @@ function renderServiceTierCardsHtml(tiers, targetSelectId = 'stdQuoteServiceTier
             </div>
           </div>
           <div class="quote-tier-card-breakdown">
-            ${tier.baseFreightInr ? `<span class="quote-tier-card-fees">Base: ₹${Number(tier.baseFreightInr).toLocaleString('en-IN')} + Fuel: ₹${Number(tier.fuelSurchargeInr).toLocaleString('en-IN')} + Clearance: ₹${Number(tier.clearanceFeeInr).toLocaleString('en-IN')}</span>` : ''}
+            ${tier.baseFreightInr ? `<span class="quote-tier-card-fees">Base: ₹${Number(tier.baseFreightInr).toLocaleString('en-IN')} + Fuel: ₹${Number(tier.fuelSurchargeInr).toLocaleString('en-IN')} + Clearance: ₹${Number(tier.clearanceFeeInr).toLocaleString('en-IN')}${tier.specialHandlingInr ? ` + Handling: ₹${Number(tier.specialHandlingInr).toLocaleString('en-IN')}` : ''}</span>` : ''}
             <span class="quote-tier-card-pickup">${tier.baseFreightInr ? '• ' : ''}${escapeHtml(tier.pickupMode)}</span>
           </div>
         </div>
@@ -2691,12 +2714,15 @@ async function updateStandardQuoteCalcSummary() {
   const unit = appState.weightUnit || 'kg';
   const pkgType = normalizePackageTypeId(appState.selectedPackage || appState.packageType || 'document');
   const pkgLabel = (PACKAGE_TYPE_CONFIG[pkgType] && PACKAGE_TYPE_CONFIG[pkgType].label) || 'Document';
-  const actualKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
-  const actualLb = unit === 'lb' ? +weight.toFixed(2) : +(weight * 2.20462).toFixed(2);
+  const perUnitKg = unit === 'lb' ? +(weight * 0.453592).toFixed(2) : +weight.toFixed(2);
+  const perUnitLb = unit === 'lb' ? +weight.toFixed(2) : +(weight * 2.20462).toFixed(2);
 
   let qty = 1;
   let qtyBadge = '';
   let categoryLabel = '';
+  let medicineType = '';
+  let medicineSupplyDays = 30;
+  let medicinePackaging = '';
   if (pkgType === 'document') {
     qty = Math.max(1, parseInt(document.getElementById('stdQuoteEnvelopeQty')?.value || '1', 10) || 1);
     const docCat = document.getElementById('stdQuoteDocumentCategory')?.value || 'Academic Transcripts & University Certificates';
@@ -2708,16 +2734,21 @@ async function updateStandardQuoteCalcSummary() {
     qtyBadge = `${qty} box${qty > 1 ? 'es' : ''}`;
     categoryLabel = pCat;
   } else if (pkgType === 'medicine') {
-    const mType = document.getElementById('stdQuoteMedicineType')?.value || 'Allopathic Prescription Medicines (Licensed Rx)';
-    const mDays = Math.max(1, parseInt(document.getElementById('stdQuoteMedicineSupplyDays')?.value || '30', 10) || 30);
-    qtyBadge = `${mDays}-day supply`;
-    categoryLabel = mType.split('(')[0].trim();
+    medicineType = document.getElementById('stdQuoteMedicineType')?.value || 'Allopathic Prescription Medicines (Licensed Rx)';
+    medicineSupplyDays = Math.max(1, parseInt(document.getElementById('stdQuoteMedicineSupplyDays')?.value || '30', 10) || 30);
+    medicinePackaging = document.getElementById('stdQuoteMedicinePackaging')?.value || 'Standard Tamper-Evident Blister / Bottle Box';
+    qtyBadge = `${medicineSupplyDays}-day supply`;
+    categoryLabel = medicineType.split('(')[0].trim();
   } else if (pkgType === 'other') {
     qty = Math.max(1, parseInt(document.getElementById('stdQuoteOtherQty')?.value || '1', 10) || 1);
     const oCat = document.getElementById('stdQuoteOtherCategory')?.value || 'Custom / Specialized Consignment';
     qtyBadge = `${qty} pc${qty > 1 ? 's' : ''}`;
     categoryLabel = oCat;
   }
+
+  const actualKg = +(perUnitKg * qty).toFixed(2);
+  const actualLb = +(perUnitLb * qty).toFixed(2);
+  const selectedTierVal = document.getElementById('stdQuoteServiceTier')?.value || 'Express Air Saver (3–5 Business Days)';
 
   const lVal = parseFloat(document.getElementById('stdQuoteLength')?.value || '');
   const wVal = parseFloat(document.getElementById('stdQuoteWidth')?.value || '');
@@ -2726,12 +2757,23 @@ async function updateStandardQuoteCalcSummary() {
   const divisor = pkgType === 'bulk' ? 6000 : 5000;
   const volKg = hasDims ? +((lVal * wVal * hVal * qty) / divisor).toFixed(2) : null;
   const chargeableKg = volKg !== null ? +Math.max(actualKg, volKg).toFixed(2) : actualKg;
+  const billedBasis = (volKg !== null && volKg > actualKg) ? 'Volumetric' : 'Actual';
+
+  const weightDetailStr = qty > 1
+    ? `${chargeableKg} kg (${billedBasis} • ${qty} × ${weight} ${escapeHtml(unit)})`
+    : (volKg !== null
+      ? `${chargeableKg} kg (${billedBasis} Wt billed)`
+      : (unit === 'kg' && Number(chargeableKg) === Number(weight)
+        ? `${chargeableKg} kg`
+        : `${chargeableKg} kg (${weight} ${escapeHtml(unit)})`));
 
   summaryBox.innerHTML = `
     <div class="summary-row"><span>Corridor</span><strong>${escapeHtml(appState.fromCountry.name)} ➔ ${escapeHtml(appState.toCountry.name)}</strong></div>
-    <div class="summary-row"><span>Service &amp; Chargeable Wt</span><strong>${escapeHtml(pkgLabel)}${qtyBadge ? ` (${escapeHtml(qtyBadge)})` : ''} • ${chargeableKg} kg</strong></div>
+    <div class="summary-row"><span>Service &amp; Chargeable Wt</span><strong>${escapeHtml(pkgLabel)}${qtyBadge ? ` (${escapeHtml(qtyBadge)})` : ''} • ${weightDetailStr}</strong></div>
     ${categoryLabel ? `<div class="summary-row"><span>Details</span><strong>${escapeHtml(categoryLabel)}</strong></div>` : ''}
-    ${volKg !== null ? `<div class="summary-row"><span>Volumetric Weight</span><strong>${volKg} kg (${qty}×${lVal}×${wVal}×${hVal} cm)</strong></div>` : ''}
+    ${medicinePackaging ? `<div class="summary-row"><span>Medical Packaging</span><strong>${escapeHtml(medicinePackaging)}</strong></div>` : ''}
+    ${volKg !== null ? `<div class="summary-row"><span>Weight Comparison</span><strong>Actual: ${actualKg} kg | Vol: ${volKg} kg (${qty}×${lVal}×${wVal}×${hVal}÷${divisor})</strong></div>` : ''}
+    <div class="summary-row"><span>Selected Tier</span><strong>${escapeHtml(selectedTierVal)}</strong></div>
     <div class="summary-row total"><span>Chargeable Weight</span><strong>${chargeableKg} kg (${actualLb} lb)</strong></div>
   `;
 
@@ -2758,26 +2800,40 @@ async function updateStandardQuoteCalcSummary() {
         qs.set('width', String(wVal));
         qs.set('height', String(hVal));
       }
+      if (pkgType === 'medicine') {
+        qs.set('medicineType', medicineType);
+        qs.set('medicinePackaging', medicinePackaging);
+        qs.set('medicineSupplyDays', String(medicineSupplyDays));
+      }
       const res = await fetch(`/api/rates?${qs.toString()}`);
       const data = await res.json().catch(() => null);
       if (res.ok && data && data.ok && Array.isArray(data.serviceTiers)) {
         const q = data.query || {};
-        const expressTier = data.serviceTiers.find(t => t.tierId === 'express') || data.serviceTiers[0];
-        if (expressTier && expressTier.priceDisplay) {
+        const activeTier = matchSelectedServiceTier(data.serviceTiers, selectedTierVal);
+        if (activeTier && activeTier.priceDisplay) {
           const shortZone = q.zone ? String(q.zone).split('(')[0].replace(/•.*$/, '').trim() : '';
           const chgKg = q.chargeableWeightKg || chargeableKg;
-          const wtStr = (unit === 'kg' && Number(chgKg) === Number(weight))
-            ? `${chgKg} kg`
-            : `${chgKg} kg (${weight} ${escapeHtml(unit)})`;
+          const srvActualKg = q.actualWeightKg || actualKg;
+          const srvVolKg = (q.volumetricWeightKg !== null && q.volumetricWeightKg !== undefined) ? q.volumetricWeightKg : volKg;
+          const srvBasis = (srvVolKg !== null && Number(srvVolKg) > Number(srvActualKg)) ? 'Volumetric' : 'Actual';
+          const wtStr = qty > 1
+            ? `${chgKg} kg (${srvBasis} • ${qty} × ${weight} ${escapeHtml(unit)})`
+            : (srvVolKg !== null
+              ? `${chgKg} kg (${srvBasis} Wt billed)`
+              : (unit === 'kg' && Number(chgKg) === Number(weight)
+                ? `${chgKg} kg`
+                : `${chgKg} kg (${weight} ${escapeHtml(unit)})`));
           summaryBox.innerHTML = `
             <div class="summary-row"><span>Corridor</span><strong>${escapeHtml(appState.fromCountry.name)} ➔ ${escapeHtml(appState.toCountry.name)}${shortZone ? ` (${escapeHtml(shortZone)})` : ''}</strong></div>
             <div class="summary-row"><span>Service &amp; Chargeable Wt</span><strong>${escapeHtml(pkgLabel)}${qtyBadge ? ` (${escapeHtml(qtyBadge)})` : ''} • ${wtStr}</strong></div>
             ${categoryLabel ? `<div class="summary-row"><span>Details</span><strong>${escapeHtml(categoryLabel)}</strong></div>` : ''}
-            ${volKg !== null ? `<div class="summary-row"><span>Volumetric Weight</span><strong>${volKg} kg (${qty}×${lVal}×${wVal}×${hVal} cm)</strong></div>` : ''}
-            <div class="summary-row total"><span>Estimated Express Quote</span><strong style="color:var(--primary-red); font-size:1.05rem;">${escapeHtml(expressTier.priceDisplay)}</strong></div>
+            ${medicinePackaging ? `<div class="summary-row"><span>Medical Packaging</span><strong>${escapeHtml(medicinePackaging)}${activeTier.specialHandlingInr ? ` (+₹${Number(activeTier.specialHandlingInr).toLocaleString('en-IN')})` : ''}</strong></div>` : ''}
+            ${srvVolKg !== null ? `<div class="summary-row"><span>Weight Comparison</span><strong>Actual: ${srvActualKg} kg | Vol: ${srvVolKg} kg (${qty}×${lVal}×${wVal}×${hVal}÷${divisor})</strong></div>` : ''}
+            <div class="summary-row"><span>Selected Tier</span><strong>${escapeHtml(activeTier.name)} (${escapeHtml(activeTier.transitTime)})</strong></div>
+            <div class="summary-row total"><span>Estimated Quote (${escapeHtml(activeTier.name)})</span><strong style="color:var(--primary-red); font-size:1.05rem;">${escapeHtml(activeTier.priceDisplay)}</strong></div>
           `;
         }
-        servicesListBox.innerHTML = renderServiceTierCardsHtml(data.serviceTiers, 'stdQuoteServiceTier');
+        servicesListBox.innerHTML = renderServiceTierCardsHtml(data.serviceTiers, 'stdQuoteServiceTier', activeTier ? activeTier.name : '');
       } else if (data && data.error) {
         servicesListBox.innerHTML = `<p class="quote-inline-error">${escapeHtml(data.error)}</p>`;
       }

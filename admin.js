@@ -34,6 +34,16 @@ function statusPillClass(status) {
   return 'pending';
 }
 
+function compactStatusLabel(status) {
+  const raw = String(status || 'Pending').trim();
+  const s = raw.toLowerCase();
+  if (s.includes('scheduled')) return 'Scheduled';
+  if (s.includes('courier assigned')) return 'Assigned';
+  if (s.includes('pending')) return 'Pending';
+  if (s.includes('under review')) return 'In Review';
+  return raw;
+}
+
 // Route table mapping every sidebar link & submenu item
 const ADMIN_ROUTES = {
   '/admin': { section: 'dashboard', parent: null, title: 'Dashboard', sub: 'Overview of your logistics operations' },
@@ -454,6 +464,17 @@ function renderCurrentRouteView() {
     default:
       dynamicView.innerHTML = '';
   }
+
+  requestAnimationFrame(() => {
+    const activePill = dynamicView.querySelector('.adm-subpill.active');
+    if (activePill && activePill.parentElement) {
+      const strip = activePill.parentElement;
+      if (strip.scrollWidth > strip.clientWidth) {
+        const targetLeft = activePill.offsetLeft - (strip.clientWidth - activePill.offsetWidth) / 2;
+        strip.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+      }
+    }
+  });
 }
 
 /* ==========================================================================
@@ -506,13 +527,17 @@ function renderRecentBookings(filterText = '') {
 
   container.innerHTML = rows.map(item => `
     <div class="adm-booking-row">
-      <span class="adm-trk-code">${esc(item.trackingNo)}</span>
-      <span class="adm-country-inline">
-        <span class="adm-flag-sm">${ADM_FLAGS[item.toCode] || ADM_FLAGS.US}</span>
-        <span>${esc(item.toCountry)}</span>
-      </span>
-      <span class="adm-status-pill ${statusPillClass(item.status)}">${esc(item.status)}</span>
-      <span class="adm-time-ago">${esc(item.timeAgo || 'Recently')}</span>
+      <div class="adm-booking-main">
+        <span class="adm-trk-code">${esc(item.trackingNo)}</span>
+        <span class="adm-country-inline">
+          <span class="adm-flag-sm">${ADM_FLAGS[item.toCode] || ADM_FLAGS.US}</span>
+          <span class="adm-country-name">${esc(item.toCountry)}</span>
+        </span>
+      </div>
+      <div class="adm-booking-meta">
+        <span class="adm-status-pill ${statusPillClass(item.status)}" title="${esc(item.status)}">${esc(compactStatusLabel(item.status))}</span>
+        <span class="adm-time-ago">${esc(item.timeAgo || 'Recently')}</span>
+      </div>
     </div>
   `).join('');
 }
@@ -760,7 +785,7 @@ function renderShipmentsSection(container, subView) {
           <div><strong>Booked Date</strong>${esc(selShp.date)}</div>
         </div>
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
+      <div class="adm-banner-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="inspectShipment('${esc(selShp.trackingNo)}')">Track Timeline</button>
         <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="clearSelectedSearchRecord()">Show All Shipments</button>
       </div>
@@ -781,39 +806,41 @@ function renderShipmentsSection(container, subView) {
           <button type="button" class="adm-btn-new" onclick="navigateAdmin('/admin/shipments/create')">+ Create Shipment</button>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Tracking No.</th>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Origin</th>
-              <th>Destination</th>
-              <th>Type</th>
-              <th>Weight</th>
-              <th>Carrier</th>
-              <th>Status</th>
-              <th>Update Status</th>
+              <th style="width:19%; text-align:left;">Tracking No.</th>
+              <th style="width:21%; text-align:left;">Customer</th>
+              <th style="width:22%; text-align:left;">Route</th>
+              <th style="width:13%; text-align:left;">Package</th>
+              <th style="width:11%; text-align:left;">Status</th>
+              <th style="width:14%; text-align:left;">Update Status</th>
             </tr>
           </thead>
           <tbody>
-            ${pageItems.length === 0 ? `<tr><td colspan="10" style="text-align:center; padding:24px; color:#64748B;">No shipments match the current filter.</td></tr>` : pageItems.map(item => `
+            ${pageItems.length === 0 ? `<tr><td colspan="6" style="text-align:center; padding:24px; color:#64748B;">No shipments match the current filter.</td></tr>` : pageItems.map(item => `
               <tr>
-                <td><strong class="adm-trk-code">${esc(item.trackingNo)}</strong></td>
-                <td>${esc(item.date)}</td>
-                <td>
-                  <strong>${esc(item.customer)}</strong>
-                  ${item.phone ? `<div style="font-size:11px; color:#64748B;">${esc(item.phone)}</div>` : ''}
+                <td class="adm-cell-ellipsis">
+                  <strong class="adm-trk-code">${esc(item.trackingNo)}</strong>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(item.date)}</div>
                 </td>
-                <td><span class="adm-country-inline"><span class="adm-flag-sm">${ADM_FLAGS[item.fromCode] || ADM_FLAGS.IN}</span>${esc(item.fromCountry)}</span></td>
-                <td><span class="adm-country-inline"><span class="adm-flag-sm">${ADM_FLAGS[item.toCode] || ADM_FLAGS.US}</span>${esc(item.toCountry)}</span></td>
-                <td>${esc(item.type)}</td>
-                <td>${esc(item.weight)}</td>
-                <td><strong>${esc(item.carrier || 'DHL')}</strong></td>
+                <td class="adm-cell-ellipsis">
+                  <strong>${esc(item.customer)}</strong>
+                  ${item.phone ? `<div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(item.phone)}</div>` : ''}
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(item.fromCountry)} → ${esc(item.toCountry)}">
+                  <span class="adm-country-inline"><span class="adm-flag-sm">${ADM_FLAGS[item.fromCode] || ADM_FLAGS.IN}</span>${esc(item.fromCountry)}</span>
+                  <span style="color:#94A3B8; margin:0 4px;">→</span>
+                  <span class="adm-country-inline"><span class="adm-flag-sm">${ADM_FLAGS[item.toCode] || ADM_FLAGS.US}</span>${esc(item.toCountry)}</span>
+                </td>
+                <td class="adm-cell-ellipsis">
+                  <strong>${esc(item.type)}</strong>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(item.weight)}</div>
+                </td>
                 <td><span class="adm-status-pill ${statusPillClass(item.status)}">${esc(item.status)}</span></td>
                 <td>
-                  <select class="adm-inline-select" onchange="updateShipmentStatusInline('${esc(item.trackingNo)}', this.value)">
+                  <select class="adm-inline-select" style="width:100%; max-width:120px;" onchange="updateShipmentStatusInline('${esc(item.trackingNo)}', this.value)">
                     ${['Booked', 'Pending', 'In Transit', 'Delivered', 'Cancelled'].map(st => `<option value="${st}" ${item.status === st ? 'selected' : ''}>${st}</option>`).join('')}
                   </select>
                 </td>
@@ -982,6 +1009,19 @@ function renderTrackingSection(container, subView) {
   const pageKey = subView === 'delivery-status' ? 'delivery-status' : 'tracking-history';
   const { pageItems, page, pageSize, totalPages, startIdx, endIdx, totalCount } = getPaginatedSlice(pageKey, filteredEvents, 5);
 
+  const formatShortStatus = (raw) => {
+    const s = String(raw || 'Pending').trim();
+    const lower = s.toLowerCase();
+    if (lower.includes('pending courier') || lower.includes('scheduled')) return 'Pending Pickup';
+    if (lower.includes('quote')) return 'Quote Pending';
+    if (lower.includes('out for delivery')) return 'Out for Delivery';
+    if (lower.includes('in transit')) return 'In Transit';
+    if (lower.includes('delivered')) return 'Delivered';
+    if (lower.includes('cancel')) return 'Cancelled';
+    if (lower.includes('booked')) return 'Booked';
+    return s.length > 20 ? s.split(/[—–-]/)[0].trim() : s;
+  };
+
   container.innerHTML = `
     ${tabsHtml}
     <div class="adm-card">
@@ -994,33 +1034,27 @@ function renderTrackingSection(container, subView) {
           </select>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Tracking No.</th>
-              <th>Customer</th>
-              <th>Destination</th>
-              <th>Carrier</th>
-              <th>Scan Timestamp</th>
-              <th>Scan Location</th>
-              <th>Milestone Description</th>
-              <th>Status</th>
+              <th style="width:22%; text-align:left;">Tracking No.</th>
+              <th style="width:24%; text-align:left;">Customer</th>
+              <th style="width:19%; text-align:left;">Destination</th>
+              <th style="width:18%; text-align:left;">Date &amp; Time</th>
+              <th style="width:17%; text-align:left;">Status</th>
             </tr>
           </thead>
           <tbody>
             ${pageItems.length ? pageItems.map(ev => `
-              <tr>
-                <td><strong class="adm-trk-code">${esc(ev.trackingNo)}</strong></td>
-                <td>${esc(ev.customer)}</td>
-                <td>${esc(ev.toCountry)}</td>
-                <td>${esc(ev.carrier || 'DHL')}</td>
-                <td>${esc(ev.timestamp)}</td>
-                <td>${esc(ev.location)}</td>
-                <td class="adm-desc-cell">${esc(ev.description)}</td>
-                <td><span class="adm-status-pill ${statusPillClass(ev.status)}">${esc(ev.status)}</span></td>
+              <tr title="${esc([ev.location, ev.description].filter(Boolean).join(' — '))}">
+                <td class="adm-cell-ellipsis"><strong class="adm-trk-code">${esc(ev.trackingNo)}</strong></td>
+                <td class="adm-cell-ellipsis">${esc(ev.customer)}</td>
+                <td class="adm-cell-ellipsis">${esc(ev.toCountry)}</td>
+                <td class="adm-cell-muted">${esc(ev.timestamp)}</td>
+                <td style="text-align:left;"><span class="adm-status-pill ${statusPillClass(ev.status)}" title="${esc(ev.status)}">${esc(formatShortStatus(ev.status))}</span></td>
               </tr>
-            `).join('') : `<tr><td colspan="8" style="text-align:center; padding:24px; color:#64748B;">No tracking events match your search.</td></tr>`}
+            `).join('') : `<tr><td colspan="5" style="text-align:center; padding:24px; color:#64748B;">No tracking events match your search.</td></tr>`}
           </tbody>
         </table>
       </div>
@@ -1353,7 +1387,7 @@ function renderBookingsSection(container, subView) {
           <div><strong>Booking Date</strong>${esc(selBk.date)}</div>
         </div>
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
+      <div class="adm-banner-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="inspectShipment('${esc(selBk.ref)}')">Track Reference</button>
         <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="clearSelectedSearchRecord()">Show All Bookings</button>
       </div>
@@ -1374,39 +1408,54 @@ function renderBookingsSection(container, subView) {
           <button type="button" class="adm-btn-new" onclick="navigateAdmin('/admin/bookings/new')">+ New Booking</button>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Booking Ref</th>
-              <th>Booking Type</th>
-              <th>Customer</th>
-              <th>Contact</th>
-              <th>Route</th>
-              <th>Package Details</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Update Status</th>
+              <th style="width:18%; text-align:left;">Booking Ref</th>
+              <th style="width:21%; text-align:left;">Customer</th>
+              <th style="width:18%; text-align:left;">Route</th>
+              <th style="width:15%; text-align:left;">Package</th>
+              <th style="width:13%; text-align:left;">Status</th>
+              <th style="width:15%; text-align:left;">Update Status</th>
             </tr>
           </thead>
           <tbody>
-            ${pageItems.length === 0 ? `<tr><td colspan="9" style="text-align:center; padding:24px; color:#64748B;">No bookings in this view.</td></tr>` : pageItems.map(b => `
+            ${pageItems.length === 0 ? `<tr><td colspan="6" style="text-align:center; padding:24px; color:#64748B;">No bookings in this view.</td></tr>` : pageItems.map(b => {
+              const shortBookingStatus = (raw) => {
+                const s = String(raw || 'Pending').trim();
+                const l = s.toLowerCase();
+                if (l.includes('courier assigned')) return 'Courier Assigned';
+                if (l.includes('pending courier') || l.includes('scheduled')) return 'Pending Pickup';
+                if (l.includes('quote')) return 'Quote Pending';
+                if (l.includes('picked up')) return 'Picked Up';
+                if (l.includes('in transit')) return 'In Transit';
+                if (l.includes('delivered')) return 'Delivered';
+                if (l.includes('approved')) return 'Approved';
+                if (l.includes('cancel')) return 'Cancelled';
+                return s.length > 18 ? s.split(/[—–-]/)[0].trim() : s;
+              };
+              const cleanDetails = String(b.details || '—').replace(/\s*\(\d{4}-\d{2}-\d{2}[^)]*\)/g, '').trim();
+              return `
               <tr>
-                <td><strong class="adm-trk-code">${esc(b.ref)}</strong></td>
-                <td>${esc(b.type)}</td>
-                <td><strong>${esc(b.customer)}</strong></td>
-                <td>${esc(b.contact || '—')}</td>
-                <td>${esc(b.route)}</td>
-                <td>${esc(b.details)}</td>
-                <td>${esc(b.date)}</td>
-                <td><span class="adm-status-pill ${statusPillClass(b.status)}">${esc(b.status)}</span></td>
-                <td>
-                  <select class="adm-inline-select" onchange="updateUnifiedRecordStatus('${esc(b.ref)}', this.value)">
-                    ${['Pending', 'Courier Assigned', 'Picked Up', 'In Transit', 'Delivered', 'Approved', 'Cancelled'].map(st => `<option value="${st}" ${b.status === st ? 'selected' : ''}>${st}</option>`).join('')}
+                <td class="adm-cell-ellipsis" title="${esc(b.ref)} • ${esc(b.type)} • ${esc(b.date)}">
+                  <strong class="adm-trk-code">${esc(b.ref)}</strong>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(b.type)} • ${esc(b.date)}</div>
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(b.customer)} ${esc(b.contact || '')}">
+                  <strong>${esc(b.customer)}</strong>
+                  ${b.contact ? `<div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(b.contact)}</div>` : ''}
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(b.route)}">${esc(b.route)}</td>
+                <td class="adm-cell-ellipsis" title="${esc(b.details || '')}">${esc(cleanDetails)}</td>
+                <td style="text-align:left;"><span class="adm-status-pill ${statusPillClass(b.status)}" title="${esc(b.status)}">${esc(shortBookingStatus(b.status))}</span></td>
+                <td style="text-align:left;">
+                  <select class="adm-inline-select" style="width:100%; max-width:132px;" onchange="updateUnifiedRecordStatus('${esc(b.ref)}', this.value)">
+                    ${['Pending', 'Courier Assigned', 'Picked Up', 'In Transit', 'Delivered', 'Approved', 'Cancelled'].map(st => `<option value="${st}" ${b.status === st || shortBookingStatus(b.status) === st ? 'selected' : ''}>${st}</option>`).join('')}
                   </select>
                 </td>
-              </tr>
-            `).join('')}
+              </tr>`;
+            }).join('')}
           </tbody>
         </table>
       </div>
@@ -1614,7 +1663,7 @@ function renderCustomersSection(container) {
           <div><strong>Total Shipments</strong>${esc(selCust.shipmentsCount)}</div>
         </div>
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
+      <div class="adm-banner-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="clearSelectedSearchRecord()">Show All Customers</button>
       </div>
     </div>
@@ -1632,35 +1681,35 @@ function renderCustomersSection(container) {
           </select>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Customer ID</th>
-              <th>Full Name</th>
-              <th>Company / Account Type</th>
-              <th>Email Address</th>
-              <th>Phone</th>
-              <th>KYC / GSTIN</th>
-              <th>Corridor / Route</th>
-              <th>Shipments</th>
-              <th>Status</th>
+              <th style="width:23%; text-align:left;">Customer</th>
+              <th style="width:24%; text-align:left;">Contact</th>
+              <th style="width:17%; text-align:left;">KYC / GSTIN</th>
+              <th style="width:17%; text-align:left;">Route</th>
+              <th style="width:9%; text-align:left;">Orders</th>
+              <th style="width:10%; text-align:left;">Status</th>
             </tr>
           </thead>
           <tbody>
-            ${pageItems.map(c => `
+            ${pageItems.length ? pageItems.map(c => `
               <tr>
-                <td><strong class="adm-trk-code">${esc(c.id)}</strong></td>
-                <td><strong>${esc(c.name)}</strong></td>
-                <td>${esc(c.company)} <span style="color:#64748B; font-size:11px;">(${esc(c.type)})</span></td>
-                <td>${esc(c.email)}</td>
-                <td>${esc(c.phone)}</td>
-                <td>${esc(c.gstin)}</td>
-                <td>${esc(c.lastRoute)}</td>
-                <td><strong>${c.shipmentsCount}</strong></td>
-                <td><span class="adm-status-pill ${statusPillClass(c.status)}">${esc(c.status)}</span></td>
+                <td class="adm-cell-ellipsis" title="${esc(c.name)} (${esc(c.id)} • ${esc(c.company)} / ${esc(c.type)})">
+                  <strong>${esc(c.name)}</strong>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(c.id)} • ${esc(c.type)}</div>
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(c.email)} • ${esc(c.phone)}">
+                  <div class="adm-cell-ellipsis" style="color:#1E293B;">${esc(c.email)}</div>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(c.phone)}</div>
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(c.gstin)}">${esc(c.gstin)}</td>
+                <td class="adm-cell-ellipsis" title="${esc(c.lastRoute)}">${esc(c.lastRoute)}</td>
+                <td style="text-align:left;"><strong>${c.shipmentsCount}</strong></td>
+                <td style="text-align:left;"><span class="adm-status-pill ${statusPillClass(c.status)}" title="${esc(c.status)}">${esc(c.status)}</span></td>
               </tr>
-            `).join('')}
+            `).join('') : `<tr><td colspan="6" style="text-align:center; padding:24px; color:#64748B;">No customers match your search.</td></tr>`}
           </tbody>
         </table>
       </div>
@@ -1695,7 +1744,7 @@ function renderRatesSection(container, subView) {
       <div class="adm-card">
         <div class="adm-card-header">
           <h2 class="adm-card-title">Admin Chargeable Weight &amp; Service Tier Calculator (/api/rates)</h2>
-          <div style="display:flex; gap:8px;">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="setAdminCalcDimensions(35, 25, 20)">Sample Box (35×25×20 cm)</button>
             <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="setAdminCalcDimensions('', '', '')">Clear Dimensions</button>
           </div>
@@ -1786,28 +1835,29 @@ function renderRatesSection(container, subView) {
             </select>
           </div>
         </div>
-        <div class="adm-table-wrap">
-          <table class="adm-table">
+        <div class="adm-table-wrap-noflow">
+          <table class="adm-table adm-table-fit">
             <thead>
               <tr>
-                <th>Category Key</th>
-                <th>Display Label</th>
-                <th>Max Weight (kg)</th>
-                <th>Volumetric Divisor</th>
-                <th>Compliance &amp; Packaging Rule</th>
-                <th>Action</th>
+                <th style="width:18%; text-align:left;">Category</th>
+                <th style="width:13%; text-align:left;">Max Weight</th>
+                <th style="width:18%; text-align:left;">Volumetric</th>
+                <th style="width:38%; text-align:left;">Compliance Rule</th>
+                <th style="width:13%; text-align:left;">Action</th>
               </tr>
             </thead>
             <tbody>
               ${pageItems.map(([k, r]) => `
                 <tr>
-                  <td><strong class="adm-trk-code">${esc(k)}</strong></td>
-                  <td><strong>${esc(r.label)}</strong></td>
-                  <td>${esc(r.maxWeightKg)} kg</td>
-                  <td>L × W × H ÷ ${esc(r.volumetricDivisor)}</td>
-                  <td class="adm-desc-cell" style="max-width:440px;">${esc(r.ruleNote)}</td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.label)} (${esc(k)})">
+                    <strong>${esc(r.label)}</strong>
+                    <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(k)}</div>
+                  </td>
+                  <td><strong>${esc(r.maxWeightKg)} kg</strong></td>
+                  <td class="adm-cell-muted">L×W×H ÷ ${esc(r.volumetricDivisor)}</td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.ruleNote)}">${esc(r.ruleNote)}</td>
                   <td>
-                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="editPricingRule('${esc(k)}')">Edit Rule</button>
+                    <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center;" onclick="editPricingRule('${esc(k)}')">Edit Rule</button>
                   </td>
                 </tr>
               `).join('')}
@@ -1865,17 +1915,15 @@ function renderRatesSection(container, subView) {
             </select>
           </div>
         </div>
-        <div class="adm-table-wrap">
-          <table class="adm-table">
+        <div class="adm-table-wrap-noflow">
+          <table class="adm-table adm-table-fit">
             <thead>
               <tr>
-                <th>Charge Code</th>
-                <th>Surcharge Name</th>
-                <th>Calculation Type</th>
-                <th>Rate / Fee</th>
-                <th>Applies To</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th style="width:36%; text-align:left;">Surcharge</th>
+                <th style="width:17%; text-align:left;">Rate / Fee</th>
+                <th style="width:24%; text-align:left;">Applies To</th>
+                <th style="width:11%; text-align:left;">Status</th>
+                <th style="width:12%; text-align:left;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -1883,17 +1931,18 @@ function renderRatesSection(container, subView) {
                 const st = c.status || 'Active';
                 return `
                 <tr>
-                  <td><strong class="adm-trk-code">${esc(c.id)}</strong></td>
-                  <td><strong>${esc(c.name)}</strong></td>
-                  <td>${esc(c.type)}</td>
-                  <td><strong>${esc(c.amount)}</strong></td>
-                  <td>${esc(c.appliesTo)}</td>
-                  <td><span class="adm-status-pill ${statusPillClass(st)}">${esc(st)}</span></td>
+                  <td class="adm-cell-ellipsis" title="${esc(c.name)} (${esc(c.id)} • ${esc(c.type)})">
+                    <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(c.name)}</div>
+                    <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(c.id)} • ${esc(c.type)}</div>
+                  </td>
+                  <td class="adm-cell-ellipsis" title="${esc(c.amount)}"><strong>${esc(c.amount)}</strong></td>
+                  <td class="adm-cell-ellipsis" title="${esc(c.appliesTo)}">${esc(c.appliesTo)}</td>
+                  <td style="text-align:left;"><span class="adm-status-pill ${statusPillClass(st)}">${esc(st)}</span></td>
                   <td>
-                    <div class="adm-action-stack">
-                      <button type="button" class="adm-action-btn edit" onclick="editAdditionalCharge('${esc(c.id)}')">Edit</button>
-                      <button type="button" class="adm-action-btn pause" onclick="toggleAdditionalChargeStatus('${esc(c.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
-                      <button type="button" class="adm-action-btn delete" onclick="deleteAdditionalChargeItem('${esc(c.id)}')">Delete</button>
+                    <div style="display:flex; flex-direction:column; gap:4px; max-width:86px;">
+                      <button type="button" class="adm-action-btn edit" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="editAdditionalCharge('${esc(c.id)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="toggleAdditionalChargeStatus('${esc(c.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
+                      <button type="button" class="adm-action-btn delete" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="deleteAdditionalChargeItem('${esc(c.id)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -1986,33 +2035,33 @@ function renderRatesSection(container, subView) {
             </select>
           </div>
         </div>
-        <div class="adm-table-wrap">
-          <table class="adm-table">
+        <div class="adm-table-wrap-noflow">
+          <table class="adm-table adm-table-fit">
             <thead>
               <tr>
-                <th>Rate Code</th>
-                <th>Corridor</th>
-                <th>Tariff Zone</th>
-                <th>Service Tier</th>
-                <th>Transit SLA</th>
-                <th>Base Rate (INR / kg)</th>
-                <th>Carrier</th>
-                <th>Status</th>
+                <th style="width:27%; text-align:left;">Corridor</th>
+                <th style="width:31%; text-align:left;">Service Tier &amp; Carrier</th>
+                <th style="width:14%; text-align:left;">Transit SLA</th>
+                <th style="width:16%; text-align:left;">Base Rate</th>
+                <th style="width:12%; text-align:left;">Status</th>
               </tr>
             </thead>
             <tbody>
-              ${pageItems.map(r => `
+              ${pageItems.length ? pageItems.map(r => `
                 <tr>
-                  <td><strong class="adm-trk-code">${esc(r.code)}</strong></td>
-                  <td><span class="adm-country-inline"><span class="adm-flag-sm">${ADM_FLAGS[r.countryCode] || ADM_FLAGS.US}</span><strong>${esc(r.corridor)}</strong></span></td>
-                  <td>${esc(r.zone)}</td>
-                  <td>${esc(r.tier)}</td>
-                  <td>${esc(r.transit)}</td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.corridor)} (${esc(r.code)} • ${esc(r.zone)})">
+                    <span class="adm-country-inline"><span class="adm-flag-sm">${ADM_FLAGS[r.countryCode] || ADM_FLAGS.US}</span><strong>${esc(r.corridor)}</strong></span>
+                    <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(r.code)} • ${esc(r.zone)}</div>
+                  </td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.tier)} — ${esc(r.carrier)}">
+                    <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(r.tier)}</div>
+                    <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(r.carrier)}</div>
+                  </td>
+                  <td class="adm-cell-muted">${esc(r.transit)}</td>
                   <td><strong>₹ ${esc(r.rateInr)} / kg</strong></td>
-                  <td>${esc(r.carrier)}</td>
-                  <td><span class="adm-status-pill ${statusPillClass(r.status)}">${esc(r.status)}</span></td>
+                  <td style="text-align:left;"><span class="adm-status-pill ${statusPillClass(r.status)}">${esc(r.status)}</span></td>
                 </tr>
-              `).join('')}
+              `).join('') : `<tr><td colspan="5" style="text-align:center; padding:24px; color:#64748B;">No shipping rates match your search.</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -2038,18 +2087,15 @@ function renderRatesSection(container, subView) {
           </select>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Plan ID</th>
-              <th>Service Tier Name</th>
-              <th>Transit SLA</th>
-              <th>Base Tariff (INR / kg)</th>
-              <th>Weight Range</th>
-              <th>Assigned Carriers</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th style="width:36%; text-align:left;">Service Tier</th>
+              <th style="width:22%; text-align:left;">Transit &amp; Range</th>
+              <th style="width:18%; text-align:left;">Base Tariff</th>
+              <th style="width:11%; text-align:left;">Status</th>
+              <th style="width:13%; text-align:left;">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -2057,18 +2103,21 @@ function renderRatesSection(container, subView) {
               const st = p.status || 'Active';
               return `
               <tr>
-                <td><strong class="adm-trk-code">${esc(p.id)}</strong></td>
-                <td><strong>${esc(p.name)}</strong></td>
-                <td>${esc(p.transit)}</td>
+                <td class="adm-cell-ellipsis" title="${esc(p.name)} (${esc(p.id)} • ${esc(p.carrier)})">
+                  <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(p.name)}</div>
+                  <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(p.id)} • ${esc(p.carrier)}</div>
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(p.transit)} • ${esc(p.minWeightKg)}–${esc(p.maxWeightKg)} kg">
+                  <div>${esc(p.transit)}</div>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(p.minWeightKg)} – ${esc(p.maxWeightKg)} kg</div>
+                </td>
                 <td><strong>₹ ${esc(p.baseInrPerKg)} / kg</strong></td>
-                <td>${esc(p.minWeightKg)} – ${esc(p.maxWeightKg)} kg</td>
-                <td>${esc(p.carrier)}</td>
-                <td><span class="adm-status-pill ${statusPillClass(st)}">${esc(st)}</span></td>
+                <td style="text-align:left;"><span class="adm-status-pill ${statusPillClass(st)}">${esc(st)}</span></td>
                 <td>
-                  <div class="adm-action-stack">
-                    <button type="button" class="adm-action-btn edit" onclick="editRatePlanItem('${esc(p.id)}')">Edit</button>
-                    <button type="button" class="adm-action-btn pause" onclick="toggleRatePlanStatus('${esc(p.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
-                    <button type="button" class="adm-action-btn delete" onclick="deleteRatePlanItem('${esc(p.id)}')">Delete</button>
+                  <div style="display:flex; flex-direction:column; gap:4px; max-width:86px;">
+                    <button type="button" class="adm-action-btn edit" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="editRatePlanItem('${esc(p.id)}')">Edit</button>
+                    <button type="button" class="adm-action-btn pause" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="toggleRatePlanStatus('${esc(p.id)}')">${st === 'Active' ? 'Pause' : 'Activate'}</button>
+                    <button type="button" class="adm-action-btn delete" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="deleteRatePlanItem('${esc(p.id)}')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -2476,32 +2525,34 @@ function renderPartnersSection(container) {
           </select>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Partner ID</th>
-              <th>Carrier Name</th>
-              <th>Assigned Shipments</th>
-              <th>On-Time SLA</th>
-              <th>Service Corridors</th>
-              <th>API / Manifest Status</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th style="width:25%; text-align:left;">Carrier</th>
+              <th style="width:14%; text-align:left;">Shipments / SLA</th>
+              <th style="width:25%; text-align:left;">Service Corridors</th>
+              <th style="width:15%; text-align:left;">API Status</th>
+              <th style="width:10%; text-align:left;">Status</th>
+              <th style="width:11%; text-align:left;">Action</th>
             </tr>
           </thead>
           <tbody>
             ${pageItems.map(p => `
               <tr>
-                <td><strong class="adm-trk-code">${esc(p.id)}</strong></td>
-                <td><strong>${esc(p.name)}</strong> <span style="color:#64748B;">(${esc(p.code)})</span></td>
-                <td><strong>${p.shipments}</strong></td>
-                <td><strong>${p.onTimePct}%</strong></td>
-                <td>${esc(p.serviceZones)}</td>
-                <td>${esc(p.apiStatus)}</td>
-                <td><span class="adm-status-pill ${p.enabled ? 'delivered' : 'pending'}">${p.enabled ? 'Enabled' : 'Disabled'}</span></td>
+                <td class="adm-cell-ellipsis" title="${esc(p.name)} (${esc(p.id)} • ${esc(p.code)})">
+                  <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(p.name)}</div>
+                  <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(p.id)} • ${esc(p.code)}</div>
+                </td>
+                <td class="adm-cell-ellipsis">
+                  <strong>${p.shipments}</strong>
+                  <div style="font-size:11px; color:#64748B; margin-top:2px;">${p.onTimePct}% SLA</div>
+                </td>
+                <td class="adm-cell-ellipsis" title="${esc(p.serviceZones)}">${esc(p.serviceZones)}</td>
+                <td class="adm-cell-ellipsis" title="${esc(p.apiStatus)}">${esc(p.apiStatus)}</td>
+                <td style="text-align:left;"><span class="adm-status-pill ${p.enabled ? 'delivered' : 'pending'}">${p.enabled ? 'Enabled' : 'Disabled'}</span></td>
                 <td>
-                  <button type="button" class="adm-btn-secondary" style="height:30px; padding:0 12px; font-size:12px; white-space:nowrap; flex-shrink:0; width:max-content; display:inline-flex; align-items:center; justify-content:center;" onclick="togglePartnerStatus('${esc(p.id)}')">
+                  <button type="button" class="adm-btn-secondary" style="height:28px; padding:0 10px; font-size:11.5px; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center;" onclick="togglePartnerStatus('${esc(p.id)}')">
                     ${p.enabled ? 'Disable' : 'Enable'}
                   </button>
                 </td>
@@ -2603,17 +2654,15 @@ function renderLocationsSection(container, subView) {
             </select>
           </div>
         </div>
-        <div class="adm-table-wrap">
-          <table class="adm-table">
+        <div class="adm-table-wrap-noflow">
+          <table class="adm-table adm-table-fit">
             <thead>
               <tr>
-                <th>Region Code</th>
-                <th>Hub Region</th>
-                <th>States Covered</th>
-                <th>Gateway Airport</th>
-                <th>Daily Uplift Cutoff</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th style="width:25%; text-align:left;">Hub Region</th>
+                <th style="width:24%; text-align:left;">States Covered</th>
+                <th style="width:26%; text-align:left;">Gateway &amp; Cutoff</th>
+                <th style="width:11%; text-align:left;">Status</th>
+                <th style="width:14%; text-align:left;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -2621,17 +2670,21 @@ function renderLocationsSection(container, subView) {
                 const isActive = r.active !== false;
                 return `
                 <tr>
-                  <td><strong class="adm-trk-code">${esc(r.code)}</strong></td>
-                  <td><strong>${esc(r.name)}</strong></td>
-                  <td>${esc(r.state)}</td>
-                  <td>${esc(r.gatewayAirport)}</td>
-                  <td><strong>${esc(r.dailyCutoff)}</strong></td>
-                  <td><span class="adm-status-pill ${isActive ? 'delivered' : 'pending'}">${isActive ? 'Active' : 'Paused'}</span></td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.name)} (${esc(r.code)})">
+                    <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(r.name)}</div>
+                    <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(r.code)}</div>
+                  </td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.state)}">${esc(r.state)}</td>
+                  <td class="adm-cell-ellipsis" title="${esc(r.gatewayAirport)} • ${esc(r.dailyCutoff)}">
+                    <div class="adm-cell-ellipsis" style="color:#1E293B;">${esc(r.gatewayAirport)}</div>
+                    <div style="font-size:11px; color:#64748B; margin-top:2px;">Cutoff: <strong>${esc(r.dailyCutoff)}</strong></div>
+                  </td>
+                  <td style="text-align:left;"><span class="adm-status-pill ${isActive ? 'delivered' : 'pending'}">${isActive ? 'Active' : 'Paused'}</span></td>
                   <td>
-                    <div class="adm-action-stack">
-                      <button type="button" class="adm-action-btn edit" onclick="editGatewayRegion('${esc(r.code)}')">Edit</button>
-                      <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('regions', '${esc(r.code)}')">${isActive ? 'Pause' : 'Activate'}</button>
-                      <button type="button" class="adm-action-btn delete" onclick="deleteGatewayRegionItem('${esc(r.code)}')">Delete</button>
+                    <div style="display:flex; flex-direction:column; gap:4px; max-width:86px;">
+                      <button type="button" class="adm-action-btn edit" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="editGatewayRegion('${esc(r.code)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="toggleLocationService('regions', '${esc(r.code)}')">${isActive ? 'Pause' : 'Activate'}</button>
+                      <button type="button" class="adm-action-btn delete" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="deleteGatewayRegionItem('${esc(r.code)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -2701,33 +2754,35 @@ function renderLocationsSection(container, subView) {
             </select>
           </div>
         </div>
-        <div class="adm-table-wrap">
-          <table class="adm-table">
+        <div class="adm-table-wrap-noflow">
+          <table class="adm-table adm-table-fit">
             <thead>
               <tr>
-                <th>City</th>
-                <th>State</th>
-                <th>PIN Prefix</th>
-                <th>Hub Code</th>
-                <th>Same-Day Doorstep Pickup</th>
-                <th>Serviceability</th>
-                <th>Action</th>
+                <th style="width:23%; text-align:left;">City &amp; State</th>
+                <th style="width:22%; text-align:left;">PIN &amp; Hub</th>
+                <th style="width:26%; text-align:left;">Pickup SLA</th>
+                <th style="width:15%; text-align:left;">Status</th>
+                <th style="width:14%; text-align:left;">Actions</th>
               </tr>
             </thead>
             <tbody>
               ${pageItems.map(c => `
                 <tr>
-                  <td><strong>${esc(c.city)}</strong></td>
-                  <td>${esc(c.state)}</td>
-                  <td><code>${esc(c.pinPrefix)}</code></td>
-                  <td><strong class="adm-trk-code">${esc(c.hubCode)}</strong></td>
-                  <td>${c.sameDayPickup ? 'Available (Same-Day)' : 'Scheduled (Next-Day)'}</td>
-                  <td><span class="adm-status-pill ${c.serviceable ? 'delivered' : 'pending'}">${c.serviceable ? 'Serviceable' : 'Paused'}</span></td>
+                  <td class="adm-cell-ellipsis" title="${esc(c.city)}, ${esc(c.state)}">
+                    <strong>${esc(c.city)}</strong>
+                    <div style="font-size:11px; color:#64748B; margin-top:2px;">${esc(c.state)}</div>
+                  </td>
+                  <td class="adm-cell-ellipsis" title="${esc(c.pinPrefix)} • ${esc(c.hubCode)}">
+                    <code>${esc(c.pinPrefix)}</code>
+                    <div style="font-size:11px; color:#64748B; margin-top:2px;"><strong class="adm-trk-code">${esc(c.hubCode)}</strong></div>
+                  </td>
+                  <td class="adm-cell-ellipsis">${c.sameDayPickup ? 'Available (Same-Day)' : 'Scheduled (Next-Day)'}</td>
+                  <td style="text-align:left;"><span class="adm-status-pill ${c.serviceable ? 'delivered' : 'pending'}">${c.serviceable ? 'Serviceable' : 'Paused'}</span></td>
                   <td>
-                    <div class="adm-action-stack">
-                      <button type="button" class="adm-action-btn edit" onclick="editPickupCity('${esc(c.city)}')">Edit</button>
-                      <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('cities', '${esc(c.city)}')">${c.serviceable ? 'Pause' : 'Enable'}</button>
-                      <button type="button" class="adm-action-btn delete" onclick="deletePickupCityItem('${esc(c.city)}')">Delete</button>
+                    <div style="display:flex; flex-direction:column; gap:4px; max-width:86px;">
+                      <button type="button" class="adm-action-btn edit" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="editPickupCity('${esc(c.city)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="toggleLocationService('cities', '${esc(c.city)}')">${c.serviceable ? 'Pause' : 'Enable'}</button>
+                      <button type="button" class="adm-action-btn delete" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="deletePickupCityItem('${esc(c.city)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -2813,19 +2868,15 @@ function renderLocationsSection(container, subView) {
             </select>
           </div>
         </div>
-        <div class="adm-table-wrap">
-          <table class="adm-table">
+        <div class="adm-table-wrap-noflow">
+          <table class="adm-table adm-table-fit">
             <thead>
               <tr>
-                <th>Zone Code</th>
-                <th>Global Tariff Zone</th>
-                <th>Key Destination Countries</th>
-                <th>Express Transit SLA</th>
-                <th>Customs Clearance Regime</th>
-                <th>Primary Linehaul Carriers</th>
-                <th>PIN / ZIP Coverage</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th style="width:24%; text-align:left;">Tariff Zone</th>
+                <th style="width:26%; text-align:left;">Destinations</th>
+                <th style="width:26%; text-align:left;">Transit &amp; Carriers</th>
+                <th style="width:11%; text-align:left;">Status</th>
+                <th style="width:13%; text-align:left;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -2834,19 +2885,21 @@ function renderLocationsSection(container, subView) {
                 const zCode = z.code || 'ZONE-A';
                 return `
                 <tr>
-                  <td><strong class="adm-trk-code">${esc(zCode)}</strong></td>
-                  <td><strong>${esc(z.zone)}</strong></td>
-                  <td class="adm-desc-cell" style="max-width:260px;">${esc(z.countries)}</td>
-                  <td>${esc(z.transit)}</td>
-                  <td>${esc(z.customs)}</td>
-                  <td>${esc(z.carriers)}</td>
-                  <td><strong>${esc(z.coverage)}</strong></td>
-                  <td><span class="adm-status-pill ${isAct ? 'delivered' : 'pending'}">${isAct ? 'Active Zone' : 'Suspended'}</span></td>
+                  <td class="adm-cell-ellipsis" title="${esc(z.zone)} (${esc(zCode)} • ${esc(z.coverage)})">
+                    <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(z.zone)}</div>
+                    <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(zCode)} • ${esc(z.coverage)}</div>
+                  </td>
+                  <td class="adm-cell-ellipsis" title="${esc(z.countries)}">${esc(z.countries)}</td>
+                  <td class="adm-cell-ellipsis" title="${esc(z.transit)} • ${esc(z.carriers)} • ${esc(z.customs)}">
+                    <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(z.transit)}</div>
+                    <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(z.carriers)}</div>
+                  </td>
+                  <td style="text-align:left;"><span class="adm-status-pill ${isAct ? 'delivered' : 'pending'}">${isAct ? 'Active' : 'Suspended'}</span></td>
                   <td>
-                    <div class="adm-action-stack">
-                      <button type="button" class="adm-action-btn edit" onclick="editCoverageZone('${esc(zCode)}')">Edit</button>
-                      <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('coverageZones', '${esc(zCode)}')">${isAct ? 'Suspend' : 'Activate'}</button>
-                      <button type="button" class="adm-action-btn delete" onclick="deleteCoverageZoneItem('${esc(zCode)}')">Delete</button>
+                    <div style="display:flex; flex-direction:column; gap:4px; max-width:86px;">
+                      <button type="button" class="adm-action-btn edit" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="editCoverageZone('${esc(zCode)}')">Edit</button>
+                      <button type="button" class="adm-action-btn pause" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="toggleLocationService('coverageZones', '${esc(zCode)}')">${isAct ? 'Suspend' : 'Activate'}</button>
+                      <button type="button" class="adm-action-btn delete" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="deleteCoverageZoneItem('${esc(zCode)}')">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -2944,40 +2997,38 @@ function renderLocationsSection(container, subView) {
           </select>
         </div>
       </div>
-      <div class="adm-table-wrap">
-        <table class="adm-table">
+      <div class="adm-table-wrap-noflow">
+        <table class="adm-table adm-table-fit">
           <thead>
             <tr>
-              <th>Country</th>
-              <th>ISO Code</th>
-              <th>Global Tariff Zone</th>
-              <th>Express Transit SLA</th>
-              <th>Customs Clearance Mode</th>
-              <th>Shipments</th>
-              <th>Coverage Status</th>
-              <th>Action</th>
+              <th style="width:26%; text-align:left;">Country</th>
+              <th style="width:33%; text-align:left;">Transit &amp; Customs</th>
+              <th style="width:12%; text-align:left;">Shipments</th>
+              <th style="width:15%; text-align:left;">Status</th>
+              <th style="width:14%; text-align:left;">Actions</th>
             </tr>
           </thead>
           <tbody>
             ${countryItems.map(c => `
               <tr>
-                <td>
+                <td class="adm-cell-ellipsis" title="${esc(c.name)} (${esc(c.code)} • ${esc(c.zone)})">
                   <span class="adm-country-inline">
                     <span class="adm-flag-sm">${ADM_FLAGS[c.code] || ADM_FLAGS.US}</span>
                     <strong>${esc(c.name)}</strong>
                   </span>
+                  <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(c.code)} • ${esc(c.zone)}</div>
                 </td>
-                <td><strong class="adm-trk-code">${esc(c.code)}</strong></td>
-                <td>${esc(c.zone)}</td>
-                <td>${esc(c.transitDays)}</td>
-                <td>${esc(c.customsMode)}</td>
+                <td class="adm-cell-ellipsis" title="${esc(c.transitDays)} • ${esc(c.customsMode)}">
+                  <div class="adm-cell-ellipsis" style="font-weight:600; color:#1E293B;">${esc(c.transitDays)}</div>
+                  <div class="adm-cell-ellipsis" style="font-size:11px; color:#64748B; margin-top:2px;">${esc(c.customsMode)}</div>
+                </td>
                 <td><strong>${c.shipmentsCount || 0}</strong></td>
-                <td><span class="adm-status-pill ${c.serviceable ? 'delivered' : 'pending'}">${c.serviceable ? 'Active Coverage' : 'Suspended'}</span></td>
+                <td style="text-align:left;"><span class="adm-status-pill ${c.serviceable ? 'delivered' : 'pending'}">${c.serviceable ? 'Active' : 'Suspended'}</span></td>
                 <td>
-                  <div class="adm-action-stack">
-                    <button type="button" class="adm-action-btn edit" onclick="editDestinationCountry('${esc(c.code)}')">Edit</button>
-                    <button type="button" class="adm-action-btn pause" onclick="toggleLocationService('countries', '${esc(c.code)}')">${c.serviceable ? 'Suspend' : 'Activate'}</button>
-                    <button type="button" class="adm-action-btn delete" onclick="deleteDestinationCountryItem('${esc(c.code)}')">Delete</button>
+                  <div style="display:flex; flex-direction:column; gap:4px; max-width:86px;">
+                    <button type="button" class="adm-action-btn edit" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="editDestinationCountry('${esc(c.code)}')">Edit</button>
+                    <button type="button" class="adm-action-btn pause" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="toggleLocationService('countries', '${esc(c.code)}')">${c.serviceable ? 'Suspend' : 'Activate'}</button>
+                    <button type="button" class="adm-action-btn delete" style="padding:3px 8px; font-size:11.5px; width:100%;" onclick="deleteDestinationCountryItem('${esc(c.code)}')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -3735,34 +3786,34 @@ function renderSettingsSection(container, subView) {
         </div>
 
         <!-- Metric Counter Cards -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:14px; margin-bottom:26px;">
-          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Customer Pickups Synced</div>
-              <div id="statPickupsSynced" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.pickups || []).length} Bookings</div>
+        <div class="adm-sync-stats-grid">
+          <div class="adm-sync-stat-card">
+            <div class="adm-sync-stat-body">
+              <div class="adm-sync-stat-label">Customer Pickups Synced</div>
+              <div id="statPickupsSynced" class="adm-sync-stat-val">${(admState.pickups || []).length} Bookings</div>
             </div>
-            <div style="width:40px; height:40px; border-radius:10px; background:#EFF6FF; color:#2563EB; display:flex; align-items:center; justify-content:center; font-size:18px;">📦</div>
+            <div class="adm-sync-stat-ico" style="background:#EFF6FF; color:#2563EB;">📦</div>
           </div>
-          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Customer Quotes Logged</div>
-              <div id="statQuotesLogged" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.quotes || []).length} Inquiries</div>
+          <div class="adm-sync-stat-card">
+            <div class="adm-sync-stat-body">
+              <div class="adm-sync-stat-label">Customer Quotes Logged</div>
+              <div id="statQuotesLogged" class="adm-sync-stat-val">${(admState.quotes || []).length} Inquiries</div>
             </div>
-            <div style="width:40px; height:40px; border-radius:10px; background:#FEF3C7; color:#D97706; display:flex; align-items:center; justify-content:center; font-size:18px;">💬</div>
+            <div class="adm-sync-stat-ico" style="background:#FEF3C7; color:#D97706;">💬</div>
           </div>
-          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Service Enquiries</div>
-              <div id="statServiceEnquiries" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.serviceEnquiries || []).length} Submissions</div>
+          <div class="adm-sync-stat-card">
+            <div class="adm-sync-stat-body">
+              <div class="adm-sync-stat-label">Service Enquiries</div>
+              <div id="statServiceEnquiries" class="adm-sync-stat-val">${(admState.serviceEnquiries || []).length} Submissions</div>
             </div>
-            <div style="width:40px; height:40px; border-radius:10px; background:#F0FDF4; color:#16A34A; display:flex; align-items:center; justify-content:center; font-size:18px;">📋</div>
+            <div class="adm-sync-stat-ico" style="background:#F0FDF4; color:#16A34A;">📋</div>
           </div>
-          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:11px; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.5px;">Auto-Profiled Customers</div>
-              <div id="statProfiledCustomers" style="font-size:22px; font-weight:800; color:#0F172A; margin-top:4px; line-height:1.2;">${(admState.store.shipments || []).length + (admState.pickups || []).length} Registered</div>
+          <div class="adm-sync-stat-card">
+            <div class="adm-sync-stat-body">
+              <div class="adm-sync-stat-label">Auto-Profiled Customers</div>
+              <div id="statProfiledCustomers" class="adm-sync-stat-val">${(admState.store.shipments || []).length + (admState.pickups || []).length} Registered</div>
             </div>
-            <div style="width:40px; height:40px; border-radius:10px; background:#FAF5FF; color:#9333EA; display:flex; align-items:center; justify-content:center; font-size:18px;">👥</div>
+            <div class="adm-sync-stat-ico" style="background:#FAF5FF; color:#9333EA;">👥</div>
           </div>
         </div>
 
@@ -3888,7 +3939,7 @@ function renderSettingsSection(container, subView) {
 
           <!-- Bottom Action Toolbar -->
           <div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:18px 4px 6px 4px; border-top:1px solid #E2E8F0;">
-            <div style="display:flex; flex-direction:row; align-items:center; gap:12px; flex-wrap:wrap;">
+            <div class="adm-sync-btn-group" style="display:flex; flex-direction:row; align-items:center; gap:12px; flex-wrap:wrap;">
               <button id="btnSaveCustomerSync" type="button" onclick="saveCustomerSyncSettings(this)" class="adm-btn-new" style="display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 22px; font-weight:700; font-size:13px; cursor:pointer; transition:all 0.2s ease;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                 <span>Save Customer Sync Settings</span>
@@ -4350,7 +4401,7 @@ function handleGlobalSearchKeydown(event) {
 function toggleAdminSidebar() {
   const shell = document.getElementById('admShell');
   if (!shell) return;
-  if (window.innerWidth <= 900) {
+  if (window.innerWidth <= 1024) {
     shell.classList.toggle('sidebar-open');
   } else {
     shell.classList.toggle('sidebar-collapsed');
@@ -5069,6 +5120,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('popstate', () => {
     navigateAdmin(window.location.pathname, false);
+  });
+
+  window.addEventListener('resize', () => {
+    const shell = document.getElementById('admShell');
+    if (shell && window.innerWidth > 1024 && shell.classList.contains('sidebar-open')) {
+      shell.classList.remove('sidebar-open');
+    }
   });
 
   // Resolve initial URL path on load / refresh

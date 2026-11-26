@@ -732,7 +732,7 @@
                 </div>
                 <div class="form-field">
                   <label class="field-label" for="stdQuoteServiceTier">Preferred Courier Service Tier *</label>
-                  <select id="stdQuoteServiceTier" class="standard-input" required>
+                  <select id="stdQuoteServiceTier" class="standard-input" onchange="updateStandardQuoteCalcSummary()" required>
                     <option value="Express Air Saver (3–5 Business Days)">Express Air Saver (3–5 Business Days)</option>
                     <option value="Next Flight Out (2–3 Business Days)">Next Flight Out — Priority Air (2–3 Business Days)</option>
                     <option value="Economy Air Courier (6–9 Business Days)">Economy Air Courier (6–9 Business Days)</option>
@@ -1202,6 +1202,6 @@
     </div>
   </div>
 
-  <script src="/script.js?v=25"></script>
+  <script src="/script.js?v=27"></script>
 </body>
 </html>
